@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "HappyPaths",
-    "slug": "HappyPaths",
+    "name": "my-app",
+    "slug": "my-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -16,21 +16,29 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.HappyPaths"
+      "bundleIdentifier": "com.example.mapsdemo",
+      "config": {
+        "googleMapsApiKey": "AIzaSyCMoxw-2srxB7xbV_lZ9mAFab8smTQgTq4"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.HappyPaths"
+      "package": "com.example.mapsdemo",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCbbQg6gAUMi-UoM3jbda0xiegAEMkxiOk"
+        }
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "8b36a859-a8d9-4618-ba1d-51469f0fb313"
+        "projectId": "8272a32b-a298-4a76-a462-c3f1000b96b3"
       }
     }
   }
