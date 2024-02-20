@@ -28,7 +28,7 @@ const BookList = () => {
     try {
       const collectionRef = collection(FIREBASE_DB, 'books');
       const snapshot = await getDocs(collectionRef);
-      console.log(snapshot)
+      // console.log(snapshot)
       const fetchedData = [];
       snapshot.forEach((doc) => {
         fetchedData.push({
@@ -37,7 +37,7 @@ const BookList = () => {
         });
       });
 
-      console.log(fetchedData);
+      // console.log(fetchedData);
       // console.log(fetchedData[0].coords.latitude);
       setData(fetchedData);
     } catch (error) {
