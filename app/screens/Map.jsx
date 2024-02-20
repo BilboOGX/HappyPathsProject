@@ -1,7 +1,7 @@
-import { FIREBASE_DB } from '../../FireBaseConfig';
-import { collection, getDocs } from 'firebase/firestore';
+import { FIREBASE_DB } from "../../FireBaseConfig";
+import { collection, getDocs } from "firebase/firestore";
 import React, { useState, useRef, useEffect } from "react";
-import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
+import MapView, { PROVIDER_GOOGLE, Marker, Callout } from "react-native-maps";
 import {
   Image,
   View,
@@ -9,25 +9,23 @@ import {
   StyleSheet,
   TouchableOpacity,
   Platform,
-  Dimensions
+  Dimensions,
+  tooltip,
 } from "react-native";
 
 const { width, height } = Dimensions.get("window");
 
-
 export default function Map() {
-
   const [data, setData] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const mapRef = useRef(null);
   const [dark, setDark] = useState(false);
-  
 
   const fetchDataFromFirestore = async () => {
     try {
-      const collectionRef = collection(FIREBASE_DB, 'books');
+      const collectionRef = collection(FIREBASE_DB, "books");
       const snapshot = await getDocs(collectionRef);
-      console.log(snapshot)
+      console.log(snapshot);
       const fetchedData = [];
       snapshot.forEach((doc) => {
         fetchedData.push({
@@ -36,21 +34,20 @@ export default function Map() {
         });
       });
 
-      console.log('Pokemon Master')
+      console.log("Pokemon Master");
       console.log(fetchedData);
-      console.log('Pokemon Trainer')
+      console.log("Pokemon Trainer");
       console.log(fetchedData[0].coords.latitude);
-      console.log('Pokemon Breeder')
+      console.log("Pokemon Breeder");
       setData(fetchedData);
     } catch (error) {
-      console.error('Error fetching data: ', error);
+      console.error("Error fetching data: ", error);
     }
   };
 
   useEffect(() => {
     fetchDataFromFirestore();
   }, []); // useEffect to fetch data when the component mounts
-
 
   const handleZoomIn = () => {
     mapRef.current?.getCamera().then((cam) => {
@@ -67,7 +64,6 @@ export default function Map() {
       mapRef.current?.animateCamera(cam);
     });
   };
-
 
   const getZoomForPlatform = (currentZoom, zoomOut = false) => {
     let zoomLevel = currentZoom;
@@ -99,17 +95,65 @@ export default function Map() {
         }}
       >
         {data.map((loc) => {
+          console.log("Louise Smells!!!!!");
+          console.log(loc.bookTitle); // logs title
+          console.log(typeof loc.bookTitle); // string
+          console.log(loc.bookAuthor); // undefined?
+          console.log(typeof loc.bookAuthor); // undefined?
+          const getString = loc.bookTitle.toString();
+          console.log(typeof getString === "string"); // true
+          console.log(typeof getString); // string
+          console.log("Louise Still Smells!!!!!");
+
+          if (loc.bookTitle === undefined) {
+            loc.bookTitle = "no information available";
+          }
+
+          if (loc.bookAuthor === undefined) {
+            loc.bookAuthor = "no information available";
+          }
+
+          if (loc.bookDesc === undefined) {
+            loc.bookDesc = "no information available";
+          }
+
+          if (loc.bookCondition === undefined) {
+            loc.bookCondition = "no information available";
+          }
+
           return (
             <Marker
               coordinate={{
                 latitude: loc.coords.latitude,
                 longitude: loc.coords.longitude,
               }}
-              title={loc.bookTitle}
-              description={loc.bookDesc}
+              title={`Name: ${loc.bookTitle}`}
+              description={loc.bookAuthor}
               key={loc.id}
+              calloutTextStyle={{ fontSize: 10 }}
+              calloutContainerStyle={styles.calloutContainer}
               onPress={() => setSelectedMarker(loc.id)}
             >
+              <Callout style={styles.calloutContainer}>
+                <Text style={styles.calloutTitle}>Title: {loc.bookTitle}</Text>
+                <Text style={styles.calloutDescription}>
+                  Author: {loc.bookAuthor}
+                </Text>
+                <Text style={styles.calloutDescription}>
+                  Published: {"add info here"}
+                </Text>
+                <Text style={styles.calloutDescription}>
+                  Edition: {"add info here"}
+                </Text>
+                <Text style={styles.calloutDescription}>
+                  Condition: {loc.bookCondition}
+                </Text>
+                <Text style={styles.calloutDescription}>
+                  Synopsis: {"add info here"}
+                </Text>
+                <Text style={styles.calloutDescription}>User: {loc.user}</Text>
+              </Callout>
+
               <View style={styles.nameAndImageContainer}>
                 <Text style={styles.markerBookTitle}>{loc.bookTitle}</Text>
                 <View style={styles.ImageContainer}>
@@ -146,11 +190,11 @@ export default function Map() {
           alignSelf: "flex-end",
           right: 12,
         }}
-        >
+      >
         <Image
-        source={require("../../Images/sun-and-moon-icon-isolated-on-transparent-vector-24794605 Background Removed.png")}
-        style={styles.lightAndDarkIcon}
-      />
+          source={require("../../Images/sun-and-moon-icon-isolated-on-transparent-vector-24794605 Background Removed.png")}
+          style={styles.lightAndDarkIcon}
+        />
       </TouchableOpacity>
     </View>
   );
@@ -161,14 +205,14 @@ export default function Map() {
 
 const styles = StyleSheet.create({
   map: {
-    width: width,    // Takes up the full width of the map
+    width: width, // Takes up the full width of the map
     height: 675,
     // borderWidth: 4,
     // borderColor: "black",
     // marginBottom: 20,
-    // width: width, // for full screen 
+    // width: width, // for full screen
     // height: height, // for full screen
-    // ...StyleSheet.absoluteFillObject, 
+    // ...StyleSheet.absoluteFillObject,
   },
   nameAndImageContainer: {
     padding: 10,
@@ -191,10 +235,9 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
   },
-  lightAndDarkIcon: { 
+  lightAndDarkIcon: {
     width: 85,
     height: 85,
-    color: 'red',
     right: 15,
     top: 4,
   },
@@ -238,9 +281,6 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
 });
-
-
-
 
 const mapStyle = [
   {
@@ -620,30 +660,17 @@ const nightMap = [
   },
 ];
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 // const arr = [
-//   {"bookAuthor": "Jk rowlinh", "bookDesc": "It’s good ", "bookTitle": "Harry Potter ", "coords": 
-//     {"latitude": 53.4651241, "longitude": -2.253572}, "id": "0B0KTsMx3IkjoDD8XXz7", "seller": "Aisha"}, 
-//   {"bookAuthor": "A", "bookDesc": "A", "bookTitle": "A", "coords": 
-//    {"latitude": 53.445558, "longitude": -1.9383954}, "id": "H64Z1GqWMAzy0Uy74fdf", "user": "h@x.com"}, 
-//   {"bookAuthor": "hi", "bookTitle": "hi", "id": "J7JzQcuKMVoDWDeEuXTw", "location": 
-//     {"latitude": 55.378051, "longitude": -3.435973}, "seller": "hi"}, 
-//   {"bookAuthor": "WOW AUTHOR", "bookDesc": "I HUGE DESCRIPTION GOES HERE", "bookTitle": "Testing!!!!", "coords": 
-//     {"latitude": 53.4825336, "longitude": -2.2361946}, "id": "Nhq1UgxAAZCY462Il9WK", "user": "h@x.com"}, 
-//   {"bookAuthor": "Hi", "bookDesc": "Hi", "bookTitle": "Hi", "coords": 
-//     {"latitude": 53.3308927, "longitude": -2.2292156}, "id": "R4R57ULP5AyFZJ4inYAU", "seller": "Hi"}, 
-//   {"bookAuthor": "Title", "bookTitle": "Title", "id": "ZSQkVPVOnuLqkUFWSQWf", "postcode": 
+//   {"bookAuthor": "Jk rowlinh", "bookDesc": "It’s good ", "bookTitle": "Harry Potter ", "coords":
+//     {"latitude": 53.4651241, "longitude": -2.253572}, "id": "0B0KTsMx3IkjoDD8XXz7", "seller": "Aisha"},
+//   {"bookAuthor": "A", "bookDesc": "A", "bookTitle": "A", "coords":
+//    {"latitude": 53.445558, "longitude": -1.9383954}, "id": "H64Z1GqWMAzy0Uy74fdf", "user": "h@x.com"},
+//   {"bookAuthor": "hi", "bookTitle": "hi", "id": "J7JzQcuKMVoDWDeEuXTw", "location":
+//     {"latitude": 55.378051, "longitude": -3.435973}, "seller": "hi"},
+//   {"bookAuthor": "WOW AUTHOR", "bookDesc": "I HUGE DESCRIPTION GOES HERE", "bookTitle": "Testing!!!!", "coords":
+//     {"latitude": 53.4825336, "longitude": -2.2361946}, "id": "Nhq1UgxAAZCY462Il9WK", "user": "h@x.com"},
+//   {"bookAuthor": "Hi", "bookDesc": "Hi", "bookTitle": "Hi", "coords":
+//     {"latitude": 53.3308927, "longitude": -2.2292156}, "id": "R4R57ULP5AyFZJ4inYAU", "seller": "Hi"},
+//   {"bookAuthor": "Title", "bookTitle": "Title", "id": "ZSQkVPVOnuLqkUFWSQWf", "postcode":
 //     {"latitude": 53.3156958, "longitude": -2.2380617}, "seller": "Title"}
 // ]
