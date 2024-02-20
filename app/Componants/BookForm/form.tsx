@@ -11,7 +11,7 @@ export default function BookForm(){
   const [seller, setSeller] = useState('');
   const [postcode, setPostcode] = useState('');
   const [isPostcodeValid, setIsPostcodeValid] = useState(true);
-  const [bookDesc, setBookDesc] = useState('')
+  const [bookCondition, setBookCondition] = useState('')
   const [attemptedSubmit, setAttemptedSubmit] = useState(false)
 
   const [user, setUser] = useState<User | null>(null);
@@ -29,7 +29,7 @@ export default function BookForm(){
   function handleSubmit(){
     setAttemptedSubmit(true)
 
-    if (!bookTitle.trim() || !bookAuthor.trim() || !postcode.trim() || !bookDesc.trim()) {
+    if (!bookTitle.trim() || !bookAuthor.trim() || !postcode.trim() || !bookCondition.trim()) {
       Alert.alert('Missing Information', 'Please fill in all fields.');
       return;
     }
@@ -49,7 +49,7 @@ export default function BookForm(){
       bookAuthor,
       user,
       coords: {latitude, longitude },
-      bookDesc
+      bookCondition
     })
   })
     .then((docRef) => {
@@ -57,7 +57,7 @@ export default function BookForm(){
       setBookTitle('')
       setBookAuthor('')
       setPostcode('')
-      setBookDesc('')
+      setBookCondition('')
     
     })
     .catch((error) => {
@@ -96,10 +96,10 @@ export default function BookForm(){
 
       <View style={styles.inputContainer}>
       <TextInput
-        placeholder="Book Description"
-        value={bookDesc}
-        onChangeText={text => setBookDesc(text)}
-        style={[styles.input, attemptedSubmit && !bookDesc.trim() && styles.invalidInput]}
+        placeholder="Book Condition"
+        value={bookCondition}
+        onChangeText={text => setBookCondition(text)}
+        style={[styles.input, attemptedSubmit && !bookCondition.trim() && styles.invalidInput]}
       />
       </View>
 
