@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import React, { useState } from "react";
+import LinearGradient from 'react-native-linear-gradient';
 import { FIREBASE_AUTH } from "../../FireBaseConfig";
 import {
   createUserWithEmailAndPassword,
@@ -54,7 +55,12 @@ const Login = () => {
     }
   };
   return (
+
     <View style={styles.container}>
+    
+       
+
+
       <KeyboardAvoidingView behavior="padding">
         <TextInput
           value={email}
@@ -84,8 +90,10 @@ const Login = () => {
             </View>
           </>
         )}
-      </KeyboardAvoidingView>
+      </KeyboardAvoidingView> 
+      
     </View>
+
   );
 };
 
@@ -93,19 +101,36 @@ export default Login;
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 20,
     flex: 1,
     justifyContent: "center",
+    backgroundColor: '#252f40'
   },
   input: {
+    marginHorizontal: 20, 
     marginVertical: 4,
     height: 50,
     borderWidth: 1,
-    borderRadius: 4,
+    borderRadius: 5,
     padding: 10,
     backgroundColor: "#fff",
+    marginBottom: 20,
   },
   buttonContainer: {
     padding: 5,
   },
 });
+
+
+
+
+
+// return (
+//   <LinearGradient
+//     colors={['#4c669f', '#3b5998', '#192f6a']}
+//     style={{flex: 1, padding: 20}}
+//   >
+//     <Text style={{fontSize: 24, marginBottom: 20}}>Login</Text>
+//     <TextInput placeholder="Username" style={{backgroundColor: 'white', marginBottom: 10}} />
+//     <TextInput placeholder="Password" style={{backgroundColor: 'white', marginBottom: 20}} />
+//     <Button title="Login" onPress={() => {}} />
+//   </LinearGradient>

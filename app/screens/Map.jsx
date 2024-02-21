@@ -10,12 +10,14 @@ import {
   TouchableOpacity,
   Platform,
   Dimensions,
-  tooltip,
 } from "react-native";
+// import { NavigationContainer } from "@react-navigation/native";
+// import { createNativeStackNavigator } from "@react-navigation/native-stack";
+// import SingleBookPage from "./SingleBookPage";
 
 const { width, height } = Dimensions.get("window");
 
-export default function Map() {
+export default function Map({ navigation }: any) {
   const [data, setData] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const mapRef = useRef(null);
@@ -34,11 +36,11 @@ export default function Map() {
         });
       });
 
-      console.log("Pokemon Master");
-      console.log(fetchedData);
-      console.log("Pokemon Trainer");
-      console.log(fetchedData[0].coords.latitude);
-      console.log("Pokemon Breeder");
+      // console.log("Pokemon Master");
+      // console.log(fetchedData);
+      // console.log("Pokemon Trainer");
+      // console.log(fetchedData[0].coords.latitude);
+      // console.log("Pokemon Breeder");
       setData(fetchedData);
     } catch (error) {
       console.error("Error fetching data: ", error);
@@ -95,15 +97,15 @@ export default function Map() {
         }}
       >
         {data.map((loc) => {
-          console.log("Louise Smells!!!!!");
-          console.log(loc.bookTitle); // logs title
-          console.log(typeof loc.bookTitle); // string
-          console.log(loc.bookAuthor); // undefined?
-          console.log(typeof loc.bookAuthor); // undefined?
-          const getString = loc.bookTitle.toString();
-          console.log(typeof getString === "string"); // true
-          console.log(typeof getString); // string
-          console.log("Louise Still Smells!!!!!");
+          // console.log("I LIKE CUPS OF TEA!!!!!");
+          // console.log(loc.bookTitle); // logs title
+          // console.log(typeof loc.bookTitle); // string
+          // console.log(loc.bookAuthor); // undefined?
+          // console.log(typeof loc.bookAuthor); // undefined?
+          // const getString = loc.bookTitle.toString();
+          // console.log(typeof getString === "string"); // true
+          // console.log(typeof getString); // string
+          // console.log("I LIKE CUPS OF TEA!!!!!");
 
           if (loc.bookTitle === undefined) {
             loc.bookTitle = "no information available";
@@ -130,11 +132,16 @@ export default function Map() {
               title={`Name: ${loc.bookTitle}`}
               description={loc.bookAuthor}
               key={loc.id}
-              calloutTextStyle={{ fontSize: 10 }}
               calloutContainerStyle={styles.calloutContainer}
-              onPress={() => setSelectedMarker(loc.id)}
             >
-              <Callout style={styles.calloutContainer}>
+              <Callout
+                style={styles.calloutContainer}
+                onPress={() =>
+                  navigation.navigate("SingleBookPage", {
+                    id: loc.id,
+                  })
+                }
+              >
                 <Text style={styles.calloutTitle}>Title: {loc.bookTitle}</Text>
                 <Text style={styles.calloutDescription}>
                   Author: {loc.bookAuthor}
@@ -659,18 +666,3 @@ const nightMap = [
     ],
   },
 ];
-
-// const arr = [
-//   {"bookAuthor": "Jk rowlinh", "bookDesc": "It’s good ", "bookTitle": "Harry Potter ", "coords":
-//     {"latitude": 53.4651241, "longitude": -2.253572}, "id": "0B0KTsMx3IkjoDD8XXz7", "seller": "Aisha"},
-//   {"bookAuthor": "A", "bookDesc": "A", "bookTitle": "A", "coords":
-//    {"latitude": 53.445558, "longitude": -1.9383954}, "id": "H64Z1GqWMAzy0Uy74fdf", "user": "h@x.com"},
-//   {"bookAuthor": "hi", "bookTitle": "hi", "id": "J7JzQcuKMVoDWDeEuXTw", "location":
-//     {"latitude": 55.378051, "longitude": -3.435973}, "seller": "hi"},
-//   {"bookAuthor": "WOW AUTHOR", "bookDesc": "I HUGE DESCRIPTION GOES HERE", "bookTitle": "Testing!!!!", "coords":
-//     {"latitude": 53.4825336, "longitude": -2.2361946}, "id": "Nhq1UgxAAZCY462Il9WK", "user": "h@x.com"},
-//   {"bookAuthor": "Hi", "bookDesc": "Hi", "bookTitle": "Hi", "coords":
-//     {"latitude": 53.3308927, "longitude": -2.2292156}, "id": "R4R57ULP5AyFZJ4inYAU", "seller": "Hi"},
-//   {"bookAuthor": "Title", "bookTitle": "Title", "id": "ZSQkVPVOnuLqkUFWSQWf", "postcode":
-//     {"latitude": 53.3156958, "longitude": -2.2380617}, "seller": "Title"}
-// ]
