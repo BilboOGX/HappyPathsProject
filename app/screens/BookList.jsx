@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Button, FlatList } from 'react-native';
+import { View, Text, StyleSheet, Button, FlatList, ImageBackground} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { FIREBASE_DB } from '../../FireBaseConfig';
 import { addDoc, collection, getDocs } from 'firebase/firestore';
@@ -50,6 +50,10 @@ const BookList = () => {
   }, []); // useEffect to fetch data when the component mounts
 
   return (
+    <ImageBackground 
+    source={require('../../Images/wp13203104.jpg')}
+    style={{flex: 1}} 
+  >
     <View style={styles.container}>
       <Text>Test</Text>
       {/* Render your data here */}
@@ -61,15 +65,12 @@ const BookList = () => {
             <Text>{item.bookAuthor}</Text>
             <Text>{item.bookDesc}</Text>
             <Text>{item.uploadedBy}</Text>
-            {/* <Text>Lat {item.coords.latitude}</Text>
-            <Text>Long {item.coords.latitude}</Text> */}
-
-
-            </View>
+          </View>
         )}
         keyExtractor={item => item.id}
       />
     </View>
+    </ImageBackground>
   );
 };
 
@@ -83,7 +84,11 @@ const styles = StyleSheet.create({
   bookContainer: {
     flex: 1,
     borderColor: 'black',
-    borderWidth: 5
+    borderWidth: 1,
+    margin: 5,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    width: 300,
   }
 });
 
