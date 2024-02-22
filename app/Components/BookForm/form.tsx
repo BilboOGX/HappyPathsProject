@@ -248,7 +248,7 @@ const styles = StyleSheet.create({
   buttonOne: {
     backgroundColor: '#007bff',
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 100,
     alignItems: 'center',
     justifyContent: 'center',
     height: 50,
@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
   buttonTwo: {
     backgroundColor: 'red',
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 100,
     alignItems: 'center',
     justifyContent: 'center',
     height: 50,
