@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, Button } from "react-native";
 import { Camera } from "expo-camera";
 import { serverTimestamp } from 'firebase/firestore';
-// Assuming `getBookByISBN` is properly typed in your project
 import { getBookByISBN } from '../../api/books';
 
 type BookItem = {
@@ -50,7 +49,6 @@ export default function BarCodeScan() {
   if (hasPermission === false) {
     return <Text>No access to camera</Text>;
   }
-console.log(bookDetails)
   return (
     <View style={styles.container}>
       <Camera
@@ -86,7 +84,6 @@ const addBook = (book: any): BookItem => {
       textSnippet: book.searchInfo?.textSnippet,
     },
   };
-  // Add Firestore document addition logic here if needed
   return newBook;
 };
 
