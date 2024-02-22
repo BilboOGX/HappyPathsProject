@@ -1,19 +1,24 @@
 import {
   View,
   Text,
+  Image,
   StyleSheet,
   TextInput,
   ActivityIndicator,
   Button,
   KeyboardAvoidingView,
+  Dimensions,
+  TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
-import LinearGradient from 'react-native-linear-gradient';
+import LinearGradient from "react-native-linear-gradient";
 import { FIREBASE_AUTH } from "../../FireBaseConfig";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+
+const { width, height } = Dimensions.get("window");
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -27,7 +32,7 @@ const Login = () => {
       const response = await signInWithEmailAndPassword(auth, email, password);
 
       console.log(response);
-    //   alert("Check your emails!");
+      //   alert("Check your emails!");
     } catch (error: any) {
       console.log(error);
       alert("Sign in failed: " + error.message);
@@ -55,11 +60,15 @@ const Login = () => {
     }
   };
   return (
-
     <View style={styles.container}>
-    
-       
-
+      <View>
+        <View style={styles.imageContainer}>
+          <Image
+            source={require("../../Images/Green and Beige Flat & Minimal Book Shop Logo/logoMain.png")}
+            style={styles.logoImage}
+          ></Image>
+        </View>
+      </View>
 
       <KeyboardAvoidingView behavior="padding">
         <TextInput
@@ -82,18 +91,45 @@ const Login = () => {
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (
           <>
-            <View style={styles.buttonContainer}>
-              <Button title="Login" onPress={signIn} />
+
+<View style={styles.buttonContainer}>
+<View style={styles.loginButtonContainer}>
+  <TouchableOpacity onPress={signIn} style={styles.transparentButton}>
+    <Text style={styles.loginButtonText}>Login</Text>
+  </TouchableOpacity>
+</View>
+<View style={styles.signUpButtonContainer}> 
+  <TouchableOpacity onPress={signUp} style={styles.transparentButton}>
+    <Text style={styles.signUpButtonText}>Sign Up</Text>
+  </TouchableOpacity>
+</View>
+
+</View>
+
+          {/* <View style={styles.buttonContainer}>
+            <View style={styles.loginButtonContainer}>
+              <Button title="               " onPress={signIn} style={styles.transparentButton}/>
+              <Text style={styles.loginButtonText}>Login</Text>
+              
             </View>
-            <View style={styles.buttonContainer}>
-              <Button title="Create account" onPress={signUp} />
+
+
+            <View style={styles.signUpButtonContainer}>  
+            <Button title="signUp" onPress={signUp} style={styles.transparentButton}/>
+              <Text style={styles.signUpButtonText}>Sign Up</Text>  
+                
+                
             </View>
+            </View> */}
           </>
         )}
-      </KeyboardAvoidingView> 
-      
-    </View>
 
+
+
+
+      </KeyboardAvoidingView>
+    
+    </View>
   );
 };
 
@@ -103,34 +139,75 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    backgroundColor: '#252f40'
+    // backgroundColor: "#252f40",
+    backgroundColor: "#00592e",
   },
   input: {
-    marginHorizontal: 20, 
-    marginVertical: 4,
+    marginHorizontal: 20,
     height: 50,
+    width: 350,
     borderWidth: 1,
     borderRadius: 5,
     padding: 10,
     backgroundColor: "#fff",
     marginBottom: 20,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent:'space-between',
+    alignItems: 'center',
   },
   buttonContainer: {
-    padding: 5,
+    color: 'white',
+    borderColor: 'white',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 20,
+    marginTop: 30,
+  },
+  loginButtonContainer: {
+    borderColor: 'white',
+    borderWidth: 2,
+    borderRadius: 8,
+    height: 50,
+    width: 165,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  signUpButtonContainer: { 
+    borderColor: 'white',
+    borderWidth: 2,
+    borderRadius: 8,
+    height: 50,
+    width: 165,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  
+  },
+  loginButtonText: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  signUpButtonText: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  transparentButton: {
+    backgroundColor: 'transparent',
+    color: 'transparent',
+  },
+  imageContainer: {
+    alignItems: "center",
+  },
+  logoImage: {
+    height: 300,
+    width: 300,
   },
 });
-
-
-
-
-
-// return (
-//   <LinearGradient
-//     colors={['#4c669f', '#3b5998', '#192f6a']}
-//     style={{flex: 1, padding: 20}}
-//   >
-//     <Text style={{fontSize: 24, marginBottom: 20}}>Login</Text>
-//     <TextInput placeholder="Username" style={{backgroundColor: 'white', marginBottom: 10}} />
-//     <TextInput placeholder="Password" style={{backgroundColor: 'white', marginBottom: 20}} />
-//     <Button title="Login" onPress={() => {}} />
-//   </LinearGradient>
