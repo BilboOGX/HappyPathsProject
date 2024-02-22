@@ -15,7 +15,7 @@ import BookList from "./app/screens/BookList";
 import ListNewBook from "./app/screens/ListNewBook";
 import Profile from "./app/screens/Profile";
 import SingleBookPage from "./app/screens/SingleBookPage";
-import BarCodeScan from "./app/Componants/BookForm/BarcodeScanner";
+import BarCodeScan from "./app/Components/BarcodeScanner/BarcodeScanner";
 import { Ionicons } from "@expo/vector-icons";
 
 const Stack = createNativeStackNavigator();

@@ -55,17 +55,17 @@ const BookList = () => {
     style={{flex: 1}} 
   >
     <View style={styles.container}>
-      <Text>Test</Text>
-      {/* Render your data here */}
       <FlatList
         data={data}
         renderItem={({item}) => (
-          <View style={styles.bookContainer}>
-            <Text>{item.bookTitle}</Text>
+          <ImageBackground source={require('../../Images/blank_vintage_book_by_vixen525_d600pp8-fullview.png')}
+            style={styles.bookContainer}>
+            <Text style={styles.text}>{item.bookTitle}</Text>
             <Text>{item.bookAuthor}</Text>
             <Text>{item.bookDesc}</Text>
             <Text>{item.uploadedBy}</Text>
-          </View>
+          
+          </ImageBackground>
         )}
         keyExtractor={item => item.id}
       />
@@ -76,19 +76,22 @@ const BookList = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'center',
+    width: '100%',
   },
 
   bookContainer: {
-    flex: 1,
-    borderColor: 'black',
-    borderWidth: 1,
+
     margin: 5,
-    backgroundColor: 'white',
-    borderRadius: 10,
-    width: 300,
+    width: 200,
+    height: 200,
+    
+  
+  },
+  text: {
+    margin: 5,
   }
 });
 
