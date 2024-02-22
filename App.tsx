@@ -16,15 +16,13 @@ import ListNewBook from "./app/screens/ListNewBook";
 import Profile from "./app/screens/Profile";
 import SingleBookPage from "./app/screens/SingleBookPage";
 import BarCodeScan from "./app/Componants/BookForm/BarcodeScanner";
-
+import { Ionicons } from "@expo/vector-icons";
 
 const Stack = createNativeStackNavigator();
 
 const InsideStack = createNativeStackNavigator();
 
-const Tab = createBottomTabNavigator()
-
-
+const Tab = createBottomTabNavigator();
 
 function InsideLayout() {
   return (
@@ -38,15 +36,61 @@ function InsideLayout() {
 function BottomTabsLayout() {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Map" component={Map}/>
-      <Tab.Screen name="BookList" component={BookList} />
-      <Tab.Screen name="+" component={ListNewBook}/>
-      <Tab.Screen name="My listings" component={MyListings}/>
-      <Tab.Screen name="Profile" component={Profile}/>
-      <Tab.Screen name="SingleBookPage" component={SingleBookPage}/>
-  
+      <Tab.Screen
+        name="Map"
+        component={Map}
+        options={{
+          tabBarLabel: "Home",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="home" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="BookList"
+        component={BookList}
+        options={{
+          tabBarLabel: "booklist",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="book-outline" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="+"
+        component={ListNewBook}
+        options={{
+          tabBarLabel: "Add",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="add-outline" color={color} size={34} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="chat"
+        component={ListNewBook}
+        options={{
+          tabBarLabel: "chat",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="chatbubble-outline" color={color} size={size} />
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          tabBarLabel: "profile",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="person-outline" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen name="My listings" component={MyListings} />
+      <Tab.Screen name="SingleBookPage" component={SingleBookPage} />
     </Tab.Navigator>
-  )
+  );
 }
 
 export default function App() {
