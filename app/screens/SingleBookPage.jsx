@@ -44,33 +44,46 @@ const SingleBookPage = ({ navigation, route }) => {
 
       {data.map((loc) => {
 
-        if (loc.bookTitle === undefined) {
-          loc.bookTitle = "no information available";
-        }
+if (loc.bookTitle === undefined) {
+  loc.bookTitle = "no information available";
+}
 
-        if (loc.bookAuthor === undefined) {
-          loc.bookAuthor = "no information available";
-        }
+if (loc.bookAuthor === undefined) {
+  loc.bookAuthor = "no information available";
+}
 
-        if (loc.bookDesc === undefined) {
-          loc.bookDesc = "no information available";
-        }
+if (loc.bookPreview === undefined) {
+  loc.bookDesc = "no information available";
+}
 
-        if (loc.bookCondition === undefined) {
-          loc.bookCondition = "no information available";
-        }
+if (loc.bookCondition === undefined) {
+  loc.bookCondition = "no information available";
+}
+
+if (loc.bookRating === undefined) {
+  loc.bookRating = "no information available";
+}
+
+if (loc.genre === undefined) {
+  loc.genre = "no information available";
+}
+
+if (loc.user === undefined) {
+  loc.user = "no information available";
+}
 
         if (loc.id === routeIdentifier) {
 
         return (
           <View>
             <Text style={styles.heading}>{loc.bookTitle}</Text>
-            <Text style={styles.bookInfo}>Book{loc.bookTitle}</Text>
+            <Text style={styles.bookInfo}>Title: {loc.bookTitle}</Text>
             <Text style={styles.bookInfo}>Author: {loc.bookAuthor}</Text>
             <Text style={styles.bookInfo}>Condition: {loc.bookCondition}</Text>
-            <Text style={styles.bookInfo}>Synopsis: {loc.bookDesc}</Text>
-            <Text style={styles.bookInfo}>Latitude: (change to are vicinity i.e manchester) {loc.coords.latitude}</Text>
-            <Text style={styles.bookInfo}>Longitude: {loc.coords.longitude}</Text>
+            <Text style={styles.bookInfo}>Genre: {loc.genre}</Text>
+            <Text style={styles.bookInfo}>Synopsis: {loc.bookPreview}</Text>
+            <Text style={styles.bookInfo}>User: {loc.user}</Text>
+            <Text style={styles.bookInfo}>Rating: {loc.bookRating}</Text>
 
             <Button title="Order now" buttonStyle={styles.orderButton} />
           </View>
