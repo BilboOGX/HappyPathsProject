@@ -97,15 +97,7 @@ export default function Map({ navigation }: any) {
         }}
       >
         {data.map((loc) => {
-          // console.log("I LIKE CUPS OF TEA!!!!!");
-          // console.log(loc.bookTitle); // logs title
-          // console.log(typeof loc.bookTitle); // string
-          // console.log(loc.bookAuthor); // undefined?
-          // console.log(typeof loc.bookAuthor); // undefined?
-          // const getString = loc.bookTitle.toString();
-          // console.log(typeof getString === "string"); // true
-          // console.log(typeof getString); // string
-          // console.log("I LIKE CUPS OF TEA!!!!!");
+
 
           if (loc.bookTitle === undefined) {
             loc.bookTitle = "no information available";
@@ -115,12 +107,25 @@ export default function Map({ navigation }: any) {
             loc.bookAuthor = "no information available";
           }
 
-          if (loc.bookDesc === undefined) {
+          if (loc.bookPreview === undefined) {
             loc.bookDesc = "no information available";
           }
 
           if (loc.bookCondition === undefined) {
             loc.bookCondition = "no information available";
+          }
+
+          if (loc.bookRating === undefined) {
+            loc.bookRating = "no information available";
+          }
+
+          if (loc.genre === undefined) {
+            loc.genre = "no information available";
+          }
+
+
+          if (loc.user === undefined) {
+            loc.user = "no information available";
           }
 
           return (
@@ -147,18 +152,17 @@ export default function Map({ navigation }: any) {
                   Author: {loc.bookAuthor}
                 </Text>
                 <Text style={styles.calloutDescription}>
-                  Published: {"add info here"}
+                  Genre: {loc.genre}
                 </Text>
                 <Text style={styles.calloutDescription}>
-                  Edition: {"add info here"}
+                  Rating: {loc.bookRating}
                 </Text>
                 <Text style={styles.calloutDescription}>
                   Condition: {loc.bookCondition}
                 </Text>
                 <Text style={styles.calloutDescription}>
-                  Synopsis: {"add info here"}
+                  User: {loc.user}
                 </Text>
-                <Text style={styles.calloutDescription}>User: {loc.user}</Text>
               </Callout>
 
               <View style={styles.nameAndImageContainer}>
