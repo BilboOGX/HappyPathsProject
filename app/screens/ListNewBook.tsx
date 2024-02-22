@@ -13,7 +13,7 @@ const ListNewBook = ({ navigation }) => {
   return (
 
     <ImageBackground 
-    source={require('/Users/ste/Documents/Coding/Northcoders/projects/HappyPathsProject/Images/wp13203104.jpg')}
+    source={require('../../Images/wp13203104.jpg')}
     style={{flex: 1}} 
   >
     <View style={{flex: 1}}>
