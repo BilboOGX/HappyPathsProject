@@ -61,6 +61,17 @@ const Login = () => {
   };
   return (
     <View style={styles.container}>
+
+
+   <View>
+        <View style={styles.recycleImageContainer}>
+          <Image
+            source={require("../../Images/Green and Beige Flat & Minimal Book Shop Logo/des.png")}
+            style={styles.recycleLogoImage}
+          ></Image>
+        </View>
+      </View>
+
       <View>
         <View style={styles.imageContainer}>
           <Image
@@ -69,6 +80,16 @@ const Login = () => {
           ></Image>
         </View>
       </View>
+
+
+
+
+   
+
+
+
+
+
 
       <KeyboardAvoidingView behavior="padding">
         <TextInput
@@ -91,44 +112,27 @@ const Login = () => {
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (
           <>
-
-<View style={styles.buttonContainer}>
-<View style={styles.loginButtonContainer}>
-  <TouchableOpacity onPress={signIn} style={styles.transparentButton}>
-    <Text style={styles.loginButtonText}>Login</Text>
-  </TouchableOpacity>
-</View>
-<View style={styles.signUpButtonContainer}> 
-  <TouchableOpacity onPress={signUp} style={styles.transparentButton}>
-    <Text style={styles.signUpButtonText}>Sign Up</Text>
-  </TouchableOpacity>
-</View>
-
-</View>
-
-          {/* <View style={styles.buttonContainer}>
-            <View style={styles.loginButtonContainer}>
-              <Button title="               " onPress={signIn} style={styles.transparentButton}/>
-              <Text style={styles.loginButtonText}>Login</Text>
-              
+            <View style={styles.buttonContainer}>
+              <View style={styles.loginButtonContainer}>
+                <TouchableOpacity
+                  onPress={signIn}
+                  style={styles.transparentButton}
+                >
+                  <Text style={styles.loginButtonText}>Login</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.signUpButtonContainer}>
+                <TouchableOpacity
+                  onPress={signUp}
+                  style={styles.transparentButton}
+                >
+                  <Text style={styles.signUpButtonText}>Sign Up</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-
-
-            <View style={styles.signUpButtonContainer}>  
-            <Button title="signUp" onPress={signUp} style={styles.transparentButton}/>
-              <Text style={styles.signUpButtonText}>Sign Up</Text>  
-                
-                
-            </View>
-            </View> */}
           </>
         )}
-
-
-
-
       </KeyboardAvoidingView>
-    
     </View>
   );
 };
@@ -141,6 +145,27 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     // backgroundColor: "#252f40",
     backgroundColor: "#00592e",
+    marginTop: -100,
+  },  
+  recycleImageContainer: {
+    height: 80,
+    width: width,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  recycleLogoImage: {
+    height: 350,
+    width: 350,
+  },
+  imageContainer: {
+    alignItems: "center",
+  },
+  logoImage: {
+    height: 300,
+    width: 300,
+    marginBottom: -50,
+    marginTop: 50,
   },
   input: {
     marginHorizontal: 20,
@@ -151,63 +176,52 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: "#fff",
     marginBottom: 20,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent:'space-between',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   buttonContainer: {
-    color: 'white',
-    borderColor: 'white',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    color: "white",
+    borderColor: "white",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     gap: 20,
     marginTop: 30,
   },
   loginButtonContainer: {
-    borderColor: 'white',
+    borderColor: "white",
     borderWidth: 2,
     borderRadius: 8,
     height: 50,
     width: 165,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  signUpButtonContainer: { 
-    borderColor: 'white',
-    borderWidth: 2,
-    borderRadius: 8,
-    height: 50,
-    width: 165,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  
-  },
-  loginButtonText: {
-    color: 'white',
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  signUpButtonText: {
-    color: 'white',
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  transparentButton: {
-    backgroundColor: 'transparent',
-    color: 'transparent',
-  },
-  imageContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
     alignItems: "center",
   },
-  logoImage: {
-    height: 300,
-    width: 300,
+  signUpButtonContainer: {
+    borderColor: "white",
+    borderWidth: 2,
+    borderRadius: 8,
+    height: 50,
+    width: 165,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
+  loginButtonText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  signUpButtonText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+
 });
