@@ -88,7 +88,7 @@ function BottomTabsLayout() {
         }}
       />
       <Tab.Screen name="My listings" component={MyListings} />
-      <Tab.Screen name="SingleBookPage" component={SingleBookPage} />
+      {/* <Tab.Screen name="SingleBookPage" component={SingleBookPage} /> */}
     </Tab.Navigator>
   );
 }
@@ -107,11 +107,19 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
         {user ? (
+          <>
+          
           <Stack.Screen
             name="Inside"
             component={BottomTabsLayout}
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+          name="SingleBookPage"
+          component={SingleBookPage}
+          options={{ headerShown: true }}
+        />
+          </>
         ) : (
           <Stack.Screen
             name="Login"
@@ -119,6 +127,7 @@ export default function App() {
             options={{ headerShown: false }}
           />
         )}
+        
         <Stack.Screen
           name="ListNewBook"
           component={ListNewBook}
