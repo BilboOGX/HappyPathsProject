@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Button, FlatList, ImageBackground} from 'react-native';
+import { View, Text, StyleSheet, Button, FlatList, ImageBackground, Pressable} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { FIREBASE_DB } from '../../FireBaseConfig';
 import { addDoc, collection, getDocs } from 'firebase/firestore';
@@ -21,7 +21,7 @@ import { addDoc, collection, getDocs } from 'firebase/firestore';
 
 // export default BookList;
 
-const BookList = () => {
+const BookList = ({navigation}) => {
   const [data, setData] = useState([]);
 
   const fetchDataFromFirestore = async () => {
@@ -58,6 +58,10 @@ const BookList = () => {
       <FlatList
         data={data}
         renderItem={({item}) => (
+          <Pressable onPress={() => navigation.navigate('SingleBookPage', {
+            title: item.bookTitle
+          })}>
+
           <ImageBackground source={require('../../Images/blank_vintage_book_by_vixen525_d600pp8-fullview.png')}
             style={styles.bookContainer}>
             <Text style={styles.text}>{item.bookTitle}</Text>
@@ -66,6 +70,8 @@ const BookList = () => {
             <Text>{item.uploadedBy}</Text>
           
           </ImageBackground>
+
+          </Pressable>
         )}
         keyExtractor={item => item.id}
       />

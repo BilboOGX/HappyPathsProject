@@ -6,6 +6,8 @@ import { collection, getDocs } from "firebase/firestore";
 const SingleBookPage = ({ navigation, route }) => {
   const [data, setData] = useState([]);
   const routeIdentifier = route.params.id;
+  // const bookTitle = route.params.bookTitle; 
+  console.log(route.params.bookTitle, 'BOOK TITLE SINGLE BOOK PAGE')
 
 
   const fetchDataFromFirestore = async () => {
@@ -37,6 +39,7 @@ const SingleBookPage = ({ navigation, route }) => {
 
       <View style={styles.container}>
         <Text style={styles.heading}>{routeIdentifier}</Text>
+        {/* <Text>{bookTitle}</Text> */}
       </View>
 
       {data.map((loc) => {
