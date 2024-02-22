@@ -1,11 +1,17 @@
-import { View, Text, ImageBackground} from 'react-native'
+
+import { View, Text, ImageBackground, Button} from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { User, onAuthStateChanged } from "firebase/auth";
 import { FIREBASE_AUTH } from '../../FireBaseConfig';
 import BookForm from '../Components/BookForm/form';
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+const Stack = createNativeStackNavigator();
 
-const ListNewBook = () => {
+
+const ListNewBook = ({ navigation }) => {
   return (
+
     <ImageBackground 
     source={require('/Users/ste/Documents/Coding/Northcoders/projects/HappyPathsProject/Images/wp13203104.jpg')}
     style={{flex: 1}} 
@@ -14,6 +20,8 @@ const ListNewBook = () => {
       <BookForm/>
     </View>
   </ImageBackground>
+
+
   )
 }
 

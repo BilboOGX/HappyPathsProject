@@ -15,6 +15,8 @@ import BookList from "./app/screens/BookList";
 import ListNewBook from "./app/screens/ListNewBook";
 import Profile from "./app/screens/Profile";
 import SingleBookPage from "./app/screens/SingleBookPage";
+import BarCodeScan from "./app/Componants/BookForm/BarcodeScanner";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -73,6 +75,12 @@ export default function App() {
             options={{ headerShown: false }}
           />
         )}
+        <Stack.Screen
+          name="ListNewBook"
+          component={ListNewBook}
+          options={{ title: "Profile" }}
+        />
+        <Stack.Screen name="BarCodeScan" component={BarCodeScan} />
       </Stack.Navigator>
     </NavigationContainer>
   );
