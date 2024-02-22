@@ -7,7 +7,7 @@ const Profile = ({navigation}: any) => {
     <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
       {/* <Button onPress={() => navigation.navigate('+')} title="Open Details" /> */}
       <Button onPress={() => FIREBASE_AUTH.signOut()} title="Logout" />
-
+      <Button onPress={() => navigation.navigate('MyListings')} title='Go to my listings'/>
       <View>
         <Text>
           Username: 

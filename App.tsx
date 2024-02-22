@@ -89,7 +89,7 @@ function BottomTabsLayout() {
           ),
         }}
       />
-      <Tab.Screen name="My listings" component={MyListings} />
+      {/* <Tab.Screen name="My listings" component={MyListings} /> */}
       {/* <Tab.Screen name="SingleBookPage" component={SingleBookPage} /> */}
     </Tab.Navigator>
   );
@@ -136,6 +136,7 @@ export default function App() {
           options={{ title: "Profile" }}
         />
         <Stack.Screen name="BarCodeScan" component={BarCodeScan} />
+        <Stack.Screen name="MyListings" component={MyListings} options={{ headerBackTitle: 'Back to profile'}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
