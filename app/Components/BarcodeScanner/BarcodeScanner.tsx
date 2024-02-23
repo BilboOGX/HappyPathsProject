@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Button } from "react-native";
+import { Text, View, StyleSheet, Button, Alert } from "react-native";
 import { Camera } from "expo-camera";
 import { serverTimestamp } from 'firebase/firestore';
 import { getBookByISBN } from '../../api/books';
+import { title } from "process";
+import { useNavigation } from '@react-navigation/native';
+
 
 type BookItem = {
   id: string;
@@ -18,10 +21,18 @@ type BookItem = {
   };
 };
 
-export default function BarCodeScan() {
+
+export default function BarCodeScan({onBookScanned}) {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [scanned, setScanned] = useState<boolean>(false);
   const [bookDetails, setBookDetails] = useState<BookItem | null>(null);
+  const [bookTitle, setBookTitle] = useState('')
+  const [bookAuthor, setAuthor] = useState('')
+  const [bookAverageRating, setAverageRating] = useState('')
+  const [bookCategory, setCategory] = useState('')
+  const [bookSynopsis, setSynopsis] = useState('')
+  const navigation = useNavigation();
+
 
   useEffect(() => {
     const getCameraPermissions = async () => {
@@ -36,12 +47,28 @@ export default function BarCodeScan() {
     setScanned(true);
     const bookData = await getBookByISBN(data);
     if (bookData && bookData.items && bookData.items.length > 0) {
-      const newBookData = addBook(bookData.items[0]);
-      setBookDetails(newBookData);
-    } else {
+      const newBookData = bookData.items[0];
+      const volumeInfo = newBookData.volumeInfo;
+onBookScanned({
+  
+      title: volumeInfo?.title || '',
+      author:volumeInfo?.authors?.[0] || 'N/A',
+      averageRating:volumeInfo?.averageRating?.toString() || 'N/A',
+      category: volumeInfo?.categories?.[0] || 'N/A',
+      synopsis: volumeInfo?.description || 'N/A',
+  });
+      Alert.alert('Book Successfully Scanned', 'Please Close Scanner.');
+    
+      } else {
       console.log('No data found for ISBN:', data);
     }
   };
+  
+  console.log(bookAuthor, 'Please Work')
+  console.log(bookTitle)
+  console.log(bookAverageRating)
+  console.log(bookSynopsis)
+  console.log(bookCategory)
 
   if (hasPermission === null) {
     return <Text>Requesting for camera permission</Text>;
@@ -58,34 +85,18 @@ export default function BarCodeScan() {
       <View style={styles.bookInfoContainer}>
         {bookDetails && (
           <View style={styles.bookDetails}>
-            {/* <img src={bookDetails.volumeInfo.imageLinks.thumbnail} /> */}
-            <Text>Book ID: {bookDetails.id}</Text>
-            <Text>Title: {bookDetails.volumeInfo.title}</Text>
+        
           </View>
         )}
       </View>
-      {scanned && (
+      {/* {scanned && (
         <View style={styles.buttonContainer}>
           <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />
         </View>
-      )}
+      )} */}
     </View>
   );
 }
-
-const addBook = (book: any): BookItem => {
-  const newBook: BookItem = {
-    id: book.id,
-    volumeInfo: book.volumeInfo,
-    accessInfo: {
-      webReaderLink: book.accessInfo?.webReaderLink,
-    },
-    searchInfo: {
-      textSnippet: book.searchInfo?.textSnippet,
-    },
-  };
-  return newBook;
-};
 
 const styles = StyleSheet.create({
   container: {

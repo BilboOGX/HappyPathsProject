@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, TextInput, Button, Alert, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import { View, TextInput, Button, Alert, StyleSheet, Text, TouchableOpacity, Modal} from 'react-native';
 import { collection, addDoc } from "firebase/firestore";
 import { FIREBASE_AUTH, FIREBASE_DB } from '../../../FireBaseConfig';
 import { User, onAuthStateChanged } from "firebase/auth";
@@ -9,6 +9,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import SelectDropdown from 'react-native-select-dropdown';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import BarCodeScan from '../BarcodeScanner/BarcodeScanner';
 
 
 export default function BookForm(){
@@ -23,6 +24,15 @@ export default function BookForm(){
   const [dropdownKey, setDropdownKey] = useState(0)
   const [bookRating, setBookRating] = useState('')
   const [genre, setGenre] = useState('')
+  const [isScannerVisible, setScannerVisible] = useState(false);
+
+  const handleScannedBook = (bookData) => {
+    setBookTitle(bookData.title);
+    setBookAuthor(bookData.author);
+    setBookRating(bookData.averageRating);
+    setGenre(bookData.category);
+    setBookPreview(bookData.synopsis);
+  };
 
   const [user, setUser] = useState<User | null>(null);
     useEffect(() => {
@@ -96,11 +106,21 @@ export default function BookForm(){
   return (
     <View style={styles.rootContainer}>
       <View style={styles.iconContainer}>
-      <TouchableOpacity onPress={handleSubmit}>
-        <MaterialCommunityIcons name="qrcode-scan" size={75} color="black" />
-      </TouchableOpacity>
-    </View>
-    <Text style={styles.iconTextContainer}>Scan Your Book To Auto-fill Text Fields</Text>
+        <TouchableOpacity onPress={() => setScannerVisible(true)}>
+          <MaterialCommunityIcons name="qrcode-scan" size={75} color="black" />
+        </TouchableOpacity>
+      </View>
+      <Text style={styles.iconTextContainer}>Scan Your Book To Auto-fill Text Fields</Text>
+
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={isScannerVisible}
+        onRequestClose={() => setScannerVisible(!isScannerVisible)}>
+        <BarCodeScan onBookScanned={handleScannedBook} />
+        <Button title="Close Scanner" onPress={() => setScannerVisible(false)} />
+      </Modal>
+  
 
     <View style={styles.container}>
     <View>
