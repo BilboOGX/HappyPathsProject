@@ -96,6 +96,7 @@ export default function BookForm(){
       setAttemptedSubmit(false)
       setBookRating('')
       setGenre('')
+      setDropdownKey(prevKey => prevKey + 1)
     
     })
     .catch((error) => {
