@@ -129,7 +129,6 @@ export default function App() {
         <Stack.Screen
           name="ListNewBook"
           component={ListNewBook}
-          options={{ title: "Profile" }}
         />
         <Stack.Screen name="BarCodeScan" component={BarCodeScan} />
         <Stack.Screen name="MyListings" component={MyListings} options={{ headerBackTitle: 'Back to profile'}}/>
