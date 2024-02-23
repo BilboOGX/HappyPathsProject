@@ -1,28 +1,25 @@
-import { View, Text, StyleSheet, Button, FlatList, ImageBackground, Pressable} from 'react-native';
+import { View, Text, StyleSheet, Button, FlatList, ImageBackground, Pressable, TextInput, TouchableOpacity} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { FIREBASE_DB } from '../../FireBaseConfig';
 import { addDoc, collection, getDocs } from 'firebase/firestore';
 
-// const BookList = () => {
-//   const test = async () => {
-//     console.log('add')
-
-//     const doc = addDoc(collection(FIREBASE_DB, 'todos'), {title: 'I am a test', done: false})
-//     console.log(doc, 'done')
-
-//   }
-
-//   return (
-//     <View>
-//       <Button onPress={test} title='test add'/>
-//     </View>
-//   )
-// }
-
-// export default BookList;
 
 const BookList = ({navigation}) => {
   const [data, setData] = useState([]);
+  const [searchBook, setSearchBook] = useState([]); 
+
+console.log(data[0].bookTitle)
+
+const searchBookTerm = () => {
+  data.forEach((book) => {
+    if (book.bookTitle.toLowerCase().includes(searchBook.toLowerCase())) {
+      setSearchBook(book.bookTitle);
+    }
+  })
+
+return 'Hello'
+}
+
 
   const fetchDataFromFirestore = async () => {
     try {
@@ -37,8 +34,7 @@ const BookList = ({navigation}) => {
         });
       });
 
-      // console.log(fetchedData);
-      // console.log(fetchedData[0].coords.latitude);
+
       setData(fetchedData);
     } catch (error) {
       console.error('Error fetching data: ', error);
@@ -55,6 +51,22 @@ const BookList = ({navigation}) => {
     style={{flex: 1}} 
   >
     <View style={styles.container}>
+
+    <TextInput
+    placeholder="Search"
+    style={styles.searchBar}
+    value={searchBook}
+    onChangeText={(bookName) => setSearchBook(bookName)}
+    >
+    </TextInput>
+
+    <View>
+    <TouchableOpacity>
+      <Text>Submit here</Text>
+    </TouchableOpacity>
+</View>
+
+
       <FlatList
         data={data}
         renderItem={({item}) => (
@@ -86,6 +98,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
+    backgroundColor: 'red', 
   },
 
   bookContainer: {
@@ -98,6 +111,19 @@ const styles = StyleSheet.create({
   },
   text: {
     margin: 5,
+  }, 
+
+
+  searchBar: {
+    marginTop: 50,
+    marginBottom: 50,
+    backgroundColor: 'white',
+    borderColor: 'green',
+    borderWidth: 2,
+    borderRadius: 10,
+    height: 40,
+    width: 200,
+    alignContent: "center",
   }
 });
 
