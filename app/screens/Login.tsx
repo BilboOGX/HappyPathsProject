@@ -12,11 +12,12 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import LinearGradient from "react-native-linear-gradient";
-import { FIREBASE_AUTH } from "../../FireBaseConfig";
+import { FIREBASE_AUTH, db } from "../../FireBaseConfig";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 const { width, height } = Dimensions.get("window");
 
@@ -48,7 +49,22 @@ const Login = () => {
         auth,
         email,
         password
-      );
+      )
+      .then((userCredentials) => {
+        const userUID = userCredentials.user.uid;
+        const docRef = doc(db, "users", userUID);
+        const docSnap = setDoc(docRef, {
+          avatarUrl: "https://avatar.iran.liara.run/public",
+          username: email,
+          password: password,
+          userUID: userUID,
+          email: email
+        });
+      })
+      .then(() => {
+        console.log('Successful')
+
+      })
 
       console.log(response);
       alert("Check your emails!");
