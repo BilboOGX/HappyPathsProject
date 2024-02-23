@@ -9,10 +9,29 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 
 import { Login, Map, BookList, ListNewBook, Profile, MyListings, SingleBookPage, BarCodeScan } from "./app/index";
+// import { Map, BookList, ListNewBook, Profile, MyListings, SingleBookPage, BarCodeScan } from "./app/index";
+
+import Signup from "./app/screens/Signup";
+import Home from "./app/screens/Home";
+import Chat from "./app/screens/Chat";
+import LoginChat from "./app/screens/LoginChat";
 
 const Stack = createNativeStackNavigator();
 
 const Tab = createBottomTabNavigator();
+
+function ChatTabsLayout() {
+  return (
+    <Stack.Navigator>
+      {/* <Stack.Screen name="Map" component={Map} /> */}
+      {/* <Stack.Screen name="LoginChat" component={LoginChat} /> */}
+      {/* <Stack.Screen name="Signup" component={Signup} /> */}
+      <Stack.Screen name="Home" component={Home} options={{ headerShown: false }}/>
+      <Stack.Screen name="Chat" component={Chat} />
+      {/* Add more Tab.Screen components for additional screens */}
+    </Stack.Navigator>
+  );
+}
 
 function BottomTabsLayout() {
   return (
@@ -48,8 +67,8 @@ function BottomTabsLayout() {
         }}
       />
       <Tab.Screen
-        name="chat"
-        component={ListNewBook}
+        name="ChatTabsLayout"
+        component={ChatTabsLayout}
         options={{
           tabBarLabel: "chat",
           tabBarIcon: ({ color, size }) => (
