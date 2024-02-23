@@ -111,7 +111,8 @@ export default function BookForm(){
           <MaterialCommunityIcons name="qrcode-scan" size={75} color="black" />
         </TouchableOpacity>
       </View>
-      <Text style={styles.iconTextContainer}>Scan Your Book To Auto-fill Text Fields</Text>
+      <Text style={styles.iconTextContainer}>Click Above To</Text>
+      <Text style={styles.iconTextContainer}>Scan Your Book and Auto-fill Text Fields</Text>
 
       <Modal
         animationType="slide"
