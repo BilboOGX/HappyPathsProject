@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, StyleSheet, Button, ScrollView, Image, SafeAreaView } from "react-native";
 import React, { useEffect, useState } from "react";
 import { FIREBASE_DB } from "../../FireBaseConfig";
 import { collection, getDocs } from "firebase/firestore";
@@ -6,9 +6,8 @@ import { collection, getDocs } from "firebase/firestore";
 const SingleBookPage = ({ navigation, route }) => {
   const [data, setData] = useState([]);
   const routeIdentifier = route.params.id;
-  // const bookTitle = route.params.bookTitle; 
-  console.log(route.params.bookTitle, 'BOOK TITLE SINGLE BOOK PAGE')
-
+  // const bookTitle = route.params.bookTitle;
+  console.log(route.params.bookTitle, "BOOK TITLE SINGLE BOOK PAGE");
 
   const fetchDataFromFirestore = async () => {
     try {
@@ -32,101 +31,132 @@ const SingleBookPage = ({ navigation, route }) => {
     fetchDataFromFirestore();
   }, []);
 
-  console.log(data[0])
+  console.log(data[0]);
 
   return (
-    <View>
-
-      <View style={styles.container}>
-        <Text style={styles.heading}>{routeIdentifier}</Text>
-        {/* <Text>{bookTitle}</Text> */}
+    <SafeAreaView style={styles.container}>
+    <ScrollView style={styles.scrollContainer}>
+      <View style={styles.routeContainer}>
+        <Text style={styles.route}>{routeIdentifier}</Text>
       </View>
 
       {data.map((loc) => {
+        if (loc.bookTitle === undefined) {
+          loc.bookTitle = "no information available";
+        }
 
-if (loc.bookTitle === undefined) {
-  loc.bookTitle = "no information available";
-}
+        if (loc.bookAuthor === undefined) {
+          loc.bookAuthor = "no information available";
+        }
 
-if (loc.bookAuthor === undefined) {
-  loc.bookAuthor = "no information available";
-}
+        if (loc.bookPreview === undefined) {
+          loc.bookDesc = "no information available";
+        }
 
-if (loc.bookPreview === undefined) {
-  loc.bookDesc = "no information available";
-}
+        if (loc.bookCondition === undefined) {
+          loc.bookCondition = "no information available";
+        }
 
-if (loc.bookCondition === undefined) {
-  loc.bookCondition = "no information available";
-}
+        if (loc.bookRating === undefined) {
+          loc.bookRating = "no information available";
+        }
 
-if (loc.bookRating === undefined) {
-  loc.bookRating = "no information available";
-}
+        if (loc.genre === undefined) {
+          loc.genre = "no information available";
+        }
 
-if (loc.genre === undefined) {
-  loc.genre = "no information available";
-}
-
-if (loc.user === undefined) {
-  loc.user = "no information available";
-}
+        if (loc.user === undefined) {
+          loc.user = "no information available";
+        }
 
         if (loc.id === routeIdentifier) {
+          return (
+            <View style={styles.pageContainer}>
+              <View style={styles.headingContainer}>
+                <Text style={styles.heading}>{loc.bookTitle}</Text>
+              </View>
 
-        return (
-          <View>
-            <Text style={styles.heading}>{loc.bookTitle}</Text>
-            <Text style={styles.bookInfo}>Title: {loc.bookTitle}</Text>
-            <Text style={styles.bookInfo}>Author: {loc.bookAuthor}</Text>
-            <Text style={styles.bookInfo}>Condition: {loc.bookCondition}</Text>
-            <Text style={styles.bookInfo}>Genre: {loc.genre}</Text>
-            <Text style={styles.bookInfo}>Synopsis: {loc.bookPreview}</Text>
-            <Text style={styles.bookInfo}>User: {loc.user}</Text>
-            <Text style={styles.bookInfo}>Rating: {loc.bookRating}</Text>
+              <View style={styles.titleContainer}>
+                <Text style={styles.titleInfo}>Title: {loc.bookTitle}</Text>
+              </View>
 
-            <Button title="Order now" buttonStyle={styles.orderButton} />
-          </View>
-        );
+              <View style={styles.bookAuthorContainer}>
+                <Text style={styles.authorInfo}>Author: {loc.bookAuthor}</Text>
+              </View>
+
+              <View style={styles.bookConditionContainer}>
+                <Text style={styles.bookConditionInfo}>
+                  Condition: {loc.bookCondition}
+                </Text>
+              </View>
+
+              <View style={styles.genreContainer}>
+                <Text style={styles.genreInfo}>Genre: {loc.genre}</Text>
+              </View>
+
+              <View style={styles.bookPreviewContainer}>
+                <Text style={styles.bookPreviewInfo}>
+                  Synopsis: {loc.bookPreview}
+                </Text>
+              </View>
+
+              <View style={styles.userContainer}>
+                <Text style={styles.userInfo}>User: {loc.user}</Text>
+              </View>
+
+              <View style={styles.bookRatingContainer}>
+                <Text style={styles.bookRatingInfo}>
+                  Rating: {loc.bookRating}
+                </Text>
+              </View>
+
+              <Button title="Order now" />
+            </View>
+          );
         }
       })}
-    </View>
+    </ScrollView>
+    </SafeAreaView>
   );
 };
-
-
-
-
-
-
-
-
-
-
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    backgroundColor: "#252f40",
+    backgroundColor: '#590031',
+  },
+  headingContainer: {
+    borderColor: 'white',
+    borderWidth: 2,
+    marginTop: 50,
+    marginBottom: 30,
+    padding: 10,
   },
   heading: {
-    marginTop: 50,
-    fontSize: 20,
+    fontSize: 30,
     fontWeight: "bold",
-    marginBottom: 10,
-    color: "blue",
+    color: "white",
     textAlign: "center",
   },
-  orderButton: {
-    color: 'red',
-    backgroundColor: "red",
-    borderWidth: 5,
-    borderRadius: 5,
-    padding: 10,
-    fontSize: 16,
-    marginBottom: 50,
-  },
+
+
+
+titleContainer: {
+  borderColor: 'white',
+  borderWidth: 2,
+  marginTop: 50,
+  marginBottom: 30,
+  padding: 10,
+},
+titleInfo: {
+color: 'white',
+fontSize: 20,
+textAlign: "center",
+},
+
+
+
 });
 
 export default SingleBookPage;
