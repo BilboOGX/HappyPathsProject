@@ -1,19 +1,71 @@
-import { View, Text, Button } from 'react-native'
-import React from 'react'
+import { View, Text, Button, Image, TouchableOpacity, StyleSheet } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { MaterialIcons } from '@expo/vector-icons'
 import { FIREBASE_AUTH } from '../../FireBaseConfig'
 
 const Profile = ({navigation}: any) => {
   return (
-    <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
-      <Button onPress={() => FIREBASE_AUTH.signOut()} title="Logout" />
-<Button onPress={() => navigation.navigate('MyListings')} title='Go to my listings'/>
-      <View>
-        <Text>
-          Username: 
-        </Text>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.avatarContainer}>
+        <Image source={{
+          uri: FIREBASE_AUTH.currentUser?.photoURL
+        }} style={styles.avatar}/>
+      <Text style={styles.name}>{FIREBASE_AUTH.currentUser?.displayName}</Text>
       </View>
+      <View style={styles.infoContainer}>
+        <Text style={styles.infoLabel}>Email: </Text>
+        <Text style={styles.infoValue}>{FIREBASE_AUTH.currentUser?.email}</Text>
+      </View>
+      <View style={styles.infoContainer}>
+        <Text style={styles.infoLabel}>User ID: </Text>
+        <Text style={styles.infoValue}>{FIREBASE_AUTH.currentUser?.uid}</Text>
+      </View>
+    <View style={styles.buttonContainer}>
+      <Button onPress={() => navigation.navigate('EditProfile')} title='Edit Profile' />
+      <Button onPress={() => navigation.navigate('MyListings')} title='Go to my listings'/>
+      <Button onPress={() => navigation.navigate('MyFavourites')} title='Go to my favourites' />
+      <Button onPress={() => FIREBASE_AUTH.signOut()} title="Logout" />
     </View>
+    </SafeAreaView>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    padding: 20,
+  },
+  buttonContainer: {
+    alignItems: "center",
+    marginTop: 50
+  },
+  avatarContainer: {
+    alignItems: "center",
+    marginTop: 20,
+  },
+  avatar: {
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    borderWidth: 1,
+    borderColor: "black",
+  },
+  name: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginTop: 10,
+  },
+  infoContainer: {
+    marginTop: 20,
+  },
+  infoLabel: {
+    fontWeight: "bold",
+  },
+  infoValue: {
+    marginTop: 5,
+  },
+});
 
 export default Profile

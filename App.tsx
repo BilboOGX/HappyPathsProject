@@ -8,7 +8,7 @@ import { FIREBASE_AUTH } from "./FireBaseConfig";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 
-import { Login, Map, BookList, ListNewBook, Profile, MyListings, SingleBookPage, BarCodeScan } from "./app/index";
+import { Login, Map, BookList, ListNewBook, Profile, MyListings, SingleBookPage, BarCodeScan, EditProfile, MyFavourites } from "./app/index";
 // import { Map, BookList, ListNewBook, Profile, MyListings, SingleBookPage, BarCodeScan } from "./app/index";
 
 import Signup from "./app/screens/Signup";
@@ -132,6 +132,8 @@ export default function App() {
         />
         <Stack.Screen name="BarCodeScan" component={BarCodeScan} />
         <Stack.Screen name="MyListings" component={MyListings} options={{ headerBackTitle: 'Back to profile'}}/>
+        <Stack.Screen name="EditProfile" component={EditProfile} options={{ headerBackTitle: 'Back to profile'}}/>
+        <Stack.Screen name="MyFavourites" component={MyFavourites} options={{ headerBackTitle: 'Back to profile'}} />
       </Stack.Navigator>
     </NavigationContainer>
   );

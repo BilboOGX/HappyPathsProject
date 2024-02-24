@@ -54,7 +54,7 @@ const Login = () => {
         const userUID = userCredentials.user.uid;
         const docRef = doc(db, "users", userUID);
         const docSnap = setDoc(docRef, {
-          avatarUrl: "https://avatar.iran.liara.run/public",
+          photoUrl: "https://avatar.iran.liara.run/public",
           username: email,
           password: password,
           userUID: userUID,
