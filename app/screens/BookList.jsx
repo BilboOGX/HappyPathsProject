@@ -1,29 +1,31 @@
-import { View, Text, StyleSheet, Button, FlatList, ImageBackground, Pressable, TextInput, TouchableOpacity} from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { FIREBASE_DB } from '../../FireBaseConfig';
-import { addDoc, collection, getDocs } from 'firebase/firestore';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  FlatList,
+  ImageBackground,
+  Pressable,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  SafeAreaView,
+} from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome";
+import React, { useEffect, useState } from "react";
+import { FIREBASE_DB } from "../../FireBaseConfig";
+import { addDoc, collection, getDocs } from "firebase/firestore";
 
 
-const BookList = ({navigation}) => {
+const BookList = ({ navigation }) => {
   const [data, setData] = useState([]);
-  const [searchBook, setSearchBook] = useState([]); 
+  const [input, setInput] = useState("");
 
-console.log(data[0].bookTitle)
-
-const searchBookTerm = () => {
-  data.forEach((book) => {
-    if (book.bookTitle.toLowerCase().includes(searchBook.toLowerCase())) {
-      setSearchBook(book.bookTitle);
-    }
-  })
-
-return 'Hello'
-}
-
+  // console.log(data[0].bookTitle)
 
   const fetchDataFromFirestore = async () => {
     try {
-      const collectionRef = collection(FIREBASE_DB, 'books');
+      const collectionRef = collection(FIREBASE_DB, "books");
       const snapshot = await getDocs(collectionRef);
       // console.log(snapshot)
       const fetchedData = [];
@@ -34,10 +36,9 @@ return 'Hello'
         });
       });
 
-
       setData(fetchedData);
     } catch (error) {
-      console.error('Error fetching data: ', error);
+      console.error("Error fetching data: ", error);
     }
   };
 
@@ -45,86 +46,160 @@ return 'Hello'
     fetchDataFromFirestore();
   }, []); // useEffect to fetch data when the component mounts
 
+  const SearchFilter = ({ data, input }) => {
+    return (
+      <View style={styles.searchFilterContainer}>
+        <FlatList
+          data={data.filter(
+            (item) =>
+              input === "" ||
+              item.bookTitle.toLowerCase().includes(input.toLowerCase())
+          )}
+          renderItem={({ item }) => (
+            <Pressable
+              onPress={() =>
+                navigation.navigate("SingleBookPage", {
+                  title: item.bookTitle,
+                })
+              }
+            >
+              <ImageBackground
+                source={require("../../Images/blank_vintage_book_by_vixen525_d600pp8-fullview.png")}
+                style={styles.bookContainer}
+              >
+                <View style={styles.contentContainer}>
+                  <View style={styles.textContainer}>
+                    <Text style={styles.text}>Title: {item.bookTitle}</Text>
+                    <Text style={styles.text}>Author: {item.bookAuthor}</Text>
+                    <Text style={styles.text}>Genre: {item.genre}</Text>
+                    <View style={styles.imageContainer}>
+                    <Text style={styles.textImage}>Image</Text>
+                    </View>
+                  </View>
+                  <View style={styles.synopsisContainer}>
+                  <Text style={styles.synopsisHeading}>
+                      Synopsis:
+                    </Text>
+                    <Text style={styles.synopsisText}>
+                      {item.bookPreview}
+                    </Text>
+                  </View>
+                </View>
+              </ImageBackground>
+            </Pressable>
+          )}
+          keyExtractor={(item) => item.id}
+        />
+      </View>
+    );
+  };
+
   return (
-    <ImageBackground 
-    source={require('../../Images/wp13203104.jpg')}
-    style={{flex: 1}} 
-  >
-    <View style={styles.container}>
-
-    <TextInput
-    placeholder="Search"
-    style={styles.searchBar}
-    value={searchBook}
-    onChangeText={(bookName) => setSearchBook(bookName)}
+    <ImageBackground
+      source={require("../../Images/wp13203104.jpg")}
+      style={{ flex: 1 }}
     >
-    </TextInput>
-
-    <View>
-    <TouchableOpacity>
-      <Text>Submit here</Text>
-    </TouchableOpacity>
-</View>
-
-
-      <FlatList
-        data={data}
-        renderItem={({item}) => (
-          <Pressable onPress={() => navigation.navigate('SingleBookPage', {
-            title: item.bookTitle
-          })}>
-
-          <ImageBackground source={require('../../Images/blank_vintage_book_by_vixen525_d600pp8-fullview.png')}
-            style={styles.bookContainer}>
-            <Text style={styles.text}>{item.bookTitle}</Text>
-            <Text>{item.bookAuthor}</Text>
-            <Text>{item.bookDesc}</Text>
-            <Text>{item.uploadedBy}</Text>
-          
-          </ImageBackground>
-
-          </Pressable>
-        )}
-        keyExtractor={item => item.id}
-      />
-    </View>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.searchBarContainer}>
+          <Icon name="search" size={20} style={styles.searchIcon} />
+          <TextInput
+            placeholder="Search"
+            placeholderTextColor="#fff"
+            style={styles.searchBar}
+            value={input}
+            onChangeText={(text) => setInput(text)}
+          ></TextInput>
+        </View>
+        <SearchFilter data={data} input={input} setInput={setInput} />
+      </SafeAreaView>
     </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    alignSelf: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-    backgroundColor: 'red', 
+    alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
   },
-
+  searchBarContainer: {
+    marginTop: 200,
+    marginBottom: 50,
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 3,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    width: "80%",
+  },
+  searchBar: {
+    backgroundColor: "transparent",
+    flex: 1,
+    fontSize: 20,
+    color: "white",
+    height: 40,
+    paddingLeft: 35,
+    fontWeight: "bold",
+  },
+  searchIcon: {
+    color: "#fff",
+    marginLeft: 10,
+    marginRight: -30,
+  },
   bookContainer: {
-
     margin: 5,
-    width: 200,
-    height: 200,
-    
-  
+    width: 300,
+    height: 250,
+  },
+  contentContainer: {
+    display: "flex",
+    flexDirection: "row",
+    height: "100%",
+  },
+  textContainer: {
+    width: "50%",
   },
   text: {
-    margin: 5,
-  }, 
-
-
-  searchBar: {
-    marginTop: 50,
-    marginBottom: 50,
-    backgroundColor: 'white',
-    borderColor: 'green',
+    marginTop: 15,
+    marginLeft: 5,
+    fontSize: 12,
+    paddingLeft: 5,
+    paddingRight: 5,
+  },
+  synopsisContainer: {
+    width: "50%",
+  },
+  synopsisHeading: {
+    fontSize: 12,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginTop: 10,
+  },
+  synopsisText: {
+    marginTop: 15,
+    marginLeft: 5,
+    fontSize: 10,
+    paddingLeft: 8,
+    paddingRight: 8,
+    textAlign: "justify",
+  },
+  imageContainer: {
+    width: "80%",
+    height: "40%",
+    borderColor: 'white',
     borderWidth: 2,
-    borderRadius: 10,
-    height: 40,
-    width: 200,
-    alignContent: "center",
-  }
+    borderRadius: 5,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 15,
+    marginLeft: 13,
+  },
+  textImage: {
+    fontSize: 30,
+    textAlign: 'center',
+  },
 });
 
 export default BookList;
