@@ -11,6 +11,7 @@ import {
   Platform,
   Dimensions,
 } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
 // import { NavigationContainer } from "@react-navigation/native";
 // import { createNativeStackNavigator } from "@react-navigation/native-stack";
 // import SingleBookPage from "./SingleBookPage";
@@ -23,6 +24,8 @@ export default function Map({ navigation }: any) {
   const mapRef = useRef(null);
   const [dark, setDark] = useState(false);
   const [userLocation, setUserLocation] = useState(null)
+
+  const isFocused = useIsFocused()
 
   const fetchDataFromFirestore = async () => {
     try {
@@ -44,8 +47,11 @@ export default function Map({ navigation }: any) {
   };
 
   useEffect(() => {
-    fetchDataFromFirestore();
-  }, []); 
+    if (isFocused) {
+      fetchDataFromFirestore();
+
+    }
+  }, [isFocused]); 
 
   const handleZoomIn = () => {
     mapRef.current?.getCamera().then((cam) => {
