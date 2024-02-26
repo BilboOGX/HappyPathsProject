@@ -15,11 +15,14 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import React, { useEffect, useState } from "react";
 import { FIREBASE_DB } from "../../FireBaseConfig";
 import { addDoc, collection, getDocs } from "firebase/firestore";
+import { useIsFocused } from "@react-navigation/native";
 
 
 const BookList = ({ navigation }) => {
   const [data, setData] = useState([]);
   const [input, setInput] = useState("");
+
+  const isFocused = useIsFocused()
 
   const fetchDataFromFirestore = async () => {
     try {
@@ -34,7 +37,7 @@ const BookList = ({ navigation }) => {
         });
         console.log(doc, "doc");
       });
-
+      console.log(fetchedData)
       setData(fetchedData);
     } catch (error) {
       console.error("Error fetching data: ", error);
@@ -42,7 +45,10 @@ const BookList = ({ navigation }) => {
   };
 
   useEffect(() => {
-    fetchDataFromFirestore();
+    if (isFocused) {
+      console.log('book list focused')
+      fetchDataFromFirestore();
+    }
   }, []); // useEffect to fetch data when the component mounts
 
 
@@ -59,7 +65,8 @@ const BookList = ({ navigation }) => {
             <Pressable
               onPress={() =>
                 navigation.navigate("SingleBookPage", {
-                  title: item.bookTitle,
+                  id: item.id,
+                  // id: item.id
                 })
               }
             >
