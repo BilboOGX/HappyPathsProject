@@ -8,11 +8,12 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { MaterialIcons } from "@expo/vector-icons";
 import { FIREBASE_AUTH, FIREBASE_DB } from "../../FireBaseConfig";
 import { collection, getDocs } from "firebase/firestore";
+import { useIsFocused } from "@react-navigation/native";
 
 const Profile = ({ navigation }: any) => {
+  const isFocused = useIsFocused()
   const [users, setUsers] = useState([]);
   const [currUser, setCurrUser] = useState(FIREBASE_AUTH.currentUser);
   const fetchUsersFromFirestore = async () => {
@@ -40,9 +41,13 @@ const Profile = ({ navigation }: any) => {
         }
       })
     })
-  }, [currUser]); // this isn't automatically setting the user upon loading, it needs a refresh before it gets the user - use async instead? something to do with the use effect
+  }, [isFocused]); 
+  // useEffect isn't loading user immediately
+  // also not refreshing after user has been updated in edit profile
   console.log(currUser, '<-- curr user after use effect?')
+  console.log(isFocused, '<-- is focused?')
 
+  if (isFocused) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.avatarContainer}>
@@ -54,15 +59,16 @@ const Profile = ({ navigation }: any) => {
       </View>
       <View style={styles.infoContainer}>
         <Text style={styles.infoLabel}>Email: </Text>
-        <Text style={styles.infoValue}>{currUser.email}</Text>
-      </View>
-      <View style={styles.infoContainer}>
-        <Text style={styles.infoLabel}>User ID:</Text>
-        <Text style={styles.infoValue}>{currUser.userUID}</Text>
+        <Text style={styles.infoValue}>{currUser.email}</Text> 
+        {/* why does it immediately get the current user's email but not immediately get other properties? */}
       </View>
       <View style={styles.infoContainer}>
         <Text style={styles.infoLabel}>Location: </Text>
         <Text style={styles.infoValue}>{currUser.location}</Text>
+      </View>
+      <View style={styles.infoContainer}>
+        <Text style={styles.infoLabel}>User ID:</Text>
+        <Text style={styles.infoValue}>{currUser.userUID}</Text>
       </View>
       {/* add location on here too  */}
       <View style={styles.buttonContainer}>
@@ -87,6 +93,7 @@ const Profile = ({ navigation }: any) => {
     </SafeAreaView>
   );
 };
+}
 
 const styles = StyleSheet.create({
   container: {
