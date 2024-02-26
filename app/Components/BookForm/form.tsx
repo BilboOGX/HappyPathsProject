@@ -1,11 +1,9 @@
 
 import React, { useEffect, useState } from 'react';
 import { View, TextInput, Button, Alert, StyleSheet, Text, TouchableOpacity, Modal} from 'react-native';
-
 import { collection, addDoc } from "firebase/firestore";
 import { FIREBASE_AUTH, FIREBASE_DB } from "../../../FireBaseConfig";
 import { User, onAuthStateChanged } from "firebase/auth";
-
 import { fetchGeoLocation } from '../../AxiosRequests';
 import { SafeAreaView, StatusBar, Dimensions, ScrollView, Image} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -118,7 +116,6 @@ export default function BookForm() {
         </TouchableOpacity>
       </View>
       <Text style={styles.iconTextContainer}>Click Above To Scan Your Book and Auto-fill Text Fields</Text>
-      {/* <Text style={styles.iconTextContainer}>Scan Your Book and Auto-fill Text Fields</Text> */}
 
       <Modal
         animationType="slide"
