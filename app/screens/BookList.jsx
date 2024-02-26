@@ -25,14 +25,12 @@ const BookList = ({ navigation }) => {
     try {
       const collectionRef = collection(FIREBASE_DB, "books");
       const snapshot = await getDocs(collectionRef);
-      // console.log(snapshot)
       const fetchedData = [];
       snapshot.forEach((doc) => {
         fetchedData.push({
           id: doc.id,
           ...doc.data(),
         });
-        console.log(doc, "doc");
       });
 
       setData(fetchedData);
@@ -43,7 +41,7 @@ const BookList = ({ navigation }) => {
 
   useEffect(() => {
     fetchDataFromFirestore();
-  }, []); // useEffect to fetch data when the component mounts
+  }, []);
 
 
   const SearchFilter = ({ data, input }) => {

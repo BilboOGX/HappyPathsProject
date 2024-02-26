@@ -16,7 +16,6 @@ import { db } from "../../FireBaseConfig.ts";
 
 export default function Chat({ route }) {
   const uid = route.params.uid;
-
   const [messages, setMessages] = useState([]);
   const currentUser = auth?.currentUser?.uid;
 
@@ -69,13 +68,20 @@ export default function Chat({ route }) {
     });
   }, []);
   return (
-    <GiftedChat
+    <View style={styles.container}>
+    <GiftedChat 
       messages={messages}
       onSend={(text) => onSend(text)}
       user={{
         _id: currentUser,
       }}
     />
+    </View>
   );
 }
-const styles = StyleSheet.create({});
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#00592e',}
+  })

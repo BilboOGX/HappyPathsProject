@@ -7,7 +7,6 @@ import { User, onAuthStateChanged } from "firebase/auth";
 import { FIREBASE_AUTH } from "./FireBaseConfig";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-
 import {
   Login,
   Map,
@@ -21,13 +20,13 @@ import {
   MyFavourites,
 } from "./app/index";
 
+
 import Signup from "./app/screens/Signup";
 import Home from "./app/screens/Home";
 import Chat from "./app/screens/Chat";
 import LoginChat from "./app/screens/LoginChat";
 
 const Stack = createNativeStackNavigator();
-
 const Tab = createBottomTabNavigator();
 
 function ChatTabsLayout() {
