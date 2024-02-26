@@ -8,16 +8,42 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import React, { useState } from "react";
-import { FIREBASE_AUTH } from "../../FireBaseConfig";
+import React, { useEffect, useState } from "react";
+import { FIREBASE_AUTH, FIREBASE_DB } from "../../FireBaseConfig";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
+import { collection, getDocs } from "firebase/firestore";
 
-const EditProfile = () => {
+const EditProfile = ({ route }) => {
   // do a use effect to set the current user and update in dependencies after submit is made?
+  // console.log(route.params.user, "<-- user from route params?");
+  // const [users, setUsers] = useState([]);
+  const [currUser, setCurrUser] = useState(route.params.user);
+  console.log(currUser, "<-- set current user");
   const [selectedImage, setSelectedImage] = useState(
-    FIREBASE_AUTH.currentUser.photoURL
+    route.params.user.photoURL
   );
+  console.log(selectedImage, "<-- set selected image?");
+  // const fetchUsersFromFirestore = async () => {
+  //   try {
+  //     const collectionRef = collection(FIREBASE_DB, "users");
+  //     const snapshot = await getDocs(collectionRef);
+  //     const fetchedUsers = [];
+  //     snapshot.forEach((user) => {
+  //       fetchedUsers.push({
+  //         id: user.id,
+  //         ...user.data(),
+  //       });
+  //     });
+  //     setUsers(fetchedUsers);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchUsersFromFirestore();
+  // }, []);
   const handleSubmitChanges = () => {
     console.log("add submit function here");
     console.log(FIREBASE_AUTH.currentUser.photoURL);

@@ -15,7 +15,7 @@ import { collection, getDocs } from "firebase/firestore";
 const Profile = ({ navigation }: any) => {
   const [users, setUsers] = useState([]);
   const [currUser, setCurrUser] = useState(FIREBASE_AUTH.currentUser);
-  const fetchUserFromFirestore = async () => {
+  const fetchUsersFromFirestore = async () => {
     try {
       const collectionRef = collection(FIREBASE_DB, "users");
       const snapshot = await getDocs(collectionRef);
@@ -34,9 +34,17 @@ const Profile = ({ navigation }: any) => {
   // console.log(users, '<-- users in profile')
   // console.log(FIREBASE_AUTH.currentUser, '<-- current user')
   useEffect(() => {
-    fetchUserFromFirestore()
+    fetchUsersFromFirestore().then(() => {
+      users.map((user) => {
+        // console.log(user, '<-- each user in map?')
+        if (user.id === currUser.uid) {
+          setCurrUser(user)
+        }
+      })
+    })
     // .then(() => assignCurrUser(FIREBASE_AUTH.currentUser.uid))
-  }, []); // need something to refresh when user is updated, currUser causes infinite loop
+  }, [currUser]); // need something to refresh when user is updated, currUser causes infinite loop
+  console.log(currUser, '<-- curr user after use effect?')
   // const assignCurrUser = (id) => {
   //   for (let i = 0; i < users.length; i++) {
   //     if (users[i].userUID === id) {
@@ -44,40 +52,30 @@ const Profile = ({ navigation }: any) => {
   //     }
   //   }
   // };
-  console.log(currUser, "<-- current user?");
+  // console.log(currUser, "<-- current user?");
 
   return (
     <SafeAreaView style={styles.container}>
-      <View>
-        {users.map((user) => {
-          {console.log(user, '<-- each user?')}
-          if (user.id === currUser.uid) {
-            return (
-              // if user has avatarURL return that, else return photoURL?
-              <SafeAreaView>
-                <View style={styles.avatarContainer}>
-                  <Image
-                    source={{ uri: user.photoURL }}
-                    style={styles.avatar}
-                  />
-                  <Text style={styles.name}>{user.username}</Text>
-                </View>
-                <View style={styles.infoContainer}>
-                  <Text style={styles.infoLabel}>Email: </Text>
-                  <Text style={styles.infoValue}>{user.email}</Text>
-                </View>
-                <View style={styles.infoContainer}>
-                  <Text style={styles.infoLabel}>User ID:</Text>
-                  <Text style={styles.infoValue}>{user.userUID}</Text>
-                </View>
-              </SafeAreaView>
-            );
-          }
-        })}
+      <View style={styles.avatarContainer}>
+        <Image
+          source={{ uri: currUser.photoURL }}
+          style={styles.avatar}
+        />
+        <Text style={styles.name}>{currUser.username}</Text>
+      </View>
+      <View style={styles.infoContainer}>
+        <Text style={styles.infoLabel}>Email: </Text>
+        <Text style={styles.infoValue}>{currUser.email}</Text>
+      </View>
+      <View style={styles.infoContainer}>
+        <Text style={styles.infoLabel}>User ID:</Text>
+        <Text style={styles.infoValue}>{currUser.userUID}</Text>
       </View>
       <View style={styles.buttonContainer}>
         <Button
-          onPress={() => navigation.navigate("EditProfile")}
+          onPress={() => navigation.navigate("EditProfile", {
+            user: currUser
+          })}
           title="Edit Profile"
         />
         <Button
