@@ -28,6 +28,10 @@ const EditProfile = ({ route }) => {
   console.log(userLocation, "<-- user location");
   console.log(selectedImage, "<-- user photo");
 
+  useEffect(() => {
+    console.log("use effect triggered");
+  }, [handleSubmitChanges]);
+
   const handleSubmitChanges = () => {
     console.log("submit func");
     const docRef = doc(FIREBASE_DB, "users", currUser.id);
@@ -45,6 +49,8 @@ const EditProfile = ({ route }) => {
       .catch((error) => {
         console.log(error);
       });
+    // fetch doc after updating --> set edit profile details with new info?
+    // maybe add a navigate back to profile, sending updated user info as a route param to then update profile?
   };
   const handleImageSelection = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
