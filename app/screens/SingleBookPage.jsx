@@ -5,10 +5,11 @@ import { collection, getDocs } from "firebase/firestore";
 
 const SingleBookPage = ({ navigation, route }) => {
   const [data, setData] = useState([]);
+  console.log(data, "data in single book page");
   const routeIdentifier = route.params.id;
-  // const bookTitle = route.params.bookTitle; 
-  console.log(route.params.bookTitle, 'BOOK TITLE SINGLE BOOK PAGE')
-
+  const useruid = route.params.userID;
+  console.log(useruid, "<<USERID IN SBP");
+  console.log(route.params.title, "<<<BOOK TITLE SINGLE BOOK PAGE");
 
   const fetchDataFromFirestore = async () => {
     try {
@@ -32,18 +33,26 @@ const SingleBookPage = ({ navigation, route }) => {
     fetchDataFromFirestore();
   }, []);
 
-  console.log(data[0])
-
   return (
     <View>
-
       <View style={styles.container}>
         <Text style={styles.heading}>{routeIdentifier}</Text>
-        {/* <Text>{bookTitle}</Text> */}
+        {/* <Text
+          data={data}
+          renderItem={({ item }) => (
+            <Button
+              title="Chat now"
+              onPress={navigation.navigate("Chat", {
+                name: item.id,
+                uid: useruid,
+              })}
+            />
+          )}
+        >
+          {bookTitle}
+        </Text> */}
       </View>
-
       {data.map((loc) => {
-
         if (loc.bookTitle === undefined) {
           loc.bookTitle = "no information available";
         }
@@ -61,35 +70,40 @@ const SingleBookPage = ({ navigation, route }) => {
         }
 
         if (loc.id === routeIdentifier) {
+          return (
+            <View>
+              <Text style={styles.heading}>{loc.bookTitle}</Text>
+              <Text style={styles.bookInfo}>Book{loc.bookTitle}</Text>
+              <Text style={styles.bookInfo}>Author: {loc.bookAuthor}</Text>
+              <Text style={styles.bookInfo}>
+                Condition: {loc.bookCondition}
+              </Text>
+              <Text style={styles.bookInfo}>Synopsis: {loc.bookDesc}</Text>
+              <Text style={styles.bookInfo}>User: {loc.user}</Text>
+              {/* <Text style={styles.bookInfo}>uid: {loc.uid}</Text> */}
+              <Text style={styles.bookInfo}>
+                Latitude: (change to are vicinity i.e manchester){" "}
+                {loc.coords.latitude}
+              </Text>
+              <Text style={styles.bookInfo}>
+                Longitude: {loc.coords.longitude}
+              </Text>
 
-        return (
-          <View>
-            <Text style={styles.heading}>{loc.bookTitle}</Text>
-            <Text style={styles.bookInfo}>Book{loc.bookTitle}</Text>
-            <Text style={styles.bookInfo}>Author: {loc.bookAuthor}</Text>
-            <Text style={styles.bookInfo}>Condition: {loc.bookCondition}</Text>
-            <Text style={styles.bookInfo}>Synopsis: {loc.bookDesc}</Text>
-            <Text style={styles.bookInfo}>Latitude: (change to are vicinity i.e manchester) {loc.coords.latitude}</Text>
-            <Text style={styles.bookInfo}>Longitude: {loc.coords.longitude}</Text>
-
-            <Button title="Order now" buttonStyle={styles.orderButton} />
-          </View>
-        );
+              <Button title="Order now" buttonStyle={styles.orderButton} />
+              <Button
+                title="Chat now"
+                buttonStyle={styles.orderButton}
+                onPress={navigation.navigate("Chat", {
+                  userID: useruid,
+                })}
+              />
+            </View>
+          );
         }
       })}
     </View>
   );
 };
-
-
-
-
-
-
-
-
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -106,7 +120,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   orderButton: {
-    color: 'red',
+    color: "red",
     backgroundColor: "red",
     borderWidth: 5,
     borderRadius: 5,
