@@ -16,8 +16,6 @@ import { db } from "../../FireBaseConfig.ts";
 
 export default function Chat({ route }) {
   const uid = route.params.uid;
-  console.log(route.params.uid, "ROUTE PARAMS UID in chat");
-  console.log(route.params, "ROUTE PARAMS in CHAT");
 
   const [messages, setMessages] = useState([]);
   const currentUser = auth?.currentUser?.uid;
@@ -49,8 +47,6 @@ export default function Chat({ route }) {
   }, []);
 
   const onSend = useCallback((messagesArray) => {
-    console.log(currentUser, "<< curr user in chat");
-    console.log(uid, "<< uid in chat");
     const msg = messagesArray[0];
     const myMsg = {
       ...msg,
