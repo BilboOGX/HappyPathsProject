@@ -31,28 +31,17 @@ const Profile = ({ navigation }: any) => {
       console.log(error);
     }
   };
-  // console.log(users, '<-- users in profile')
-  // console.log(FIREBASE_AUTH.currentUser, '<-- current user')
+
   useEffect(() => {
     fetchUsersFromFirestore().then(() => {
       users.map((user) => {
-        // console.log(user, '<-- each user in map?')
         if (user.id === currUser.uid) {
           setCurrUser(user)
         }
       })
     })
-    // .then(() => assignCurrUser(FIREBASE_AUTH.currentUser.uid))
-  }, [currUser]); // need something to refresh when user is updated, currUser causes infinite loop
+  }, [currUser]); // this isn't automatically setting the user upon loading, it needs a refresh before it gets the user - use async instead? something to do with the use effect
   console.log(currUser, '<-- curr user after use effect?')
-  // const assignCurrUser = (id) => {
-  //   for (let i = 0; i < users.length; i++) {
-  //     if (users[i].userUID === id) {
-  //       setCurrUser(users[i]);
-  //     }
-  //   }
-  // };
-  // console.log(currUser, "<-- current user?");
 
   return (
     <SafeAreaView style={styles.container}>
