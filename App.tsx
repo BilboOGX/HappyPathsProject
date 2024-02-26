@@ -41,7 +41,6 @@ function ChatTabsLayout() {
         name="Chat"
         component={Chat}
         options={({ route }) => ({
-          headerBackVisible: false,
           title: route.params.name,
           headerTitleStyle: { fontWeight: "bold" },
           headerTitleAlign: "center",
