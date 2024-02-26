@@ -54,7 +54,7 @@ const Login = () => {
         const userUID = userCredentials.user.uid;
         const docRef = doc(db, "users", userUID);
         const docSnap = setDoc(docRef, {
-          avatarUrl: "https://avatar.iran.liara.run/public",
+          photoUrl: "https://avatar.iran.liara.run/public",
           username: email,
           password: password,
           userUID: userUID,
@@ -78,15 +78,6 @@ const Login = () => {
   return (
     <View style={styles.container}>
 
-
-   <View>
-        <View style={styles.recycleImageContainer}>
-          <Image
-            source={require("../../Images/Green and Beige Flat & Minimal Book Shop Logo/des.png")}
-            style={styles.recycleLogoImage}
-          ></Image>
-        </View>
-      </View>
 
       <View>
         <View style={styles.imageContainer}>

@@ -6,31 +6,20 @@ import {
   FlatList,
   ImageBackground,
   Pressable,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  SafeAreaView,
 } from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome";
 import React, { useEffect, useState } from "react";
 import { FIREBASE_DB } from "../../FireBaseConfig";
 import { addDoc, collection, getDocs } from "firebase/firestore";
 
-// const BookList = () => {
-//   const test = async () => {
-//     console.log('add')
-
-//     const doc = addDoc(collection(FIREBASE_DB, 'todos'), {title: 'I am a test', done: false})
-//     console.log(doc, 'done')
-
-//   }
-
-//   return (
-//     <View>
-//       <Button onPress={test} title='test add'/>
-//     </View>
-//   )
-// }
-
-// export default BookList;
 
 const BookList = ({ navigation }) => {
   const [data, setData] = useState([]);
+  const [input, setInput] = useState("");
 
   const fetchDataFromFirestore = async () => {
     try {
@@ -46,8 +35,6 @@ const BookList = ({ navigation }) => {
         console.log(doc, "doc");
       });
 
-      // console.log(fetchedData);
-      // console.log(fetchedData[0].coords.latitude);
       setData(fetchedData);
     } catch (error) {
       console.error("Error fetching data: ", error);
@@ -58,20 +45,24 @@ const BookList = ({ navigation }) => {
     fetchDataFromFirestore();
   }, []); // useEffect to fetch data when the component mounts
 
-  return (
-    <ImageBackground
-      source={require("../../Images/wp13203104.jpg")}
-      style={{ flex: 1 }}
-    >
-      <View style={styles.container}>
+
+  const SearchFilter = ({ data, input }) => {
+    return (
+      <View style={styles.searchFilterContainer}>
         <FlatList
-          data={data}
+          data={data.filter(
+            (item) =>
+              input === "" ||
+              item.bookTitle.toLowerCase().includes(input.toLowerCase())
+          )}
+
           renderItem={({ item }) => (
             <Pressable
               onPress={() =>
                 navigation.navigate("SingleBookPage", {
                   title: item.bookTitle,
                   userID: item.userID,
+
                 })
               }
             >
@@ -79,16 +70,55 @@ const BookList = ({ navigation }) => {
                 source={require("../../Images/blank_vintage_book_by_vixen525_d600pp8-fullview.png")}
                 style={styles.bookContainer}
               >
-                <Text style={styles.text}>{item.bookTitle}</Text>
-                <Text>{item.bookAuthor}</Text>
-                <Text>{item.bookDesc}</Text>
-                <Text>{item.uploadedBy}</Text>
+
+                <View style={styles.contentContainer}>
+                  <View style={styles.textContainer}>
+                    <Text style={styles.text}>Title: {item.bookTitle}</Text>
+                    <Text style={styles.text}>Author: {item.bookAuthor}</Text>
+                    <Text style={styles.text}>Genre: {item.genre}</Text>
+                    <View style={styles.imageContainer}>
+                    <Text style={styles.textImage}>Image</Text>
+                    </View>
+                  </View>
+                  <View style={styles.synopsisContainer}>
+                  <Text style={styles.synopsisHeading}>
+                      Synopsis:
+                    </Text>
+                    <Text style={styles.synopsisText}>
+                      {item.bookPreview}
+                    </Text>
+                  </View>
+                </View>
+
               </ImageBackground>
             </Pressable>
           )}
           keyExtractor={(item) => item.id}
         />
       </View>
+
+    );
+  };
+
+  return (
+    <ImageBackground
+      source={require("../../Images/wp13203104.jpg")}
+      style={{ flex: 1 }}
+    >
+      <SafeAreaView style={styles.container}>
+        <View style={styles.searchBarContainer}>
+          <Icon name="search" size={20} style={styles.searchIcon} />
+          <TextInput
+            placeholder="Search"
+            placeholderTextColor="#fff"
+            style={styles.searchBar}
+            value={input}
+            onChangeText={(text) => setInput(text)}
+          ></TextInput>
+        </View>
+        <SearchFilter data={data} input={input} setInput={setInput} />
+      </SafeAreaView>
+
     </ImageBackground>
   );
 };
@@ -99,15 +129,86 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
-  },
 
+  },
+  searchBarContainer: {
+    marginTop: 200,
+    marginBottom: 50,
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 3,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    width: "80%",
+  },
+  searchBar: {
+    backgroundColor: "transparent",
+    flex: 1,
+    fontSize: 20,
+    color: "white",
+    height: 40,
+    paddingLeft: 35,
+    fontWeight: "bold",
+  },
+  searchIcon: {
+    color: "#fff",
+    marginLeft: 10,
+    marginRight: -30,
+
+  },
   bookContainer: {
     margin: 5,
-    width: 200,
-    height: 200,
+    width: 300,
+    height: 250,
+  },
+  contentContainer: {
+    display: "flex",
+    flexDirection: "row",
+    height: "100%",
+  },
+  textContainer: {
+    width: "50%",
   },
   text: {
-    margin: 5,
+    marginTop: 15,
+    marginLeft: 5,
+    fontSize: 12,
+    paddingLeft: 5,
+    paddingRight: 5,
+  },
+  synopsisContainer: {
+    width: "50%",
+  },
+  synopsisHeading: {
+    fontSize: 12,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginTop: 10,
+  },
+  synopsisText: {
+    marginTop: 15,
+    marginLeft: 5,
+    fontSize: 10,
+    paddingLeft: 8,
+    paddingRight: 8,
+    textAlign: "justify",
+  },
+  imageContainer: {
+    width: "80%",
+    height: "40%",
+    borderColor: 'white',
+    borderWidth: 2,
+    borderRadius: 5,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 15,
+    marginLeft: 13,
+  },
+  textImage: {
+    fontSize: 30,
+    textAlign: 'center',
+
   },
 });
 

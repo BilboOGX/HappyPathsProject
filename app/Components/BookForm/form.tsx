@@ -1,28 +1,18 @@
-import React, { useEffect, useState } from "react";
-import {
-  View,
-  TextInput,
-  Button,
-  Alert,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-} from "react-native";
+
+import React, { useEffect, useState } from 'react';
+import { View, TextInput, Button, Alert, StyleSheet, Text, TouchableOpacity, Modal} from 'react-native';
+
 import { collection, addDoc } from "firebase/firestore";
 import { FIREBASE_AUTH, FIREBASE_DB } from "../../../FireBaseConfig";
 import { User, onAuthStateChanged } from "firebase/auth";
-import { fetchGeoLocation } from "../../AxiosRequests";
-import {
-  SafeAreaView,
-  StatusBar,
-  Dimensions,
-  ScrollView,
-  Image,
-} from "react-native";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import SelectDropdown from "react-native-select-dropdown";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+
+import { fetchGeoLocation } from '../../AxiosRequests';
+import { SafeAreaView, StatusBar, Dimensions, ScrollView, Image} from 'react-native';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import SelectDropdown from 'react-native-select-dropdown';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import BarCodeScan from '../BarcodeScanner/BarcodeScanner';
 
 export default function BookForm() {
   const [bookTitle, setBookTitle] = useState("");
@@ -30,12 +20,22 @@ export default function BookForm() {
   const [seller, setSeller] = useState("");
   const [postcode, setPostcode] = useState("");
   const [isPostcodeValid, setIsPostcodeValid] = useState(true);
-  const [bookCondition, setBookCondition] = useState("");
-  const [attemptedSubmit, setAttemptedSubmit] = useState(false);
-  const [bookPreview, setBookPreview] = useState("");
-  const [dropdownKey, setDropdownKey] = useState(0);
-  const [bookRating, setBookRating] = useState("");
-  const [genre, setGenre] = useState("");
+
+  const [bookCondition, setBookCondition] = useState('')
+  const [attemptedSubmit, setAttemptedSubmit] = useState(false)
+  const [bookPreview, setBookPreview] = useState('')
+  const [dropdownKey, setDropdownKey] = useState(0)
+  const [bookRating, setBookRating] = useState('')
+  const [genre, setGenre] = useState('')
+  const [isScannerVisible, setScannerVisible] = useState(false);
+
+  const handleScannedBook = (bookData) => {
+    setBookTitle(bookData.title);
+    setBookAuthor(bookData.author);
+    setBookRating(bookData.averageRating);
+    setGenre(bookData.category);
+    setBookPreview(bookData.synopsis);
+  };
 
   const [user, setUser] = useState<User | null>(null);
   const [userID, setUserID] = useState("");
@@ -74,46 +74,72 @@ export default function BookForm() {
       Alert.alert("Invalid Postcode", "Please enter a valid UK postcode.");
       return;
     }
+      
+    fetchGeoLocation(postcode).then((response) => {
+      const latitude = response.data.results[0].geometry.location.lat;
+      const longitude = response.data.results[0].geometry.location.lng;
+    
+      return addDoc(collection(FIREBASE_DB, "books"), {
+      bookTitle,
+      bookAuthor,
+      user,
+      coords: {latitude, longitude },
+      bookCondition,
+      bookRating,
+      bookPreview,
+      genre,
+    })
+  })
+    .then((docRef) => {
+      Alert.alert('Book successfully posted!');
+      setBookTitle('')
+      setBookAuthor('')
+      setPostcode('')
+      setBookCondition('')
+      setBookPreview('')
+      setAttemptedSubmit(false)
+      setBookRating('')
+      setGenre('')
+      setDropdownKey(prevKey => prevKey + 1)
+    
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  };
 
-    fetchGeoLocation(postcode)
-      .then((response) => {
-        const latitude = response.data.results[0].geometry.location.lat;
-        const longitude = response.data.results[0].geometry.location.lng;
-
-        return addDoc(collection(FIREBASE_DB, "books"), {
-          bookTitle,
-          bookAuthor,
-          user,
-          userID,
-          coords: { latitude, longitude },
-          bookCondition,
-          bookRating,
-          bookPreview,
-          genre,
-        });
-      })
-      .then((docRef) => {
-        Alert.alert("Book successfully posted!");
-        setBookTitle("");
-        setBookAuthor("");
-        setPostcode("");
-        setBookCondition("");
-        setBookPreview("");
-        setAttemptedSubmit(false);
-        setBookRating("");
-        setGenre("");
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
 
   return (
     <View style={styles.rootContainer}>
       <View style={styles.iconContainer}>
-        <TouchableOpacity onPress={handleSubmit}>
+
+        <TouchableOpacity onPress={() => setScannerVisible(true)}>
           <MaterialCommunityIcons name="qrcode-scan" size={75} color="black" />
         </TouchableOpacity>
+      </View>
+      <Text style={styles.iconTextContainer}>Click Above To Scan Your Book and Auto-fill Text Fields</Text>
+      {/* <Text style={styles.iconTextContainer}>Scan Your Book and Auto-fill Text Fields</Text> */}
+
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={isScannerVisible}
+        onRequestClose={() => setScannerVisible(!isScannerVisible)}>
+        <BarCodeScan onBookScanned={handleScannedBook} />
+        <Button title="Close Scanner" onPress={() => setScannerVisible(false)} />
+      </Modal>
+  
+
+    <View style={styles.container}>
+    <View>
+      <View style={styles.inputContainer}>
+      <TextInput
+        placeholder="Book Title"
+        value={bookTitle}
+        onChangeText={text => setBookTitle(text)}
+        style={[styles.input, attemptedSubmit && !bookTitle.trim() && styles.invalidInput]}
+      />
+
       </View>
       <Text style={styles.iconTextContainer}>
         Scan Your Book To Auto-fill Text Fields
@@ -219,10 +245,13 @@ export default function BookForm() {
 
 const styles = StyleSheet.create({
   rootContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    alignSelf: "center",
-    width: "90%",
+
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    width: '90%',
+    height: '98%',
+
     flexGrow: 0,
     padding: 20,
     backgroundColor: "rgba(255, 255, 255, 0.7)",

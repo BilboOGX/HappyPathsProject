@@ -1,15 +1,21 @@
-import { View, Text, StyleSheet, Button } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  ScrollView,
+  Image,
+  SafeAreaView,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { FIREBASE_DB } from "../../FireBaseConfig";
 import { collection, getDocs } from "firebase/firestore";
 
 const SingleBookPage = ({ navigation, route }) => {
   const [data, setData] = useState([]);
-  console.log(data, "data in single book page");
   const routeIdentifier = route.params.id;
   const useruid = route.params.userID;
-  console.log(useruid, "<<USERID IN SBP");
-  console.log(route.params.title, "<<<BOOK TITLE SINGLE BOOK PAGE");
+
 
   const fetchDataFromFirestore = async () => {
     try {
@@ -34,74 +40,119 @@ const SingleBookPage = ({ navigation, route }) => {
   }, []);
 
   return (
-    <View>
-      <View style={styles.container}>
-        <Text style={styles.heading}>{routeIdentifier}</Text>
-        {/* <Text
-          data={data}
-          renderItem={({ item }) => (
-            <Button
-              title="Chat now"
-              onPress={navigation.navigate("Chat", {
-                name: item.id,
-                uid: useruid,
-              })}
-            />
-          )}
-        >
-          {bookTitle}
-        </Text> */}
-      </View>
-      {data.map((loc) => {
-        if (loc.bookTitle === undefined) {
-          loc.bookTitle = "no information available";
-        }
+    <SafeAreaView style={styles.container}>
+      <ScrollView style={styles.scrollContainer}>
+        {/* <View style={styles.routeContainer}>
+        <Text style={styles.route}>{routeIdentifier}</Text>
+      </View> */}
 
-        if (loc.bookAuthor === undefined) {
-          loc.bookAuthor = "no information available";
-        }
+        {data.map((loc) => {
+          if (loc.bookTitle === undefined) {
+            loc.bookTitle = "no information available";
+          }
 
-        if (loc.bookDesc === undefined) {
-          loc.bookDesc = "no information available";
-        }
+          if (loc.bookAuthor === undefined) {
+            loc.bookAuthor = "no information available";
+          }
 
-        if (loc.bookCondition === undefined) {
-          loc.bookCondition = "no information available";
-        }
+          if (loc.bookPreview === undefined) {
+            loc.bookDesc = "no information available";
+          }
 
-        if (loc.id === routeIdentifier) {
-          return (
-            <View>
-              <Text style={styles.heading}>{loc.bookTitle}</Text>
-              <Text style={styles.bookInfo}>Book{loc.bookTitle}</Text>
-              <Text style={styles.bookInfo}>Author: {loc.bookAuthor}</Text>
-              <Text style={styles.bookInfo}>
-                Condition: {loc.bookCondition}
-              </Text>
-              <Text style={styles.bookInfo}>Synopsis: {loc.bookDesc}</Text>
-              <Text style={styles.bookInfo}>User: {loc.user}</Text>
-              {/* <Text style={styles.bookInfo}>uid: {loc.uid}</Text> */}
-              <Text style={styles.bookInfo}>
-                Latitude: (change to are vicinity i.e manchester){" "}
-                {loc.coords.latitude}
-              </Text>
-              <Text style={styles.bookInfo}>
-                Longitude: {loc.coords.longitude}
-              </Text>
+          if (loc.bookCondition === undefined) {
+            loc.bookCondition = "no information available";
+          }
 
-              <Button title="Order now" buttonStyle={styles.orderButton} />
-              <Button
-                title="Chat now"
-                buttonStyle={styles.orderButton}
+          if (loc.bookRating === undefined) {
+            loc.bookRating = "no information available";
+          }
+
+          if (loc.genre === undefined) {
+            loc.genre = "no information available";
+          }
+
+          if (loc.user === undefined) {
+            loc.user = "no information available";
+          }
+
+          if (loc.id === routeIdentifier) {
+            return (
+              <View style={styles.pageContainer}>
+                <View style={styles.headingContainer}>
+                  <Text style={styles.heading}>{loc.bookTitle}</Text>
+                </View>
+
+                <View style={styles.topSection}>
+                  <View style={styles.topSectionText}>
+                    <View style={styles.titleContainer}>
+                      <Text style={styles.titleInfo}>
+                        Title: {loc.bookTitle}
+                      </Text>
+                    </View>
+
+                    <View style={styles.bookAuthorContainer}>
+                      <Text style={styles.authorInfo}>
+                        Author: {loc.bookAuthor}
+                      </Text>
+                    </View>
+
+                    <View style={styles.genreContainer}>
+                      <Text style={styles.genreInfo}>Genre: {loc.genre}</Text>
+                    </View>
+
+                    <View style={styles.bookRatingContainer}>
+                      <Text style={styles.bookRatingInfo}>
+                        Rating: {loc.bookRating}
+                      </Text>
+                    </View>
+
+                    <View style={styles.bookConditionContainer}>
+                      <Text style={styles.bookConditionInfo}>
+                        Condition: {loc.bookCondition}
+                      </Text>
+                    </View>
+                  </View>
+
+
+                  <View style={styles.genreIconContainer}>
+                    <Image
+                      source={require("../../Images/fantasyHat.png")}
+                      style={styles.genreIcon}
+                    ></Image>
+                  </View>
+                </View>
+
+                <Button title="Order now" />
+                  <Button
+             title="Chat now"
+           
                 onPress={navigation.navigate("Chat", {
                   userID: useruid,
                 })}
               />
-            </View>
-          );
-        }
-      })}
-    </View>
+
+                <View style={styles.bookPreviewContainer}>
+                  <Text style={styles.synopsisHeading}>Synopsis</Text>
+                  <Text style={styles.bookPreviewInfo}>
+                    {loc.bookPreview}
+                  </Text>
+                </View>
+
+                <View style={styles.userContainer}>
+                  <Text style={styles.userInfo}>User: {loc.user}</Text>
+                  <Image
+                      source={require("../../Images/fantasyHat.png")}
+                      style={styles.userProfilePicture}
+                    ></Image>
+                </View>
+
+                
+              </View>
+            );
+          }
+        })}
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -109,24 +160,123 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    backgroundColor: "#252f40",
+    backgroundColor: "red",
+  },
+  headingContainer: {
+    borderColor: "white",
+    borderWidth: 2,
+    marginTop: 50,
+    marginBottom: 30,
+    padding: 10,
   },
   heading: {
-    marginTop: 50,
-    fontSize: 20,
+    fontSize: 30,
     fontWeight: "bold",
-    marginBottom: 10,
-    color: "blue",
+    color: "white",
     textAlign: "center",
   },
-  orderButton: {
-    color: "red",
-    backgroundColor: "red",
-    borderWidth: 5,
-    borderRadius: 5,
-    padding: 10,
-    fontSize: 16,
+
+  pageContainer: {
+    marginVertical: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 30,
+    borderRadius: 10,
+    borderColor: "white",
+    borderWidth: 2,
+  },
+
+  topSection: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
     marginBottom: 50,
+  },
+  genreIconContainer: {
+    borderColor: "white",
+    borderWidth: 2, 
+    borderRadius: 10,
+    height: 180, 
+    width: 110,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  genreIcon: {
+    height: 80, 
+    width: 80
+  },
+
+  titleContainer: {
+    marginBottom: 10,
+  },
+  titleInfo: {
+    fontSize: 16,
+    color: "white",
+  },
+  bookAuthorContainer: {
+    marginBottom: 10,
+  },
+  authorInfo: {
+    fontSize: 16,
+    color: "#fff",
+  },
+  bookConditionContainer: {
+    marginBottom: 10,
+  },
+  bookConditionInfo: {
+    fontSize: 16,
+    color: "#fff",
+  },
+  genreContainer: {
+    marginBottom: 10,
+  },
+  genreInfo: {
+
+    fontSize: 16,
+    color: "#fff",
+  },
+  bookPreviewContainer: {
+    marginBottom: 10,
+  },
+  synopsisHeading: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "white",
+    textAlign: 'center',
+    marginTop: 40,
+  },
+  bookPreviewInfo: {
+    fontSize: 16,
+    color: "#fff",
+    textAlign: "justify",
+    padding: 10,
+    lineHeight: 22,
+  },
+  userContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    marginBottom: 50,
+    marginBottom: 10,
+  },
+  userInfo: {
+    fontSize: 16,
+    color: "#fff",
+  },
+  userProfilePicture: {
+    borderColor: 'white',
+    height: 80,
+    width: 80,
+    borderRadius: 100,
+    borderWidth: 2,
+  },
+  bookRatingContainer: {
+    marginBottom: 10,
+  },
+  bookRatingInfo: {
+    fontSize: 16,
+    color: "#fff",
   },
 });
 

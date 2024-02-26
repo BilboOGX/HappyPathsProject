@@ -6,6 +6,8 @@ import Profile from "./screens/Profile";
 import MyListings from "./screens/MyListings";
 import SingleBookPage from "./screens/SingleBookPage";
 import BarCodeScan from "./Components/BarcodeScanner/BarcodeScanner";
+import EditProfile from "./screens/EditProfile";
+import MyFavourites from "./screens/MyFavourites";
 
 export {
     Login,
@@ -15,5 +17,7 @@ export {
     Profile,
     MyListings,
     SingleBookPage,
-    BarCodeScan
+    BarCodeScan,
+    EditProfile,
+    MyFavourites
 }

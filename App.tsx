@@ -8,17 +8,7 @@ import { FIREBASE_AUTH } from "./FireBaseConfig";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 
-import {
-  Login,
-  Map,
-  BookList,
-  ListNewBook,
-  Profile,
-  MyListings,
-  SingleBookPage,
-  BarCodeScan,
-} from "./app/index";
-// import { Map, BookList, ListNewBook, Profile, MyListings, SingleBookPage, BarCodeScan } from "./app/index";
+import { Login, Map, BookList, ListNewBook, Profile, MyListings, SingleBookPage, BarCodeScan, EditProfile, MyFavourites } from "./app/index";
 
 import Signup from "./app/screens/Signup";
 import Home from "./app/screens/Home";
@@ -60,30 +50,30 @@ function BottomTabsLayout() {
         }}
       />
       <Tab.Screen
-        name="BookList"
+        name="Book List"
         component={BookList}
         options={{
-          tabBarLabel: "booklist",
+          tabBarLabel: "All Books",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="book-outline" color={color} size={size} />
           ),
         }}
       />
       <Tab.Screen
-        name="+"
+        name="List Your Book"
         component={ListNewBook}
         options={{
-          tabBarLabel: "Add",
+          tabBarLabel: "List Book",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="add-outline" color={color} size={34} />
           ),
         }}
       />
       <Tab.Screen
-        name="ChatTabsLayout"
+        name="Chats"
         component={ChatTabsLayout}
         options={{
-          tabBarLabel: "chat",
+          tabBarLabel: "Chat",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="chatbubble-outline" color={color} size={size} />
           ),
@@ -94,7 +84,7 @@ function BottomTabsLayout() {
         name="Profile"
         component={Profile}
         options={{
-          tabBarLabel: "profile",
+          tabBarLabel: "Profile",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="person-outline" color={color} size={size} />
           ),
@@ -141,15 +131,13 @@ export default function App() {
         <Stack.Screen
           name="ListNewBook"
           component={ListNewBook}
-          options={{ title: "Profile" }}
         />
         <Stack.Screen name="BarCodeScan" component={BarCodeScan} />
-        <Stack.Screen
-          name="MyListings"
-          component={MyListings}
-          options={{ headerBackTitle: "Back to profile" }}
-        />
-        {/* <Stack.Screen name="Chat" component={Chat} /> */}
+
+        <Stack.Screen name="MyListings" component={MyListings} options={{ headerBackTitle: 'Back to profile'}}/>
+        <Stack.Screen name="EditProfile" component={EditProfile} options={{ headerBackTitle: 'Back to profile'}}/>
+        <Stack.Screen name="MyFavourites" component={MyFavourites} options={{ headerBackTitle: 'Back to profile'}} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
