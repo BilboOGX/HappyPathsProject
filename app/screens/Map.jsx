@@ -22,6 +22,7 @@ export default function Map({ navigation }: any) {
   const [selectedMarker, setSelectedMarker] = useState(null);
   const mapRef = useRef(null);
   const [dark, setDark] = useState(false);
+  const [userLocation, setUserLocation] = useState(null)
 
   const fetchDataFromFirestore = async () => {
     try {
@@ -36,11 +37,6 @@ export default function Map({ navigation }: any) {
         });
       });
 
-      // console.log("Pokemon Master");
-      // console.log(fetchedData);
-      // console.log("Pokemon Trainer");
-      // console.log(fetchedData[0].coords.latitude);
-      // console.log("Pokemon Breeder");
       setData(fetchedData);
     } catch (error) {
       console.error("Error fetching data: ", error);
@@ -49,7 +45,7 @@ export default function Map({ navigation }: any) {
 
   useEffect(() => {
     fetchDataFromFirestore();
-  }, []); // useEffect to fetch data when the component mounts
+  }, []); 
 
   const handleZoomIn = () => {
     mapRef.current?.getCamera().then((cam) => {
@@ -89,12 +85,25 @@ export default function Map({ navigation }: any) {
         followsUserLocation={true}
         showsMyLocationButton={true}
         customMapStyle={dark ? nightMap : mapStyle}
-        initialRegion={{
-          latitude: 53.47214483258923,
-          longitude: -2.2384571315116277,
+        // initialRegion={{
+        //   latitude: 53.47214483258923,
+        //   longitude: -2.2384571315116277,
+        //   latitudeDelta: 0.001,
+        //   longitudeDelta: 0.001,
+        // }}
+
+        onUserLocationChange={(event) => { 
+          if (!userLocation) {
+            setUserLocation(event.nativeEvent.coordinate); 
+            
+          }
+        }}
+        region={userLocation ? {
+          ...userLocation,
           latitudeDelta: 0.001,
           longitudeDelta: 0.001,
-        }}
+        } : null}
+
       >
         {data.map((loc) => {
 
