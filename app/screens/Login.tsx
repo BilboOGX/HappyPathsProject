@@ -79,15 +79,6 @@ const Login = () => {
     <View style={styles.container}>
 
 
-   <View>
-        <View style={styles.recycleImageContainer}>
-          <Image
-            source={require("../../Images/Green and Beige Flat & Minimal Book Shop Logo/des.png")}
-            style={styles.recycleLogoImage}
-          ></Image>
-        </View>
-      </View>
-
       <View>
         <View style={styles.imageContainer}>
           <Image
