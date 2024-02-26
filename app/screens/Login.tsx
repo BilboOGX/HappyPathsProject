@@ -54,7 +54,7 @@ const Login = () => {
         const userUID = userCredentials.user.uid;
         const docRef = doc(db, "users", userUID);
         const docSnap = setDoc(docRef, {
-          photoUrl: "https://avatar.iran.liara.run/public",
+          photoURL: "https://avatar.iran.liara.run/public",
           username: email,
           password: password,
           userUID: userUID,
@@ -62,11 +62,11 @@ const Login = () => {
         });
       })
       .then(() => {
-        console.log('Successful')
+        // console.log('Successful')
 
       })
 
-      console.log(response);
+      // console.log(response);
       alert("Check your emails!");
     } catch (error: any) {
       console.log(error);

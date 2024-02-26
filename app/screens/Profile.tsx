@@ -34,39 +34,41 @@ const Profile = ({ navigation }: any) => {
   // console.log(users, '<-- users in profile')
   // console.log(FIREBASE_AUTH.currentUser, '<-- current user')
   useEffect(() => {
-    fetchUserFromFirestore();
+    fetchUserFromFirestore()
+    // .then(() => assignCurrUser(FIREBASE_AUTH.currentUser.uid))
   }, []); // need something to refresh when user is updated, currUser causes infinite loop
-  // const assignCurrUser = () => {
+  // const assignCurrUser = (id) => {
   //   for (let i = 0; i < users.length; i++) {
-  //     if (users[i].userUID === FIREBASE_AUTH.currentUser?.uid) {
+  //     if (users[i].userUID === id) {
   //       setCurrUser(users[i]);
   //     }
   //   }
   // };
-  // console.log(currUser, "<-- current user?");
+  console.log(currUser, "<-- current user?");
 
   return (
     <SafeAreaView style={styles.container}>
       <View>
         {users.map((user) => {
+          {console.log(user, '<-- each user?')}
           if (user.id === currUser.uid) {
             return (
               // if user has avatarURL return that, else return photoURL?
               <SafeAreaView>
                 <View style={styles.avatarContainer}>
                   <Image
-                    source={{ uri: currUser.photoURL }}
+                    source={{ uri: user.photoURL }}
                     style={styles.avatar}
                   />
-                  <Text style={styles.name}>{currUser.displayName}</Text>
+                  <Text style={styles.name}>{user.username}</Text>
                 </View>
                 <View style={styles.infoContainer}>
                   <Text style={styles.infoLabel}>Email: </Text>
-                  <Text style={styles.infoValue}>{currUser.email}</Text>
+                  <Text style={styles.infoValue}>{user.email}</Text>
                 </View>
                 <View style={styles.infoContainer}>
                   <Text style={styles.infoLabel}>User ID:</Text>
-                  <Text style={styles.infoValue}>{currUser.uid}</Text>
+                  <Text style={styles.infoValue}>{user.userUID}</Text>
                 </View>
               </SafeAreaView>
             );
