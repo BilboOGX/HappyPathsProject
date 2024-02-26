@@ -1,10 +1,11 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const MyListings = () => {
+const MyListings = ({ route }) => {
+  const user = route.params.user;
   return (
     <View>
-      <Text>MyListings</Text>
+      <Text>{user.username}'s Listings</Text>
     </View>
   )
 }
