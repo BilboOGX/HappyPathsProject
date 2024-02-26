@@ -16,13 +16,11 @@ import { db } from "../../FireBaseConfig.ts";
 
 export default function Chat({ route }) {
   const uid = route.params.uid;
-  console.log(route.params.uid, 'ROUTE PARAMS UID')
-  console.log(route.params, "ROUTE PARAMS CHAT JSX");
+  console.log(route.params.uid, "ROUTE PARAMS UID in chat");
+  console.log(route.params, "ROUTE PARAMS in CHAT");
 
   const [messages, setMessages] = useState([]);
   const currentUser = auth?.currentUser?.uid;
-
-  console.log(currentUser, 'CURRENT USER ID')
 
   useEffect(() => {
     const chatId =
@@ -30,8 +28,6 @@ export default function Chat({ route }) {
         ? `${uid + "-" + currentUser}`
         : `${currentUser + "-" + uid}`;
     const docRef = doc(db, "chatrooms", chatId);
-    console.log(chatId, 'chatID')
-    console.log(docRef, '<<<<docref')
     const colRef = collection(docRef, "messages");
     const q = query(colRef, orderBy("createdAt", "desc"));
     const docSnap = onSnapshot(q, (onSnap) => {
@@ -53,8 +49,8 @@ export default function Chat({ route }) {
   }, []);
 
   const onSend = useCallback((messagesArray) => {
-    console.log(currentUser, "<< curr user");
-    console.log(uid, "<< uid");
+    console.log(currentUser, "<< curr user in chat");
+    console.log(uid, "<< uid in chat");
     const msg = messagesArray[0];
     const myMsg = {
       ...msg,

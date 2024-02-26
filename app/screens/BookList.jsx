@@ -21,8 +21,6 @@ const BookList = ({ navigation }) => {
   const [data, setData] = useState([]);
   const [input, setInput] = useState("");
 
-  // console.log(data[0].bookTitle)
-
   const fetchDataFromFirestore = async () => {
     try {
       const collectionRef = collection(FIREBASE_DB, "books");
@@ -34,6 +32,7 @@ const BookList = ({ navigation }) => {
           id: doc.id,
           ...doc.data(),
         });
+        console.log(doc, "doc");
       });
 
       setData(fetchedData);
@@ -46,6 +45,7 @@ const BookList = ({ navigation }) => {
     fetchDataFromFirestore();
   }, []); // useEffect to fetch data when the component mounts
 
+
   const SearchFilter = ({ data, input }) => {
     return (
       <View style={styles.searchFilterContainer}>
@@ -55,11 +55,14 @@ const BookList = ({ navigation }) => {
               input === "" ||
               item.bookTitle.toLowerCase().includes(input.toLowerCase())
           )}
+
           renderItem={({ item }) => (
             <Pressable
               onPress={() =>
                 navigation.navigate("SingleBookPage", {
                   title: item.bookTitle,
+                  userID: item.userID,
+
                 })
               }
             >
@@ -67,6 +70,7 @@ const BookList = ({ navigation }) => {
                 source={require("../../Images/blank_vintage_book_by_vixen525_d600pp8-fullview.png")}
                 style={styles.bookContainer}
               >
+
                 <View style={styles.contentContainer}>
                   <View style={styles.textContainer}>
                     <Text style={styles.text}>Title: {item.bookTitle}</Text>
@@ -85,12 +89,14 @@ const BookList = ({ navigation }) => {
                     </Text>
                   </View>
                 </View>
+
               </ImageBackground>
             </Pressable>
           )}
           keyExtractor={(item) => item.id}
         />
       </View>
+
     );
   };
 
@@ -112,6 +118,7 @@ const BookList = ({ navigation }) => {
         </View>
         <SearchFilter data={data} input={input} setInput={setInput} />
       </SafeAreaView>
+
     </ImageBackground>
   );
 };
@@ -122,6 +129,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
+
   },
   searchBarContainer: {
     marginTop: 200,
@@ -146,6 +154,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     marginLeft: 10,
     marginRight: -30,
+
   },
   bookContainer: {
     margin: 5,
@@ -199,6 +208,7 @@ const styles = StyleSheet.create({
   textImage: {
     fontSize: 30,
     textAlign: 'center',
+
   },
 });
 
