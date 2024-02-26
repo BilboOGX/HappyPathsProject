@@ -27,25 +27,30 @@ const Profile = ({ navigation }: any) => {
           ...user.data(),
         });
       });
-      setUsers(fetchedUsers);
+      return fetchedUsers
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    fetchUsersFromFirestore().then(() => {
-      users.map((user) => {
-        if (user.id === currUser.uid) {
-          setCurrUser(user)
-        }
+    if (isFocused) {
+
+      fetchUsersFromFirestore().then((users) => {
+        console.log(users, '<-- users from db fetch')
+        users.map((user) => {
+          if (user.id === currUser.uid) {
+            console.log(user, '<-- matched user?')
+            setCurrUser(user)
+          }
+        })
       })
-    })
+    }
   }, [isFocused]); 
   // useEffect isn't loading user immediately
   // also not refreshing after user has been updated in edit profile
-  console.log(currUser, '<-- curr user after use effect?')
-  console.log(isFocused, '<-- is focused?')
+  // console.log(currUser, '<-- curr user after use effect?')
+  // console.log(isFocused, '<-- is focused?')
 
   if (isFocused) {
   return (
