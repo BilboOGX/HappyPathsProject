@@ -47,30 +47,30 @@ function BottomTabsLayout() {
         }}
       />
       <Tab.Screen
-        name="BookList"
+        name="Book List"
         component={BookList}
         options={{
-          tabBarLabel: "booklist",
+          tabBarLabel: "All Books",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="book-outline" color={color} size={size} />
           ),
         }}
       />
       <Tab.Screen
-        name="+"
+        name="List Your Book"
         component={ListNewBook}
         options={{
-          tabBarLabel: "Add",
+          tabBarLabel: "List Book",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="add-outline" color={color} size={34} />
           ),
         }}
       />
       <Tab.Screen
-        name="ChatTabsLayout"
+        name="Chats"
         component={ChatTabsLayout}
         options={{
-          tabBarLabel: "chat",
+          tabBarLabel: "Chat",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="chatbubble-outline" color={color} size={size} />
           ),
@@ -81,7 +81,7 @@ function BottomTabsLayout() {
         name="Profile"
         component={Profile}
         options={{
-          tabBarLabel: "profile",
+          tabBarLabel: "Profile",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="person-outline" color={color} size={size} />
           ),
