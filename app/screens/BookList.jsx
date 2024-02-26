@@ -63,11 +63,11 @@ const BookList = ({ navigation }) => {
                 })
               }
             >
-              <ImageBackground
+              {/* <ImageBackground
                 source={require("../../Images/blank_vintage_book_by_vixen525_d600pp8-fullview.png")}
                 style={styles.bookContainer}
-              >
-                <View style={styles.contentContainer}>
+              > */}
+                <View style={styles.contentContainer }>
                   <View style={styles.textContainer}>
                     <Text style={styles.text}>Title: {item.bookTitle}</Text>
                     <Text style={styles.text}>Author: {item.bookAuthor}</Text>
@@ -85,7 +85,7 @@ const BookList = ({ navigation }) => {
                     </Text>
                   </View>
                 </View>
-              </ImageBackground>
+              {/* </ImageBackground> */}
             </Pressable>
           )}
           keyExtractor={(item) => item.id}
@@ -95,10 +95,6 @@ const BookList = ({ navigation }) => {
   };
 
   return (
-    <ImageBackground
-      source={require("../../Images/wp13203104.jpg")}
-      style={{ flex: 1 }}
-    >
       <SafeAreaView style={styles.container}>
         <View style={styles.searchBarContainer}>
           <Icon name="search" size={20} style={styles.searchIcon} />
@@ -112,7 +108,6 @@ const BookList = ({ navigation }) => {
         </View>
         <SearchFilter data={data} input={input} setInput={setInput} />
       </SafeAreaView>
-    </ImageBackground>
   );
 };
 
@@ -122,6 +117,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
+    backgroundColor: '#00592e',
   },
   searchBarContainer: {
     marginTop: 200,
