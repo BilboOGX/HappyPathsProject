@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
 
     flexGrow: 0,
     padding: 20,
-    backgroundColor: "rgba(255, 255, 255, 0.7)",
+    backgroundColor: "rgba(255, 255, 255, 0.6)",
     borderColor: "black",
     borderWidth: 2,
     borderRadius: 20,

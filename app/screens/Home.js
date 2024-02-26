@@ -32,11 +32,10 @@ export default function Home({ navigation }) {
     getUsers();
   }, []);
 
-  console.log(users, "USERS LIST CHAT LIST JSX");
-
   return (
     <>
-      <FlatList
+    <View style={styles.container}>
+      <FlatList 
         data={users}
         key={(user) => user.email}
         renderItem={({ item }) => (
@@ -53,9 +52,15 @@ export default function Home({ navigation }) {
           />
         )}
       />
+      </View>
       <Button title="Logout" onPress={logoutUser} />
     </>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#00592e',}
+  })
+
