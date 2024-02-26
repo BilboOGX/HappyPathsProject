@@ -9,7 +9,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 
 import { Login, Map, BookList, ListNewBook, Profile, MyListings, SingleBookPage, BarCodeScan, EditProfile, MyFavourites } from "./app/index";
-// import { Map, BookList, ListNewBook, Profile, MyListings, SingleBookPage, BarCodeScan } from "./app/index";
 
 import Signup from "./app/screens/Signup";
 import Home from "./app/screens/Home";
@@ -26,7 +25,11 @@ function ChatTabsLayout() {
       {/* <Stack.Screen name="Map" component={Map} /> */}
       {/* <Stack.Screen name="LoginChat" component={LoginChat} /> */}
       {/* <Stack.Screen name="Signup" component={Signup} /> */}
-      <Stack.Screen name="Home" component={Home} options={{ headerShown: false }}/>
+      <Stack.Screen
+        name="Home"
+        component={Home}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen name="Chat" component={Chat} />
       {/* Add more Tab.Screen components for additional screens */}
     </Stack.Navigator>
@@ -106,17 +109,16 @@ export default function App() {
       <Stack.Navigator initialRouteName="Login">
         {user ? (
           <>
-          
-          <Stack.Screen
-            name="Inside"
-            component={BottomTabsLayout}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-          name="SingleBookPage"
-          component={SingleBookPage}
-          options={{ headerShown: true }}
-        />
+            <Stack.Screen
+              name="Inside"
+              component={BottomTabsLayout}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="SingleBookPage"
+              component={SingleBookPage}
+              options={{ headerShown: true }}
+            />
           </>
         ) : (
           <Stack.Screen
@@ -125,15 +127,17 @@ export default function App() {
             options={{ headerShown: false }}
           />
         )}
-        
+
         <Stack.Screen
           name="ListNewBook"
           component={ListNewBook}
         />
         <Stack.Screen name="BarCodeScan" component={BarCodeScan} />
+
         <Stack.Screen name="MyListings" component={MyListings} options={{ headerBackTitle: 'Back to profile'}}/>
         <Stack.Screen name="EditProfile" component={EditProfile} options={{ headerBackTitle: 'Back to profile'}}/>
         <Stack.Screen name="MyFavourites" component={MyFavourites} options={{ headerBackTitle: 'Back to profile'}} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );

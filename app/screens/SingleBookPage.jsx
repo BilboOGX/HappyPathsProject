@@ -14,8 +14,8 @@ import { collection, getDocs } from "firebase/firestore";
 const SingleBookPage = ({ navigation, route }) => {
   const [data, setData] = useState([]);
   const routeIdentifier = route.params.id;
-  // const bookTitle = route.params.bookTitle;
-  console.log(route.params.bookTitle, "BOOK TITLE SINGLE BOOK PAGE");
+  const useruid = route.params.userID;
+
 
   const fetchDataFromFirestore = async () => {
     try {
@@ -38,8 +38,6 @@ const SingleBookPage = ({ navigation, route }) => {
   useEffect(() => {
     fetchDataFromFirestore();
   }, []);
-
-  console.log(data[0]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -125,6 +123,13 @@ const SingleBookPage = ({ navigation, route }) => {
                 </View>
 
                 <Button title="Order now" />
+                  <Button
+             title="Chat now"
+           
+                onPress={navigation.navigate("Chat", {
+                  userID: useruid,
+                })}
+              />
 
                 <View style={styles.bookPreviewContainer}>
                   <Text style={styles.synopsisHeading}>Synopsis</Text>
@@ -170,6 +175,7 @@ const styles = StyleSheet.create({
     color: "white",
     textAlign: "center",
   },
+
   pageContainer: {
     marginVertical: 20,
     paddingHorizontal: 20,
@@ -225,6 +231,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   genreInfo: {
+
     fontSize: 16,
     color: "#fff",
   },
