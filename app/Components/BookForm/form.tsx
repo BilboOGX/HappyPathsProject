@@ -130,32 +130,14 @@ export default function BookForm() {
       </Modal>
   
 
-    <View style={styles.container}>
-    <View>
-      <View style={styles.inputContainer}>
-      <TextInput
-        placeholder="Book Title"
-        value={bookTitle}
-        onChangeText={text => setBookTitle(text)}
-        style={[styles.input, attemptedSubmit && !bookTitle.trim() && styles.invalidInput]}
-      />
-
-      </View>
-      <Text style={styles.iconTextContainer}>
-        Scan Your Book To Auto-fill Text Fields
-      </Text>
-
-      <View style={styles.container}>
+      
         <View>
           <View style={styles.inputContainer}>
             <TextInput
               placeholder="Book Title"
               value={bookTitle}
-              onChangeText={(text) => setBookTitle(text)}
-              style={[
-                styles.input,
-                attemptedSubmit && !bookTitle.trim() && styles.invalidInput,
-              ]}
+              onChangeText={text => setBookTitle(text)}
+              style={[styles.input, attemptedSubmit && !bookTitle.trim() && styles.invalidInput]}
             />
           </View>
 
@@ -164,10 +146,7 @@ export default function BookForm() {
               placeholder="Book Author"
               value={bookAuthor}
               onChangeText={(text) => setBookAuthor(text)}
-              style={[
-                styles.input,
-                attemptedSubmit && !bookAuthor.trim() && styles.invalidInput,
-              ]}
+              style={[ styles.input, attemptedSubmit && !bookAuthor.trim() && styles.invalidInput]}
             />
           </View>
 
@@ -179,7 +158,7 @@ export default function BookForm() {
               style={[styles.input]}
             />
           </View>
-        </View>
+          
 
         <View style={styles.inputContainer}>
           <TextInput
@@ -240,12 +219,12 @@ export default function BookForm() {
         </TouchableOpacity>
       </View>
     </View>
+    
   );
 }
 
 const styles = StyleSheet.create({
   rootContainer: {
-
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
