@@ -60,6 +60,11 @@ const Profile = ({ navigation }: any) => {
         <Text style={styles.infoLabel}>User ID:</Text>
         <Text style={styles.infoValue}>{currUser.userUID}</Text>
       </View>
+      <View style={styles.infoContainer}>
+        <Text style={styles.infoLabel}>Location: </Text>
+        <Text style={styles.infoValue}>{currUser.location}</Text>
+      </View>
+      {/* add location on here too  */}
       <View style={styles.buttonContainer}>
         <Button
           onPress={() => navigation.navigate("EditProfile", {
@@ -68,7 +73,9 @@ const Profile = ({ navigation }: any) => {
           title="Edit Profile"
         />
         <Button
-          onPress={() => navigation.navigate("MyListings")}
+          onPress={() => navigation.navigate("MyListings", {
+            user: currUser
+          })}
           title="Go to my listings"
         />
         <Button
