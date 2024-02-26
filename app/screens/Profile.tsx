@@ -21,7 +21,6 @@ const Profile = ({ navigation }: any) => {
       const snapshot = await getDocs(collectionRef);
       const fetchedUsers = [];
       snapshot.forEach((user) => {
-        console.log(user);
         fetchedUsers.push({
           id: user.id,
           ...user.data(),
@@ -48,36 +47,31 @@ const Profile = ({ navigation }: any) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.avatarContainer}>
+      <View>
         {users.map((user) => {
-          console.log(user, "<-- user");
           if (user.id === currUser.uid) {
             return (
               // if user has avatarURL return that, else return photoURL?
-              <Image
-                source={{ uri: currUser.photoURL }}
-                style={styles.avatar}
-              />
+              <SafeAreaView>
+                <View style={styles.avatarContainer}>
+                  <Image
+                    source={{ uri: currUser.photoURL }}
+                    style={styles.avatar}
+                  />
+                  <Text style={styles.name}>{currUser.displayName}</Text>
+                </View>
+                <View style={styles.infoContainer}>
+                  <Text style={styles.infoLabel}>Email: </Text>
+                  <Text style={styles.infoValue}>{currUser.email}</Text>
+                </View>
+                <View style={styles.infoContainer}>
+                  <Text style={styles.infoLabel}>User ID:</Text>
+                  <Text style={styles.infoValue}>{currUser.uid}</Text>
+                </View>
+              </SafeAreaView>
             );
           }
         })}
-        <Image
-          source={{
-            uri: currUser.photoURL,
-          }}
-          style={styles.avatar}
-        />
-        <Text style={styles.name}>
-          {FIREBASE_AUTH.currentUser?.displayName}
-        </Text>
-      </View>
-      <View style={styles.infoContainer}>
-        <Text style={styles.infoLabel}>Email: </Text>
-        <Text style={styles.infoValue}>{FIREBASE_AUTH.currentUser?.email}</Text>
-      </View>
-      <View style={styles.infoContainer}>
-        <Text style={styles.infoLabel}>User ID: </Text>
-        <Text style={styles.infoValue}>{FIREBASE_AUTH.currentUser?.uid}</Text>
       </View>
       <View style={styles.buttonContainer}>
         <Button
