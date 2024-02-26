@@ -20,7 +20,6 @@ export default function BookForm() {
   const [seller, setSeller] = useState("");
   const [postcode, setPostcode] = useState("");
   const [isPostcodeValid, setIsPostcodeValid] = useState(true);
-
   const [bookCondition, setBookCondition] = useState('')
   const [attemptedSubmit, setAttemptedSubmit] = useState(false)
   const [bookPreview, setBookPreview] = useState('')
@@ -83,6 +82,7 @@ export default function BookForm() {
       bookTitle,
       bookAuthor,
       user,
+      userID,
       coords: {latitude, longitude },
       bookCondition,
       bookRating,
