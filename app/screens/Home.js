@@ -52,7 +52,7 @@ export default function Home({ navigation }) {
       />
 
       </View>
-      <Button title="Logout" onPress={logoutUser} />
+      {/* <Button title="Logout" onPress={logoutUser} /> */}
 
       {/* <Button title="Logout" onPress={logoutUser} /> */}
 

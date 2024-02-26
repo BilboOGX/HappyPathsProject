@@ -13,6 +13,7 @@ import { collection, getDocs } from "firebase/firestore";
 
 const SingleBookPage = ({ navigation, route }) => {
   const [data, setData] = useState([]);
+  console.log(route, 'ROUTE LOG')
   const routeIdentifier = route.params.id;
   const useruid = route.params.userID;
 
@@ -126,8 +127,11 @@ const SingleBookPage = ({ navigation, route }) => {
                   <Button
              title="Chat now"
            
-                onPress={navigation.navigate("Chat", {
-                  userID: useruid,
+                // onPress={navigation.navigate("Chat", {
+                //   userID: useruid,
+                // })}
+                onPress={() => navigation.navigate("SingleBookPage", {
+                  userID: useruid, 
                 })}
               />
 
@@ -160,7 +164,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    backgroundColor: "red",
+    backgroundColor: "#00592e",
   },
   headingContainer: {
     borderColor: "white",
@@ -281,3 +285,4 @@ const styles = StyleSheet.create({
 });
 
 export default SingleBookPage;
+
