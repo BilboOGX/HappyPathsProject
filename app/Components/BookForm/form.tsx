@@ -111,8 +111,8 @@ export default function BookForm(){
           <MaterialCommunityIcons name="qrcode-scan" size={75} color="black" />
         </TouchableOpacity>
       </View>
-      <Text style={styles.iconTextContainer}>Click Above To</Text>
-      <Text style={styles.iconTextContainer}>Scan Your Book and Auto-fill Text Fields</Text>
+      <Text style={styles.iconTextContainer}>Click Above To Scan Your Book and Auto-fill Text Fields</Text>
+      {/* <Text style={styles.iconTextContainer}>Scan Your Book and Auto-fill Text Fields</Text> */}
 
       <Modal
         animationType="slide"
@@ -230,6 +230,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
     width: '90%',
+    height: '98%',
     flexGrow: 0,
     padding: 20,
     backgroundColor: 'rgba(255, 255, 255, 0.7)',
