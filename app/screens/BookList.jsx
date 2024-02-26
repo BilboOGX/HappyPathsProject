@@ -55,19 +55,19 @@ const BookList = ({ navigation }) => {
               input === "" ||
               item.bookTitle.toLowerCase().includes(input.toLowerCase())
           )}
-
           renderItem={({ item }) => (
             <Pressable
               onPress={() =>
                 navigation.navigate("SingleBookPage", {
                   title: item.bookTitle,
-                  userID: item.userID,
-
                 })
               }
             >
+              <ImageBackground
+                source={require("../../Images/blank_vintage_book_by_vixen525_d600pp8-fullview.png")}
+                style={styles.bookContainer}
+              >
                 <View style={styles.contentContainer}>
-
                   <View style={styles.textContainer}>
                     <Text style={styles.text}>Title: {item.bookTitle}</Text>
                     <Text style={styles.text}>Author: {item.bookAuthor}</Text>
@@ -85,17 +85,12 @@ const BookList = ({ navigation }) => {
                     </Text>
                   </View>
                 </View>
-
-
-
-          
-
+              </ImageBackground>
             </Pressable>
           )}
           keyExtractor={(item) => item.id}
         />
       </View>
-
     );
   };
 
