@@ -45,11 +45,12 @@ const BookList = ({ navigation }) => {
   };
 
   useEffect(() => {
-    if (isFocused) {
-      console.log('book list focused')
-      fetchDataFromFirestore();
-    }
-  }, []); // useEffect to fetch data when the component mounts
+  if (isFocused) {
+    console.log('book list focused')
+    fetchDataFromFirestore();
+  }
+}, []);
+
 
 
   const SearchFilter = ({ data, input }) => {
