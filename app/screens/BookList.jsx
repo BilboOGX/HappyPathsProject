@@ -52,7 +52,6 @@ const BookList = ({ navigation }) => {
   }
 }, []);
 
-console.log(data[0])
 
   const SearchFilter = ({ data, input }) => {
     return (
@@ -72,16 +71,14 @@ console.log(data[0])
                 })
               }
             >
-              <ImageBackground
-                source={require("../../Images/blank_vintage_book_by_vixen525_d600pp8-fullview.png")}
-                style={styles.bookContainer}
-              >
+              <View style={styles.bookContainer}>
                 <View style={styles.contentContainer}>
                   <View style={styles.textAndImageContainer}>
                     <View style={styles.textContainer}>
-                    <Text style={styles.text}>Title: {item.bookTitle}</Text>
+                      <Text style={styles.bookName}>{item.bookTitle}</Text>
                     <Text style={styles.text}>Author: {item.bookAuthor}</Text>
                     <Text style={styles.text}>Genre: {item.genre}</Text>
+                    <Text style={styles.text}>Condition: {item.bookCondition}</Text>
                     </View>
                     
                     <View style={styles.imageContainer}>
@@ -102,7 +99,7 @@ console.log(data[0])
                     </Text>
                   </View>
                 </View>
-              </ImageBackground>
+              </View>
             </Pressable>
           )}
           keyExtractor={(item) => item.id}
@@ -165,9 +162,14 @@ const styles = StyleSheet.create({
 
   },
   bookContainer: {
-    margin: 5,
-    width: 320,
-    height: 280,
+    marginBottom: 50,
+    width: "90%",
+    height: 300,
+    borderColor: 'white',
+    backgroundColor: 'white',
+    borderWidth: 2,
+    borderRadius: 10,
+    marginLeft: 16,
   },
   contentContainer: {
     display: "flex",
@@ -186,6 +188,12 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "50%",
   },
+  bookName: {
+    fontSize: 15,
+    textAlign: 'center',
+    fontWeight: "bold",
+    color: "#00592e",
+  },
   text: {
     marginTop: 15,
     marginLeft: 5,
@@ -201,19 +209,18 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "bold",
     textAlign: "center",
-    marginTop: 10,
   },
   synopsisText: {
-    marginTop: 15,
+    marginTop: 5,
     marginLeft: 5,
-    fontSize: 5,
+    fontSize: 9,
     paddingLeft: 8,
     paddingRight: 8,
     textAlign: "justify",
   },
   imageContainer: {
-    width: "50%",
-    height: "40%",
+    width: "60%",
+    height: "50%",
     textAlign: "center",
     marginTop: 16,
   },
