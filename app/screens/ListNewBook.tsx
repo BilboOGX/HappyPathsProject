@@ -13,15 +13,15 @@ const Stack = createNativeStackNavigator();
 const ListNewBook = ({ navigation }) => {
   return (
 
-    <ImageBackground 
-    source={require('../../Images/wp13203104.jpg')}
-    style={{flex: 1}} 
-  >
-    <View style={{flex: 1}}>
+  //   <ImageBackground 
+  //   source={require('../../Images/wp13203104.jpg')}
+  //   style={{flex: 1}} 
+  // >
+    <View style={{flex: 1, backgroundColor: '#00592e'}}>
       <BookForm/>
     </View>
-  </ImageBackground>
-
+  //  </ImageBackground>
+// <View style={{flex: 1, backgroundColor: '##00592e'}}
 
   )
 }

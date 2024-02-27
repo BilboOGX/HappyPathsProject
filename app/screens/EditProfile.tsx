@@ -8,19 +8,59 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import React, { useState } from "react";
-import { FIREBASE_AUTH } from "../../FireBaseConfig";
+import React, { useEffect, useState } from "react";
+import { FIREBASE_AUTH, FIREBASE_DB } from "../../FireBaseConfig";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
+import { collection, getDocs, doc, updateDoc, getDoc } from "firebase/firestore";
+import { updateProfile } from "firebase/auth";
 
-const EditProfile = () => {
-  // do a use effect to set the current user and update in dependencies after submit is made?
-  const [selectedImage, setSelectedImage] = useState(
-    FIREBASE_AUTH.currentUser.photoURL
-  );
+const EditProfile = ({ route, navigation }) => {
+  const user = route.params.user;
+
+  const [currUser, setCurrUser] = useState(user);
+  const [selectedImage, setSelectedImage] = useState(user.photoURL);
+  const [userDisplayName, setUserDisplayName] = useState(user.username);
+  const [userEmail, setUserEmail] = useState(user.email);
+  const [userLocation, setUserLocation] = useState(user.location ? user.location : "Manchester");
+
+  // console.log(userDisplayName, "<-- display name");
+  // console.log(userEmail, "<-- user email");
+  // console.log(userLocation, "<-- user location");
+  // console.log(selectedImage, "<-- user photo");
+
   const handleSubmitChanges = () => {
-    console.log("add submit function here");
-    console.log(FIREBASE_AUTH.currentUser.photoURL);
+    // console.log("submit func");
+    // console.log(currUser, '<-- current user in handle submit')
+    const docRef = doc(FIREBASE_DB, "users", currUser.userUID);
+    const data = {
+      email: userEmail,
+      username: userDisplayName,
+      location: userLocation,
+      photoURL: selectedImage,
+    };
+    updateDoc(docRef, data)
+      .then((docRef) => {
+        // console.log("updated");
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      updateProfile(FIREBASE_AUTH.currentUser, {
+        displayName: userDisplayName,
+        photoURL: selectedImage
+      }).then(() => {
+        // console.log("auth updated")
+      }).catch((error) => {
+        console.log(error)
+      })
+      getDoc(docRef).then((res) => {
+        navigation.navigate('Profile', {
+          updatedUser: res.data()
+        })
+          setCurrUser(res.data())
+        })
+        
   };
   const handleImageSelection = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -30,9 +70,17 @@ const EditProfile = () => {
       quality: 1,
     });
     if (!result.canceled) {
-      setSelectedImage(result.assets[0].url);
+      setSelectedImage(result.assets[0].uri);
     }
   };
+
+  useEffect(() => {
+    console.log("use effect triggered");
+    console.log(currUser, '<-- curr user in use effect?')
+  }, [handleSubmitChanges]);
+
+console.log(currUser, '<-- curr user just before return rendering')
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.avatarContainer}>
@@ -52,19 +100,25 @@ const EditProfile = () => {
         <Text style={styles.infoLabel}>Display Name: </Text>
         <TextInput
           style={styles.infoValue}
-          placeholder={FIREBASE_AUTH.currentUser.displayName}
+          placeholder={currUser.username}
+          onChangeText={(value) => setUserDisplayName(value)}
         ></TextInput>
       </View>
       <View style={styles.infoContainer}>
         <Text style={styles.infoLabel}>Email: </Text>
         <TextInput
           style={styles.infoValue}
-          placeholder={FIREBASE_AUTH.currentUser.email}
+          placeholder={currUser.email}
+          onChangeText={(value) => setUserEmail(value)}
         ></TextInput>
       </View>
       <View style={styles.infoContainer}>
         <Text style={styles.infoLabel}>Location: </Text>
-        <TextInput style={styles.infoValue}></TextInput>
+        <TextInput
+          style={styles.infoValue}
+          placeholder={userLocation}
+          onChangeText={(value) => setUserLocation(value)}
+        ></TextInput>
       </View>
       <View style={styles.buttonContainer}>
         <Button onPress={handleSubmitChanges} title="Submit Changes" />

@@ -3,27 +3,25 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { auth, db } from "../../FireBaseConfig";
-import ListItem from "../../chatComponents/ListItem"
+import ListItem from "../../chatComponents/ListItem";
 import { Button } from "react-native-elements";
 
 export default function Home({ navigation }) {
   const [users, setUsers] = useState([]);
-  const logoutUser = async () => {
-    auth.signOut().then(() => {
-      navigation.replace("LoginChat");
-    });
-  };
+  // const logoutUser = async () => {
+  //   auth.signOut().then(() => {
+  //     navigation.replace("Login");
+  //   });
+  // };
 
   const getUsers = () => {
     const docsRef = collection(db, "users");
     const q = query(docsRef, where("userUID", "!=", auth?.currentUser?.uid));
-    console.log(auth?.currentUser?.uid, 'UID IN HOME.JS')
     const docsSnap = onSnapshot(q, (onSnap) => {
       let data = [];
       onSnap.docs.forEach((user) => {
         data.push({ ...user.data() });
         setUsers(data);
-        console.log(user.data());
       });
     });
   };
@@ -32,18 +30,17 @@ export default function Home({ navigation }) {
     getUsers();
   }, []);
 
-  console.log(users, "USERS LIST CHAT LIST JSX");
-
   return (
     <>
-      <FlatList
+    <View style={styles.container}>
+      <FlatList 
         data={users}
         key={(user) => user.email}
         renderItem={({ item }) => (
           <ListItem
             title={item.username}
             subTitle={item.email}
-            image={item.avatarUrl}
+            image={item.photoURL} // <-- changed this so it works with new users --> remove old users from db that have 'avatarUrl' and leave newer users that have 'photoURL' for presentation
             onPress={() =>
               navigation.navigate("Chat", {
                 name: item.username,
@@ -53,9 +50,19 @@ export default function Home({ navigation }) {
           />
         )}
       />
-      <Button title="Logout" onPress={logoutUser} />
+
+      </View>
+      {/* <Button title="Logout" onPress={logoutUser} /> */}
+
+      {/* <Button title="Logout" onPress={logoutUser} /> */}
+
     </>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#00592e',}
+  })
+

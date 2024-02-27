@@ -7,9 +7,19 @@ import { User, onAuthStateChanged } from "firebase/auth";
 import { FIREBASE_AUTH } from "./FireBaseConfig";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
+import {
+  Login,
+  Map,
+  BookList,
+  ListNewBook,
+  Profile,
+  MyListings,
+  SingleBookPage,
+  BarCodeScan,
+  EditProfile,
+  MyFavourites,
+} from "./app/index";
 
-import { Login, Map, BookList, ListNewBook, Profile, MyListings, SingleBookPage, BarCodeScan, EditProfile, MyFavourites } from "./app/index";
-// import { Map, BookList, ListNewBook, Profile, MyListings, SingleBookPage, BarCodeScan } from "./app/index";
 
 import Signup from "./app/screens/Signup";
 import Home from "./app/screens/Home";
@@ -17,18 +27,25 @@ import Chat from "./app/screens/Chat";
 import LoginChat from "./app/screens/LoginChat";
 
 const Stack = createNativeStackNavigator();
-
 const Tab = createBottomTabNavigator();
 
 function ChatTabsLayout() {
   return (
     <Stack.Navigator>
-      {/* <Stack.Screen name="Map" component={Map} /> */}
-      {/* <Stack.Screen name="LoginChat" component={LoginChat} /> */}
-      {/* <Stack.Screen name="Signup" component={Signup} /> */}
-      <Stack.Screen name="Home" component={Home} options={{ headerShown: false }}/>
-      <Stack.Screen name="Chat" component={Chat} />
-      {/* Add more Tab.Screen components for additional screens */}
+      <Stack.Screen
+        name="Home"
+        component={Home}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Chat"
+        component={Chat}
+        options={({ route }) => ({
+          title: route.params.name,
+          headerTitleStyle: { fontWeight: "bold" },
+          headerTitleAlign: "center",
+        })}
+      />
     </Stack.Navigator>
   );
 }
@@ -47,30 +64,30 @@ function BottomTabsLayout() {
         }}
       />
       <Tab.Screen
-        name="BookList"
+        name="Book List"
         component={BookList}
         options={{
-          tabBarLabel: "booklist",
+          tabBarLabel: "All Books",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="book-outline" color={color} size={size} />
           ),
         }}
       />
       <Tab.Screen
-        name="+"
+        name="List Your Book"
         component={ListNewBook}
         options={{
-          tabBarLabel: "Add",
+          tabBarLabel: "List Book",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="add-outline" color={color} size={34} />
           ),
         }}
       />
       <Tab.Screen
-        name="ChatTabsLayout"
+        name="Chats"
         component={ChatTabsLayout}
         options={{
-          tabBarLabel: "chat",
+          tabBarLabel: "Chat",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="chatbubble-outline" color={color} size={size} />
           ),
@@ -81,7 +98,7 @@ function BottomTabsLayout() {
         name="Profile"
         component={Profile}
         options={{
-          tabBarLabel: "profile",
+          tabBarLabel: "Profile",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="person-outline" color={color} size={size} />
           ),
@@ -96,7 +113,6 @@ export default function App() {
 
   useEffect(() => {
     onAuthStateChanged(FIREBASE_AUTH, (user) => {
-      console.log("user", user);
       setUser(user);
     });
   }, []);
@@ -106,17 +122,16 @@ export default function App() {
       <Stack.Navigator initialRouteName="Login">
         {user ? (
           <>
-          
-          <Stack.Screen
-            name="Inside"
-            component={BottomTabsLayout}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-          name="SingleBookPage"
-          component={SingleBookPage}
-          options={{ headerShown: true }}
-        />
+            <Stack.Screen
+              name="Inside"
+              component={BottomTabsLayout}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="SingleBookPage"
+              component={SingleBookPage}
+              options={{ headerShown: true }}
+            />
           </>
         ) : (
           <Stack.Screen
@@ -125,15 +140,25 @@ export default function App() {
             options={{ headerShown: false }}
           />
         )}
-        
-        <Stack.Screen
-          name="ListNewBook"
-          component={ListNewBook}
-        />
+
+        <Stack.Screen name="ListNewBook" component={ListNewBook} />
         <Stack.Screen name="BarCodeScan" component={BarCodeScan} />
-        <Stack.Screen name="MyListings" component={MyListings} options={{ headerBackTitle: 'Back to profile'}}/>
-        <Stack.Screen name="EditProfile" component={EditProfile} options={{ headerBackTitle: 'Back to profile'}}/>
-        <Stack.Screen name="MyFavourites" component={MyFavourites} options={{ headerBackTitle: 'Back to profile'}} />
+
+        <Stack.Screen
+          name="MyListings"
+          component={MyListings}
+          options={{ headerBackTitle: "Back to profile" }}
+        />
+        <Stack.Screen
+          name="EditProfile"
+          component={EditProfile}
+          options={{ headerBackTitle: "Back to profile" }}
+        />
+        <Stack.Screen
+          name="MyFavourites"
+          component={MyFavourites}
+          options={{ headerBackTitle: "Back to profile" }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

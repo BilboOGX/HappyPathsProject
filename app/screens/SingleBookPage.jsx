@@ -13,9 +13,12 @@ import { collection, getDocs } from "firebase/firestore";
 
 const SingleBookPage = ({ navigation, route }) => {
   const [data, setData] = useState([]);
+  console.log(route, 'ROUTE LOG')
   const routeIdentifier = route.params.id;
-  // const bookTitle = route.params.bookTitle;
-  console.log(route.params.bookTitle, "BOOK TITLE SINGLE BOOK PAGE");
+  const useruid = route.params.uid;
+
+  console.log(useruid)
+
 
   const fetchDataFromFirestore = async () => {
     try {
@@ -38,8 +41,6 @@ const SingleBookPage = ({ navigation, route }) => {
   useEffect(() => {
     fetchDataFromFirestore();
   }, []);
-
-  console.log(data[0]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -125,6 +126,16 @@ const SingleBookPage = ({ navigation, route }) => {
                 </View>
 
                 <Button title="Order now" />
+                  <Button
+             title="Chat now"
+           
+                // onPress={navigation.navigate("Chat", {
+                //   userID: useruid,
+                // })}
+                onPress={() => navigation.navigate("Chat", { uid: useruid, name: loc.user
+                })}
+                // onPress={() => console.log(useruid)}
+              />
 
                 <View style={styles.bookPreviewContainer}>
                   <Text style={styles.synopsisHeading}>Synopsis</Text>
@@ -155,7 +166,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    backgroundColor: "red",
+    backgroundColor: "#00592e",
   },
   headingContainer: {
     borderColor: "white",
@@ -170,6 +181,7 @@ const styles = StyleSheet.create({
     color: "white",
     textAlign: "center",
   },
+
   pageContainer: {
     marginVertical: 20,
     paddingHorizontal: 20,
@@ -225,6 +237,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   genreInfo: {
+
     fontSize: 16,
     color: "#fff",
   },
@@ -274,3 +287,4 @@ const styles = StyleSheet.create({
 });
 
 export default SingleBookPage;
+

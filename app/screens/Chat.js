@@ -16,22 +16,16 @@ import { db } from "../../FireBaseConfig.ts";
 
 export default function Chat({ route }) {
   const uid = route.params.uid;
-  console.log(route.params.uid, 'ROUTE PARAMS UID')
-  console.log(route.params, "ROUTE PARAMS CHAT JSX");
-
   const [messages, setMessages] = useState([]);
   const currentUser = auth?.currentUser?.uid;
 
-  console.log(currentUser, 'CURRENT USER ID')
-
   useEffect(() => {
+    console.log('chat screen use effect')
     const chatId =
       uid > currentUser
         ? `${uid + "-" + currentUser}`
         : `${currentUser + "-" + uid}`;
     const docRef = doc(db, "chatrooms", chatId);
-    console.log(chatId, 'chatID')
-    console.log(docRef, '<<<<docref')
     const colRef = collection(docRef, "messages");
     const q = query(colRef, orderBy("createdAt", "desc"));
     const docSnap = onSnapshot(q, (onSnap) => {
@@ -53,8 +47,6 @@ export default function Chat({ route }) {
   }, []);
 
   const onSend = useCallback((messagesArray) => {
-    console.log(currentUser, "<< curr user");
-    console.log(uid, "<< uid");
     const msg = messagesArray[0];
     const myMsg = {
       ...msg,
@@ -77,13 +69,20 @@ export default function Chat({ route }) {
     });
   }, []);
   return (
-    <GiftedChat
+    <View style={styles.container}>
+    <GiftedChat 
       messages={messages}
       onSend={(text) => onSend(text)}
       user={{
         _id: currentUser,
       }}
     />
+    </View>
   );
 }
-const styles = StyleSheet.create({});
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#00592e',}
+  })

@@ -14,14 +14,15 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome";
 import React, { useEffect, useState } from "react";
 import { FIREBASE_DB } from "../../FireBaseConfig";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, doc, getDocs } from "firebase/firestore";
+import { useIsFocused } from "@react-navigation/native";
 
 
 const BookList = ({ navigation }) => {
   const [data, setData] = useState([]);
   const [input, setInput] = useState("");
 
-  // console.log(data[0].bookTitle)
+  const isFocused = useIsFocused()
 
   const fetchDataFromFirestore = async () => {
     try {
@@ -34,8 +35,9 @@ const BookList = ({ navigation }) => {
           id: doc.id,
           ...doc.data(),
         });
+        console.log(doc, "doc");
       });
-
+      console.log(fetchedData)
       setData(fetchedData);
     } catch (error) {
       console.error("Error fetching data: ", error);
@@ -48,6 +50,8 @@ const BookList = ({ navigation }) => {
     fetchDataFromFirestore();
   }
 }, []);
+
+
 
   const SearchFilter = ({ data, input }) => {
     return (
@@ -62,7 +66,9 @@ const BookList = ({ navigation }) => {
             <Pressable
               onPress={() =>
                 navigation.navigate("SingleBookPage", {
-                  title: item.bookTitle,
+                  id: item.id,
+                  uid: item.userID
+                  // id: item.id
                 })
               }
             >
@@ -97,11 +103,9 @@ const BookList = ({ navigation }) => {
     );
   };
 
+  console.log(input)
+
   return (
-    <ImageBackground
-      source={require("../../Images/wp13203104.jpg")}
-      style={{ flex: 1 }}
-    >
       <SafeAreaView style={styles.container}>
         <View style={styles.searchBarContainer}>
           <Icon name="search" size={20} style={styles.searchIcon} />
@@ -115,7 +119,7 @@ const BookList = ({ navigation }) => {
         </View>
         <SearchFilter data={data} input={input} setInput={setInput} />
       </SafeAreaView>
-    </ImageBackground>
+
   );
 };
 
@@ -125,6 +129,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
+    backgroundColor: '#00592e',
+
   },
   searchBarContainer: {
     marginTop: 200,
@@ -149,6 +155,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     marginLeft: 10,
     marginRight: -30,
+
   },
   bookContainer: {
     margin: 5,
@@ -202,7 +209,9 @@ const styles = StyleSheet.create({
   textImage: {
     fontSize: 30,
     textAlign: 'center',
+
   },
 });
 
 export default BookList;
+
