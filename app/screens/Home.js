@@ -40,7 +40,7 @@ export default function Home({ navigation }) {
           <ListItem
             title={item.username}
             subTitle={item.email}
-            image={item.avatarUrl}
+            image={item.photoURL} // <-- changed this so it works with new users --> remove old users from db that have 'avatarUrl' and leave newer users that have 'photoURL' for presentation
             onPress={() =>
               navigation.navigate("Chat", {
                 name: item.username,

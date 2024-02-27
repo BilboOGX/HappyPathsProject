@@ -6,6 +6,7 @@ import { FIREBASE_AUTH } from '../../FireBaseConfig';
 import BookForm from '../Components/BookForm/form';
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import navigation from '../Components/BarcodeScanner/BarcodeScanner'
 const Stack = createNativeStackNavigator();
 
 
