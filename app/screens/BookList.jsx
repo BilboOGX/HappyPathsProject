@@ -43,8 +43,11 @@ const BookList = ({ navigation }) => {
   };
 
   useEffect(() => {
+  if (isFocused) {
+    console.log('book list focused')
     fetchDataFromFirestore();
-  }, []);
+  }
+}, []);
 
   const SearchFilter = ({ data, input }) => {
     return (

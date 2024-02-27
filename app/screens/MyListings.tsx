@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
 import { FIREBASE_AUTH, FIREBASE_DB } from "../../FireBaseConfig";
 import { collection, getDocs } from "firebase/firestore";
 
@@ -11,7 +11,7 @@ const MyListings = (route) => {
     try {
       const collectionRef = collection(FIREBASE_DB, "books");
       const snapshot = await getDocs(collectionRef);
-      console.log(snapshot.docs.map(doc => doc.data()));
+      console.log('image>>>>>>>', snapshot.docs.map(doc => doc.data()));
       const fetchedData = snapshot.docs
       .filter(doc => FIREBASE_AUTH.currentUser?.email === doc.data().user)
       .map(doc => ({
@@ -20,7 +20,8 @@ const MyListings = (route) => {
         Author: doc.data().bookAuthor,
         Condition: doc.data().bookCondition,
         Preview: doc.data().bookPreview,
-        bookRating: doc.data().bookRating
+        bookRating: doc.data().bookRating,
+        image: doc.data().image
       }));
       setData(fetchedData);
     } catch (error) {
@@ -43,6 +44,7 @@ const MyListings = (route) => {
       <View style={styles.container}>
         {data.map((item) => (
           <View key={item.id} style={styles.bookContainer}>
+            <Image source={{ uri: item.image }} style={styles.bookImage} />
             <Text style={styles.bookText}>Title: {item.title}</Text>
             <Text style={styles.bookText}>Author: {item.Author}</Text>
             <Text style={styles.bookText}>Condition: {item.Condition}</Text>
@@ -69,6 +71,13 @@ const styles = StyleSheet.create({
     width: '90%', 
     alignSelf: 'center', 
     backgroundColor: 'green', 
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  bookImage: { 
+    width: 100, 
+    height: 150,
+    resizeMode: 'contain'
   },
   bookText: {
     textAlign: 'center',

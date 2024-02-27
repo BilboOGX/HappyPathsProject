@@ -65,12 +65,6 @@ onBookScanned({
     }
   };
   
-  // console.log(bookAuthor, 'Please Work')
-  // console.log(bookTitle)
-  // console.log(bookAverageRating)
-  // console.log(bookSynopsis)
-  // console.log(bookCategory)
-
   if (hasPermission === null) {
     return <Text>Requesting for camera permission</Text>;
   }
