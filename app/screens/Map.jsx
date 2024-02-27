@@ -23,9 +23,9 @@ export default function Map({ navigation }: any) {
   const [selectedMarker, setSelectedMarker] = useState(null);
   const mapRef = useRef(null);
   const [dark, setDark] = useState(false);
-  const [userLocation, setUserLocation] = useState(null)
+  const [userLocation, setUserLocation] = useState(null);
 
-  const isFocused = useIsFocused()
+  const isFocused = useIsFocused();
 
   const fetchDataFromFirestore = async () => {
     try {
@@ -49,9 +49,8 @@ export default function Map({ navigation }: any) {
   useEffect(() => {
     if (isFocused) {
       fetchDataFromFirestore();
-
     }
-  }, [isFocused]); 
+  }, [isFocused]);
 
   const handleZoomIn = () => {
     mapRef.current?.getCamera().then((cam) => {
@@ -81,6 +80,45 @@ export default function Map({ navigation }: any) {
     return zoomLevel;
   };
 
+  const checkDuplicateCoordinates = (data) => {
+    const coordinatesSet = new Set();
+    const arr = [];
+
+    for (const item of data) {
+      const { latitude, longitude } = item.coords;
+      const coordinatesKey = `${latitude},${longitude}`;
+
+      if (coordinatesSet.has(coordinatesKey)) {
+        // If coordinatesKey is already in the set, it's a duplicate, so add it to the arr array
+        arr.push(coordinatesKey);
+      } else {
+        // If coordinatesKey is not in the set, it's not a duplicate, so remove it from the arr array
+        const index = arr.indexOf(coordinatesKey);
+        if (index !== -1) {
+          arr.splice(index, 1);
+        }
+        coordinatesSet.add(coordinatesKey);
+      }
+    }
+    return arr;
+  };
+
+  const duplicateCoordinates = checkDuplicateCoordinates(data);
+  // duplicate coordinates are combined into a string
+  const duplicateTitles = [];
+  data.forEach((item) => {
+    const getCoordinates = `${item.coords.latitude},${item.coords.longitude}`;
+
+    duplicateCoordinates.forEach((coordinates) => {
+      if (
+        coordinates === getCoordinates &&
+        !duplicateTitles.includes(item.bookTitle)
+      ) {
+        duplicateTitles.push(item.bookTitle);
+      }
+    });
+  });
+
   return (
     <View>
       <MapView
@@ -98,22 +136,22 @@ export default function Map({ navigation }: any) {
         //   longitudeDelta: 0.001,
         // }}
 
-        onUserLocationChange={(event) => { 
+        onUserLocationChange={(event) => {
           if (!userLocation) {
-            setUserLocation(event.nativeEvent.coordinate); 
-            
+            setUserLocation(event.nativeEvent.coordinate);
           }
         }}
-        region={userLocation ? {
-          ...userLocation,
-          latitudeDelta: 0.001,
-          longitudeDelta: 0.001,
-        } : null}
-
+        region={
+          userLocation
+            ? {
+                ...userLocation,
+                latitudeDelta: 0.001,
+                longitudeDelta: 0.001,
+              }
+            : null
+        }
       >
         {data.map((loc) => {
-
-
           if (loc.bookTitle === undefined) {
             loc.bookTitle = "no information available";
           }
@@ -138,22 +176,25 @@ export default function Map({ navigation }: any) {
             loc.genre = "no information available";
           }
 
-
           if (loc.user === undefined) {
             loc.user = "no information available";
           }
 
-          return (
-            <Marker
-              coordinate={{
-                latitude: loc.coords.latitude,
-                longitude: loc.coords.longitude,
-              }}
-              title={`Name: ${loc.bookTitle}`}
-              description={loc.bookAuthor}
-              key={loc.id}
-              calloutContainerStyle={styles.calloutContainer}
-            >
+
+          const getCoordinates = `${loc.coords.latitude},${loc.coords.longitude}`;
+
+          if (!duplicateCoordinates.includes(getCoordinates)) {
+            return (
+              <Marker
+                coordinate={{
+                  latitude: loc.coords.latitude,
+                  longitude: loc.coords.longitude,
+                }}
+                title={`Name: ${loc.bookTitle}`}
+                description={loc.bookAuthor}
+                key={loc.id}
+                calloutContainerStyle={styles.calloutContainer}
+
               <Callout
                 style={styles.calloutContainer}
                 onPress={() =>
@@ -162,36 +203,94 @@ export default function Map({ navigation }: any) {
                     uid: loc.userID
                   })
                 }
-              >
-                <Text style={styles.calloutTitle}>Title: {loc.bookTitle}</Text>
-                <Text style={styles.calloutDescription}>
-                  Author: {loc.bookAuthor}
-                </Text>
-                <Text style={styles.calloutDescription}>
-                  Genre: {loc.genre}
-                </Text>
-                <Text style={styles.calloutDescription}>
-                  Rating: {loc.bookRating}
-                </Text>
-                <Text style={styles.calloutDescription}>
-                  Condition: {loc.bookCondition}
-                </Text>
-                <Text style={styles.calloutDescription}>
-                  User: {loc.user}
-                </Text>
-              </Callout>
 
-              <View style={styles.nameAndImageContainer}>
-                <Text style={styles.markerBookTitle}>{loc.bookTitle}</Text>
-                <View style={styles.ImageContainer}>
-                  <Image
-                    source={require("../../Images/Colorful-books-on-transparent-background-PNG Background Removed.png")}
-                    style={styles.markerImage}
-                  ></Image>
+              >
+          
+                  <Text style={styles.calloutTitle}>
+                    Title: {loc.bookTitle}
+                  </Text>
+                  <Text style={styles.calloutDescription}>
+                    Author: {loc.bookAuthor}
+                  </Text>
+                  <Text style={styles.calloutDescription}>
+                    Genre: {loc.genre}
+                  </Text>
+                  <Text style={styles.calloutDescription}>
+                    Rating: {loc.bookRating}
+                  </Text>
+                  <Text style={styles.calloutDescription}>
+                    Condition: {loc.bookCondition}
+                  </Text>
+                  <Text style={styles.calloutDescription}>
+                    User: {loc.user}
+                  </Text>
+                </Callout>
+
+                <View style={styles.nameAndImageContainer}>
+                  <Text style={styles.markerBookTitle}>{loc.bookTitle}</Text>
+                  <View style={styles.ImageContainer}>
+                    <Image
+                      source={require("../../Images/Colorful-books-on-transparent-background-PNG Background Removed.png")}
+                      style={styles.markerImage}
+                    ></Image>
+                  </View>
                 </View>
-              </View>
-            </Marker>
-          );
+              </Marker>
+            );
+          } else if (duplicateCoordinates.includes(getCoordinates)) {
+            const finalArr = [];
+            data.forEach((item) => {
+              if (
+                loc.coords.latitude === item.coords.latitude &&
+                loc.coords.longitude === item.coords.longitude &&
+                !finalArr.includes(item.bookTitle)
+              ) {
+                finalArr.push(item.bookTitle);
+              }
+            });
+
+            return (
+              <Marker
+                coordinate={{
+                  latitude: loc.coords.latitude,
+                  longitude: loc.coords.longitude,
+                }}
+                title={"Multiple Listings"}
+                // description={loc.bookAuthor}
+                key={loc.id}
+                calloutContainerStyle={styles.calloutContainer}
+              >
+                <Callout
+                  tooltip
+                  style={styles.bubble}
+                  onPress={() =>
+                  navigation.navigate("SingleBookPage", {
+                    id: loc.id,
+                    uid: loc.userID
+                  })
+                }
+                >
+                  <Text style={styles.toolTipTitles}>Book Titles {"\n"}</Text>
+                  {finalArr.map((item, index) => (
+                    <Text key={index}>
+                      {item}
+                      {"\n"}
+                    </Text>
+                  ))}
+                </Callout>
+
+                <View style={styles.nameAndImageContainer}>
+                  {/* <Text style={styles.markerBookTitle}>{loc.bookTitle}</Text> */}
+                  <View style={styles.ImageContainer}>
+                    <Image
+                      source={require("../../Images/Colorful-books-on-transparent-background-PNG Background Removed.png")}
+                      style={styles.markerImage}
+                    ></Image>
+                  </View>
+                </View>
+              </Marker>
+            );
+          }
         })}
       </MapView>
 
@@ -226,9 +325,6 @@ export default function Map({ navigation }: any) {
     </View>
   );
 }
-// day-night-switch-between-light-and-dark-mode-sun-and-half-moon-icon-in-line-style-design-isolated-on-white-background-editable-stroke-vector.jpg
-// moon-and-stars-icon-on-transparent-background-vector-24062838 Background Removed.png
-// sun-and-moon-icon-isolated-on-transparent-vector-24794605 Background Removed.png
 
 const styles = StyleSheet.create({
   map: {
@@ -306,6 +402,22 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 60,
     paddingBottom: 40,
+  },
+
+  bubble: {
+    width: 300,
+    padding: 10,
+    backgroundColor: "gold",
+    color: "white",
+  },
+  toolTipTitles: {
+    color: "black",
+    fontWeight: "bold",
+    fontFamily: "Arial",
+    fontSize: 12,
+    padding: 1,
+    marginBottom: 4,
+    textAlign: "center",
   },
 });
 

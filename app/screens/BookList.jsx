@@ -102,6 +102,8 @@ const BookList = ({ navigation }) => {
     );
   };
 
+  console.log(input)
+
   return (
       <SafeAreaView style={styles.container}>
         <View style={styles.searchBarContainer}>
