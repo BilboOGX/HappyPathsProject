@@ -12,41 +12,62 @@ import React, { useEffect, useState } from "react";
 import { FIREBASE_AUTH, FIREBASE_DB } from "../../FireBaseConfig";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
+import { collection, getDocs, doc, updateDoc, getDoc } from "firebase/firestore";
+import { updateProfile } from "firebase/auth";
 
-const EditProfile = ({ route }) => {
+const EditProfile = ({ route, navigation }) => {
   const user = route.params.user;
 
   const [currUser, setCurrUser] = useState(user);
   const [selectedImage, setSelectedImage] = useState(user.photoURL);
   const [userDisplayName, setUserDisplayName] = useState(user.username);
   const [userEmail, setUserEmail] = useState(user.email);
-  const [userLocation, setUserLocation] = useState(user.location ? user.location : "Manchester")
+  const [userLocation, setUserLocation] = useState(user.location ? user.location : "Manchester");
 
-  console.log(userDisplayName, "<-- display name");
-  console.log(userEmail, "<-- user email");
-  console.log(userLocation, "<-- user location");
-  console.log(selectedImage, "<-- user photo");
+  // console.log(userDisplayName, "<-- display name");
+  // console.log(userEmail, "<-- user email");
+  // console.log(userLocation, "<-- user location");
+  // console.log(selectedImage, "<-- user photo");
 
   const handleSubmitChanges = () => {
-    console.log("submit func");
-    const docRef = doc(FIREBASE_DB, "users", currUser.id);
+    // console.log("submit func");
+    // console.log(currUser, '<-- current user in handle submit')
+    const docRef = doc(FIREBASE_DB, "users", currUser.userUID);
     const data = {
       email: userEmail,
-      photoURL: selectedImage,
       username: userDisplayName,
       location: userLocation,
       photoURL: selectedImage,
     };
     updateDoc(docRef, data)
       .then((docRef) => {
-        console.log("updated");
+        // console.log("updated");
       })
       .catch((error) => {
         console.log(error);
-      });
-    // fetch doc after updating --> set edit profile details with new info?
-    // maybe add a navigate back to profile, sending updated user info as a route param to then update profile?
+      })
+      updateProfile(FIREBASE_AUTH.currentUser, {
+        displayName: userDisplayName,
+        photoURL: selectedImage
+      }).then(() => {
+        // console.log("auth updated")
+      }).catch((error) => {
+        console.log(error)
+      })
+      getDoc(docRef).then((res) => {
+        navigation.navigate('Profile', {
+          updatedUser: res.data()
+        })
+          setCurrUser(res.data())
+        })
+        // .finally(() => {
+        //   navigation.navigate('Profile', {
+        //     updatedUser: currUser
+        //   })
+        // })
+      
+    
+    // maybe add a navigate back to profile, sending updated user info as a route param to then update profile? --> doesn't send most up to date user, because it's chained in a finally? 
   };
   const handleImageSelection = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -56,13 +77,17 @@ const EditProfile = ({ route }) => {
       quality: 1,
     });
     if (!result.canceled) {
+      // console.log(result.assets[0].uri, '<-- image picker result')
       setSelectedImage(result.assets[0].uri);
     }
   };
 
   useEffect(() => {
     console.log("use effect triggered");
+    console.log(currUser, '<-- curr user in use effect?')
   }, [handleSubmitChanges]);
+
+console.log(currUser, '<-- curr user just before return rendering')
 
   return (
     <SafeAreaView style={styles.container}>
