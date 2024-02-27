@@ -60,14 +60,7 @@ const EditProfile = ({ route, navigation }) => {
         })
           setCurrUser(res.data())
         })
-        // .finally(() => {
-        //   navigation.navigate('Profile', {
-        //     updatedUser: currUser
-        //   })
-        // })
-      
-    
-    // maybe add a navigate back to profile, sending updated user info as a route param to then update profile? --> doesn't send most up to date user, because it's chained in a finally? 
+        
   };
   const handleImageSelection = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -77,7 +70,6 @@ const EditProfile = ({ route, navigation }) => {
       quality: 1,
     });
     if (!result.canceled) {
-      // console.log(result.assets[0].uri, '<-- image picker result')
       setSelectedImage(result.assets[0].uri);
     }
   };
@@ -111,7 +103,6 @@ console.log(currUser, '<-- curr user just before return rendering')
           placeholder={currUser.username}
           onChangeText={(value) => setUserDisplayName(value)}
         ></TextInput>
-        {/* <TextInput value={name} onChangeText={value => setName(value)} editable={true}></TextInput> */}
       </View>
       <View style={styles.infoContainer}>
         <Text style={styles.infoLabel}>Email: </Text>
