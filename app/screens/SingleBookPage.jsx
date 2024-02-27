@@ -17,7 +17,6 @@ const SingleBookPage = ({ navigation, route }) => {
   const routeIdentifier = route.params.id;
   const useruid = route.params.uid;
 
-  console.log(useruid)
 
 
   const fetchDataFromFirestore = async () => {
@@ -42,12 +41,12 @@ const SingleBookPage = ({ navigation, route }) => {
     fetchDataFromFirestore();
   }, []);
 
+
+
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollContainer}>
-        {/* <View style={styles.routeContainer}>
-        <Text style={styles.route}>{routeIdentifier}</Text>
-      </View> */}
 
         {data.map((loc) => {
           if (loc.bookTitle === undefined) {
@@ -76,6 +75,10 @@ const SingleBookPage = ({ navigation, route }) => {
 
           if (loc.user === undefined) {
             loc.user = "no information available";
+          }
+
+          if (loc.image === undefined) {
+            loc.image = "no image available";
           }
 
           if (loc.id === routeIdentifier) {
@@ -117,13 +120,19 @@ const SingleBookPage = ({ navigation, route }) => {
                   </View>
 
 
-                  <View style={styles.genreIconContainer}>
+                  <View style={styles.bookImageContainer}>
                     <Image
-                      source={require("../../Images/fantasyHat.png")}
-                      style={styles.genreIcon}
+                      source={{ uri: loc.image }}
+                      style={styles.bookImage}
                     ></Image>
+
+
+
+
                   </View>
                 </View>
+
+
 
                 <Button title="Order now" />
                   <Button
@@ -169,9 +178,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#00592e",
   },
   headingContainer: {
-    borderColor: "white",
-    borderWidth: 2,
-    marginTop: 50,
+    marginTop: 0,
     marginBottom: 30,
     padding: 10,
   },
@@ -198,18 +205,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 50,
   },
-  genreIconContainer: {
-    borderColor: "white",
-    borderWidth: 2, 
-    borderRadius: 10,
+  bookImageContainer: { 
     height: 180, 
     width: 110,
     justifyContent: "center",
     alignItems: "center",
   },
-  genreIcon: {
-    height: 80, 
-    width: 80
+  bookImage: {
+    height: "100%", 
+    width: "100%",
+    borderRadius: 10,
   },
 
   titleContainer: {
@@ -284,6 +289,19 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#fff",
   },
+
+spacerImageContainer: {
+  borderColor: 'white',
+  borderWidth: 2,
+  height: "50%",
+  width: "90%",
+  justifyContent: 'center',
+  alignItems: 'center',
+}
+
+
+
+
 });
 
 export default SingleBookPage;

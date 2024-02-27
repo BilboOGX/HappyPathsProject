@@ -129,12 +129,6 @@ export default function Map({ navigation }: any) {
         followsUserLocation={true}
         showsMyLocationButton={true}
         customMapStyle={dark ? nightMap : mapStyle}
-        // initialRegion={{
-        //   latitude: 53.47214483258923,
-        //   longitude: -2.2384571315116277,
-        //   latitudeDelta: 0.001,
-        //   longitudeDelta: 0.001,
-        // }}
 
         onUserLocationChange={(event) => {
           if (!userLocation) {
