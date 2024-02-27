@@ -96,7 +96,7 @@ const Profile = ({ navigation, route }: any) => {
           title="Go to my listings"
         />
         <Button
-          onPress={() => navigation.navigate("MyFavourites")}
+          onPress={() => navigation.navigate("MyFavourites", { uid: currUser.userUID })}
           title="Go to my favourites"
         />
         <Button onPress={() => FIREBASE_AUTH.signOut()} title="Logout" />
