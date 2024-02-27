@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   ScrollView,
   SafeAreaView,
+  Image
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import React, { useEffect, useState } from "react";
@@ -18,10 +19,10 @@ import { addDoc, collection, doc, getDocs } from "firebase/firestore";
 import { useIsFocused } from "@react-navigation/native";
 
 
+
 const BookList = ({ navigation }) => {
   const [data, setData] = useState([]);
   const [input, setInput] = useState("");
-
   const isFocused = useIsFocused()
 
   const fetchDataFromFirestore = async () => {
@@ -51,7 +52,7 @@ const BookList = ({ navigation }) => {
   }
 }, []);
 
-
+console.log(data[0])
 
   const SearchFilter = ({ data, input }) => {
     return (
@@ -68,7 +69,6 @@ const BookList = ({ navigation }) => {
                 navigation.navigate("SingleBookPage", {
                   id: item.id,
                   uid: item.userID
-                  // id: item.id
                 })
               }
             >
@@ -77,13 +77,21 @@ const BookList = ({ navigation }) => {
                 style={styles.bookContainer}
               >
                 <View style={styles.contentContainer}>
-                  <View style={styles.textContainer}>
+                  <View style={styles.textAndImageContainer}>
+                    <View style={styles.textContainer}>
                     <Text style={styles.text}>Title: {item.bookTitle}</Text>
                     <Text style={styles.text}>Author: {item.bookAuthor}</Text>
                     <Text style={styles.text}>Genre: {item.genre}</Text>
-                    <View style={styles.imageContainer}>
-                    <Text style={styles.textImage}>Image</Text>
                     </View>
+                    
+                    <View style={styles.imageContainer}>
+                    <Image
+                      source={{ uri: item.image }}
+                      style={styles.bookImage}
+                    ></Image>
+                    </View>
+
+
                   </View>
                   <View style={styles.synopsisContainer}>
                   <Text style={styles.synopsisHeading}>
@@ -103,7 +111,6 @@ const BookList = ({ navigation }) => {
     );
   };
 
-  console.log(input)
 
   return (
       <SafeAreaView style={styles.container}>
@@ -159,26 +166,36 @@ const styles = StyleSheet.create({
   },
   bookContainer: {
     margin: 5,
-    width: 300,
-    height: 250,
+    width: 320,
+    height: 280,
   },
   contentContainer: {
     display: "flex",
     flexDirection: "row",
     height: "100%",
   },
-  textContainer: {
+  textAndImageContainer: {
     width: "50%",
+    height: "90%",
+    display: "flex",
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  textContainer: {
+    width: "100%",
+    height: "50%",
   },
   text: {
     marginTop: 15,
     marginLeft: 5,
-    fontSize: 12,
+    fontSize: 10,
     paddingLeft: 5,
     paddingRight: 5,
   },
   synopsisContainer: {
     width: "50%",
+    marginTop: 10,
   },
   synopsisHeading: {
     fontSize: 12,
@@ -189,27 +206,21 @@ const styles = StyleSheet.create({
   synopsisText: {
     marginTop: 15,
     marginLeft: 5,
-    fontSize: 10,
+    fontSize: 5,
     paddingLeft: 8,
     paddingRight: 8,
     textAlign: "justify",
   },
   imageContainer: {
-    width: "80%",
+    width: "50%",
     height: "40%",
-    borderColor: 'white',
-    borderWidth: 2,
-    borderRadius: 5,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 15,
-    marginLeft: 13,
+    textAlign: "center",
+    marginTop: 16,
   },
-  textImage: {
-    fontSize: 30,
-    textAlign: 'center',
-
+  bookImage: {
+    height: "100%",
+    width: "100%",
+    borderRadius: 5,
   },
 });
 
