@@ -159,6 +159,7 @@ export default function Map({ navigation }: any) {
                 onPress={() =>
                   navigation.navigate("SingleBookPage", {
                     id: loc.id,
+                    uid: loc.userID
                   })
                 }
               >

@@ -15,7 +15,9 @@ const SingleBookPage = ({ navigation, route }) => {
   const [data, setData] = useState([]);
   console.log(route, 'ROUTE LOG')
   const routeIdentifier = route.params.id;
-  const useruid = route.params.userID;
+  const useruid = route.params.uid;
+
+  console.log(useruid)
 
 
   const fetchDataFromFirestore = async () => {
@@ -130,9 +132,9 @@ const SingleBookPage = ({ navigation, route }) => {
                 // onPress={navigation.navigate("Chat", {
                 //   userID: useruid,
                 // })}
-                onPress={() => navigation.navigate("SingleBookPage", {
-                  userID: useruid, 
+                onPress={() => navigation.navigate("Chat", { uid: useruid, name: loc.user
                 })}
+                // onPress={() => console.log(useruid)}
               />
 
                 <View style={styles.bookPreviewContainer}>
