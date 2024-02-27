@@ -21,16 +21,12 @@ const EditProfile = ({ route }) => {
   const [selectedImage, setSelectedImage] = useState(user.photoURL);
   const [userDisplayName, setUserDisplayName] = useState(user.username);
   const [userEmail, setUserEmail] = useState(user.email);
-  const [userLocation, setUserLocation] = useState(user.location);
+  const [userLocation, setUserLocation] = useState(user.location ? user.location : "Manchester")
 
   console.log(userDisplayName, "<-- display name");
   console.log(userEmail, "<-- user email");
   console.log(userLocation, "<-- user location");
   console.log(selectedImage, "<-- user photo");
-
-  useEffect(() => {
-    console.log("use effect triggered");
-  }, [handleSubmitChanges]);
 
   const handleSubmitChanges = () => {
     console.log("submit func");
@@ -63,6 +59,11 @@ const EditProfile = ({ route }) => {
       setSelectedImage(result.assets[0].uri);
     }
   };
+
+  useEffect(() => {
+    console.log("use effect triggered");
+  }, [handleSubmitChanges]);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.avatarContainer}>

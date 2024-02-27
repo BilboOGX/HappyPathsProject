@@ -65,7 +65,6 @@ const Profile = ({ navigation }: any) => {
       <View style={styles.infoContainer}>
         <Text style={styles.infoLabel}>Email: </Text>
         <Text style={styles.infoValue}>{currUser.email}</Text> 
-        {/* why does it immediately get the current user's email but not immediately get other properties? */}
       </View>
       <View style={styles.infoContainer}>
         <Text style={styles.infoLabel}>Location: </Text>
