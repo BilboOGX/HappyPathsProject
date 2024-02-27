@@ -44,7 +44,7 @@ const BookList = ({ navigation }) => {
 
   useEffect(() => {
     fetchDataFromFirestore();
-  }, []); // useEffect to fetch data when the component mounts
+  }, []);
 
   const SearchFilter = ({ data, input }) => {
     return (

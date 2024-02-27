@@ -1,12 +1,85 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { FIREBASE_AUTH, FIREBASE_DB } from "../../FireBaseConfig";
+import { collection, getDocs } from "firebase/firestore";
 
-const MyListings = () => {
+const MyListings = (route) => {
+  const [data, setData] = useState([]);
+  const [error, setError] = useState('');
+
+  const fetchDataFromFirestore = async () => {
+    try {
+      const collectionRef = collection(FIREBASE_DB, "books");
+      const snapshot = await getDocs(collectionRef);
+      console.log(snapshot.docs.map(doc => doc.data()));
+      const fetchedData = snapshot.docs
+      .filter(doc => FIREBASE_AUTH.currentUser?.email === doc.data().user)
+      .map(doc => ({
+        id: doc.id,
+        title: doc.data().bookTitle,
+        Author: doc.data().bookAuthor,
+        Condition: doc.data().bookCondition,
+        Preview: doc.data().bookPreview,
+        bookRating: doc.data().bookRating
+      }));
+      setData(fetchedData);
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+      setError("Error fetching data");
+    }
+  };
+
+  useEffect(() => {
+    fetchDataFromFirestore();
+  }, []);
+
+  console.log(data)
+
+  if (error) {
+    return <View style={styles.centered}><Text>Error: {error}</Text></View>;
+  }
   return (
-    <View>
-      <Text>MyListings</Text>
-    </View>
-  )
-}
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <View style={styles.container}>
+        {data.map((item) => (
+          <View key={item.id} style={styles.bookContainer}>
+            <Text style={styles.bookText}>Title: {item.title}</Text>
+            <Text style={styles.bookText}>Author: {item.Author}</Text>
+            <Text style={styles.bookText}>Condition: {item.Condition}</Text>
+            <Text style={styles.bookText}>Rating: {item.bookRating}</Text>
+            <Text style={styles.bookText}>Preview: {item.Preview}</Text>
+          </View>
+        ))}
+      </View>
+    </ScrollView>
+  );
+};
 
-export default MyListings
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#00592e",
+  },
+  bookContainer: {
+    borderWidth: 1,
+    borderColor: '#000',
+    borderRadius: 5,
+    padding: 20,
+    marginVertical: 10,
+    width: '90%', 
+    alignSelf: 'center', 
+    backgroundColor: 'green', 
+  },
+  bookText: {
+    textAlign: 'center',
+    color: 'white',
+    marginBottom: 10,
+  },
+  centered: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
+
+export default MyListings;

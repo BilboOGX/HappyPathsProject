@@ -49,13 +49,14 @@ export default function BarCodeScan({onBookScanned}) {
     if (bookData && bookData.items && bookData.items.length > 0) {
       const newBookData = bookData.items[0];
       const volumeInfo = newBookData.volumeInfo;
+      console.log(volumeInfo.imageLinks.thumbnail)
 onBookScanned({
-  
       title: volumeInfo?.title || '',
       author:volumeInfo?.authors?.[0] || 'N/A',
       averageRating:volumeInfo?.averageRating?.toString() || 'N/A',
       category: volumeInfo?.categories?.[0] || 'N/A',
       synopsis: volumeInfo?.description || 'N/A',
+      image: volumeInfo.imageLinks.thumbnail || 'N/A'
   });
       Alert.alert('Book Successfully Scanned', 'Please Close Scanner.');
     
@@ -64,11 +65,11 @@ onBookScanned({
     }
   };
   
-  console.log(bookAuthor, 'Please Work')
-  console.log(bookTitle)
-  console.log(bookAverageRating)
-  console.log(bookSynopsis)
-  console.log(bookCategory)
+  // console.log(bookAuthor, 'Please Work')
+  // console.log(bookTitle)
+  // console.log(bookAverageRating)
+  // console.log(bookSynopsis)
+  // console.log(bookCategory)
 
   if (hasPermission === null) {
     return <Text>Requesting for camera permission</Text>;
