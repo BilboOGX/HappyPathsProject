@@ -14,7 +14,7 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome";
 import React, { useEffect, useState } from "react";
 import { FIREBASE_DB } from "../../FireBaseConfig";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, doc, getDocs } from "firebase/firestore";
 import { useIsFocused } from "@react-navigation/native";
 
 
@@ -66,6 +66,7 @@ const BookList = ({ navigation }) => {
               onPress={() =>
                 navigation.navigate("SingleBookPage", {
                   id: item.id,
+                  uid: item.userID
                   // id: item.id
                 })
               }

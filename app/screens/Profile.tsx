@@ -12,9 +12,17 @@ import { FIREBASE_AUTH, FIREBASE_DB } from "../../FireBaseConfig";
 import { collection, getDocs } from "firebase/firestore";
 import { useIsFocused } from "@react-navigation/native";
 
-const Profile = ({ navigation }: any) => {
+const Profile = ({ navigation, route }: any) => {
+  console.log(route.params, '<-- route params in profile')
+  const checkForUpdate = () => {
+    if (route.params === undefined) {
+      setCurrUser(FIREBASE_AUTH.currentUser)
+    } else {
+      setCurrUser(route.params.updatedUser)
+    }
+  }
   const isFocused = useIsFocused()
-  const [users, setUsers] = useState([]);
+  // const [users, setUsers] = useState([]);
   const [currUser, setCurrUser] = useState(FIREBASE_AUTH.currentUser);
   const fetchUsersFromFirestore = async () => {
     try {
@@ -37,22 +45,20 @@ const Profile = ({ navigation }: any) => {
     if (isFocused) {
 
       fetchUsersFromFirestore().then((users) => {
-        console.log(users, '<-- users from db fetch')
+        // console.log(users, '<-- users from db fetch')
         users.map((user) => {
           if (user.id === currUser.uid) {
-            console.log(user, '<-- matched user?')
+            // console.log(user, '<-- matched user?')
             setCurrUser(user)
           }
         })
       })
+      checkForUpdate()
     }
   }, [isFocused]); 
-  // useEffect isn't loading user immediately
-  // also not refreshing after user has been updated in edit profile
-  // console.log(currUser, '<-- curr user after use effect?')
-  // console.log(isFocused, '<-- is focused?')
 
-  if (isFocused) {
+  // if route.params.updatedUser !== null/undefined, render those details, otherwise render these current ones
+  // if (route.params !== undefined) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.avatarContainer}>
@@ -75,11 +81,11 @@ const Profile = ({ navigation }: any) => {
         <Text style={styles.infoLabel}>User ID:</Text>
         <Text style={styles.infoValue}>{currUser.userUID}</Text>
       </View>
-      {/* add location on here too  */}
       <View style={styles.buttonContainer}>
         <Button
           onPress={() => navigation.navigate("EditProfile", {
-            user: currUser
+            user: currUser,
+            // updatedUser: updatedUser
           })}
           title="Edit Profile"
         />
@@ -98,7 +104,7 @@ const Profile = ({ navigation }: any) => {
     </SafeAreaView>
   );
 };
-}
+//}
 
 const styles = StyleSheet.create({
   container: {

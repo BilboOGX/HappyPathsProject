@@ -180,6 +180,7 @@ export default function Map({ navigation }: any) {
             loc.user = "no information available";
           }
 
+
           const getCoordinates = `${loc.coords.latitude},${loc.coords.longitude}`;
 
           if (!duplicateCoordinates.includes(getCoordinates)) {
@@ -193,15 +194,18 @@ export default function Map({ navigation }: any) {
                 description={loc.bookAuthor}
                 key={loc.id}
                 calloutContainerStyle={styles.calloutContainer}
+
+              <Callout
+                style={styles.calloutContainer}
+                onPress={() =>
+                  navigation.navigate("SingleBookPage", {
+                    id: loc.id,
+                    uid: loc.userID
+                  })
+                }
+
               >
-                <Callout
-                  style={styles.calloutContainer}
-                  onPress={() =>
-                    navigation.navigate("SingleBookPage", {
-                      id: loc.id,
-                    })
-                  }
-                >
+          
                   <Text style={styles.calloutTitle}>
                     Title: {loc.bookTitle}
                   </Text>
@@ -260,8 +264,11 @@ export default function Map({ navigation }: any) {
                   tooltip
                   style={styles.bubble}
                   onPress={() =>
-                    navigation.navigate("SingleBookPage", { id: loc.id })
-                  }
+                  navigation.navigate("SingleBookPage", {
+                    id: loc.id,
+                    uid: loc.userID
+                  })
+                }
                 >
                   <Text style={styles.toolTipTitles}>Book Titles {"\n"}</Text>
                   {finalArr.map((item, index) => (
