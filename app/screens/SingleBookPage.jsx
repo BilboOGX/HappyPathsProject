@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   authorInfo: {
-    fontSize: 16,
+    fontSize: 20,
     color: "#fff",
   },
   bookConditionContainer: {
@@ -277,9 +277,8 @@ const styles = StyleSheet.create({
     borderRightWidth: 5,
     borderLeftWidth: 5,
     borderWidth: 5,
-    marginTop: 40,
-    marginBottom: 40,
-    marginBottom: 30,
+    marginTop: 50,
+    marginBottom: 80,
     paddingTop: 20,
     paddingBottom: 10,
   }, 
