@@ -72,27 +72,20 @@ const BookList = ({ navigation }) => {
                 <Text style={styles.bookName}>{item.bookTitle}</Text>
                 <View style={styles.contentContainer}>
                   <View style={styles.textContainer}>
-
-
-
                     <View style={styles.dataContainer}>
                       <Text style={styles.textDescription}>Author:</Text>
                       <Text style={styles.text}>{item.bookAuthor}</Text>
                     </View>
 
                     <View style={styles.dataContainer}>
-                    <Text style={styles.textDescription}>Genre: </Text>
+                      <Text style={styles.textDescription}>Genre: </Text>
                       <Text style={styles.text}>{item.genre}</Text>
-
                     </View>
 
-                    
                     <View style={styles.dataContainer}>
-                    <Text style={styles.textDescription}>Condition: </Text>
+                      <Text style={styles.textDescription}>Condition: </Text>
                       <Text style={styles.text}>{item.bookCondition}</Text>
                     </View>
-                  
-                
                   </View>
 
                   <View style={styles.imageContainer}>
@@ -133,6 +126,7 @@ const BookList = ({ navigation }) => {
 const styles = StyleSheet.create({
   pageContainer: {
     backgroundColor: "#00592e",
+    height: '100%'
   },
   container: {
     alignSelf: "center",
@@ -140,17 +134,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
     backgroundColor: "#00592e",
-    marginBottom: "50%",
   },
   searchFilterContainer: {
-    height: "70%",
+    height: "85%",
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
   },
   searchBarContainer: {
-    marginTop: 50,
-    marginBottom: 50,
+    marginTop: 45,
+    marginBottom: 30,
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 3,
@@ -176,12 +169,11 @@ const styles = StyleSheet.create({
   bookContainer: {
     marginBottom: 50,
     width: "92%",
-    height: 200,
+    height: 180,
     borderColor: "white",
     backgroundColor: "white",
-    borderWidth: 2,
-    borderRadius: 10,
-    marginLeft: 16,
+    borderRadius: 20,
+    marginLeft: 15,
   },
   bookName: {
     fontSize: 15,
@@ -228,8 +220,8 @@ const styles = StyleSheet.create({
     marginTop: 15,
     paddingLeft: 5,
     paddingRight: 5,
-    fontWeight: 'bold',
-    fontSize: 12, 
+    fontWeight: "bold",
+    fontSize: 12,
   },
 
   text: {
