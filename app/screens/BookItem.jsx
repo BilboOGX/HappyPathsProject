@@ -7,8 +7,8 @@ export default function BookItem({ item, removeFav }) {
   return (
     <View style={styles.container}>
       <View key={item.id} style={styles.bookContainer}>
-        <Image source={{ uri: item.image }} style={styles.bookImage} />
         <Text style={styles.bookText}>Title: {item.bookTitle}</Text>
+        <Image source={{ uri: item.image }} style={styles.bookImage} />
         <Text style={styles.bookText}>Author: {item.bookAuthor}</Text>
         <Text style={styles.bookText}>Condition: {item.bookCondition}</Text>
         <Text style={styles.bookText}>Rating: {item.bookRating}</Text>
@@ -53,12 +53,12 @@ const styles = StyleSheet.create({
   bookContainer: {
     borderWidth: 1,
     borderColor: "#000",
-    borderRadius: 5,
+    borderRadius: 20,
     padding: 20,
     marginVertical: 10,
     width: "90%",
     alignSelf: "center",
-    backgroundColor: "green",
+    backgroundColor: "white",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -68,8 +68,9 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   bookText: {
-    textAlign: "center",
-    color: "white",
+    textAlign: "justify",
+    padding: 5,
+    color: "black",
     marginBottom: 10,
   },
   centered: {

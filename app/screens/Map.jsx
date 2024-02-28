@@ -318,7 +318,7 @@ const styles = StyleSheet.create({
     display: "flex",
   },
   markerBookTitle: {
-    color: "purple",
+    color: "black",
     fontWeight: "bold",
     fontFamily: "Arial",
     fontSize: 12,

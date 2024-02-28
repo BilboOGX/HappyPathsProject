@@ -74,14 +74,14 @@ const MyListings = (route) => {
               <View style={styles.conditionAndRating}>
                 <View>
                   <Text style={styles.bookConditionRating}>Condition:</Text>
-                  <Text style={styles.bookConditionRating}>
+                  <Text style={styles.ratingConditionText}>
                     {item.Condition}
                   </Text>
                 </View>
 
                 <View>
                   <Text style={styles.bookConditionRating}>Rating:</Text>
-                  <Text style={styles.bookConditionRating}>
+                  <Text style={styles.ratingConditionText}>
                     {item.bookRating}
                   </Text>
                 </View>
@@ -95,9 +95,9 @@ const MyListings = (route) => {
                 {item.Preview}{" "}
                 <Text
                   onPress={() => setReadMore(!readMore)}
-                  style={{ color: "blue" }}
+                  style={{ color: "blue", fontWeight: "bold" }}
                 >
-                  show less...
+                  show less
                 </Text>
               </Text>
             ) : (
@@ -106,9 +106,9 @@ const MyListings = (route) => {
                 {item.Preview.slice(0, 110)}...
                 <Text
                   onPress={() => setReadMore(!readMore)}
-                  style={{ color: "blue" }}
+                  style={{ color: "blue", fontWeight: "bold" }}
                 >
-                  show more...
+                  show more
                 </Text>
               </Text>
             )}
@@ -133,12 +133,12 @@ const styles = StyleSheet.create({
   bookContainer: {
     borderWidth: 1,
     borderColor: "#000",
-    borderRadius: 5,
+    borderRadius: 20,
     padding: 20,
     marginVertical: 10,
     width: "90%",
     alignSelf: "center",
-    backgroundColor: "green",
+    backgroundColor: "white",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   deleteButton: {
-    backgroundColor: "red",
+    backgroundColor: "#00592e",
     color: "white",
     padding: 10,
     borderRadius: 30,
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   },
   bookTitle: {
     fontSize: 25,
-    color: "white",
+    color: "black",
     fontWeight: "bold",
     marginBottom: 20,
   },
@@ -168,13 +168,21 @@ const styles = StyleSheet.create({
   },
   bookConditionRating: {
     textAlign: "center",
-    color: "white",
+    color: "black",
+    fontWeight: "bold",
+    marginBottom: 5,
+    marginRight: 80,
+    marginLeft: 80,
+  },
+  ratingConditionText: {
+    textAlign: "center",
+    color: "black",
     marginBottom: 5,
     marginRight: 80,
     marginLeft: 80,
   },
   bookSynopsisHeading: {
-    color: "white",
+    color: "black",
     fontWeight: "bold",
     marginBottom: 8,
     fontSize: 18,
@@ -190,7 +198,7 @@ const styles = StyleSheet.create({
   },
   bookAuthor: {
     fontSize: 18,
-    color: "white",
+    color: "black",
     fontWeight: "bold",
     marginBottom: 30,
     textAlign: "center",

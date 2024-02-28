@@ -59,7 +59,7 @@ function BottomTabsLayout() {
         options={{
           tabBarLabel: "Home",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home" color={color} size={size} />
+            <Ionicons name="home" color={color} size={size}/>
           ),
         }}
       />

@@ -166,8 +166,8 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     alignItems: "center",
     justifyContent: "center",
-    height: 50,
-    margin:1,
+    height: 40,
+    margin:5,
 
   },
   maninButtonContainer: {

@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     alignItems: 'center',
     justifyContent: 'center',
-    height: 50,
+    height: 40,
     margin: 1
   },
   buttonText: {
@@ -160,7 +160,8 @@ const styles = StyleSheet.create({
   },
   avatarContainer: {
     alignItems: "center",
-    marginTop: 20,
+    marginTop: -100,
+    marginBottom: 50
   },
   avatar: {
     width: 150,
@@ -192,7 +193,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     borderWidth: 1,
     borderRadius: 4,
-    padding: 4,
+    padding: 8,
   },
 });
 

@@ -92,7 +92,7 @@ export default function Chat({ route }) {
                   backgroundColor: "rgba(0, 89, 46, 0.6)",
                 },
                 right: {
-                  backgroundColor: "rgba(0, 89, 46)",
+                  backgroundColor: "rgba(0, 89, 46, 1)",
                 },
               }}
               timeTextStyle={{
