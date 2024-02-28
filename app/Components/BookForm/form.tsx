@@ -236,7 +236,7 @@ const styles = StyleSheet.create({
 
     flexGrow: 0,
     padding: 20,
-    backgroundColor: "rgba(255, 255, 255, 0.6)",
+    backgroundColor: "rgba(255, 255, 255, 1)",
     borderColor: "black",
     borderWidth: 2,
     borderRadius: 20,
@@ -271,7 +271,7 @@ const styles = StyleSheet.create({
     marginTop: 0,
   },
   buttonOne: {
-    backgroundColor: "#007bff",
+    backgroundColor: "#00592e",
     padding: 10,
     borderRadius: 100,
     alignItems: "center",
@@ -279,7 +279,7 @@ const styles = StyleSheet.create({
     height: 50,
   },
   buttonTwo: {
-    backgroundColor: "red",
+    backgroundColor: "#00592e",
     padding: 10,
     borderRadius: 100,
     alignItems: "center",
