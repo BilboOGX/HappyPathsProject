@@ -95,8 +95,9 @@ const BookList = ({ navigation }) => {
                       Synopsis:
                     </Text>
                     <Text style={styles.synopsisText}>
-                      {item.bookPreview}
+                      {item.bookPreview.slice(0, 600)}
                     </Text>
+                    <Text style={styles.continueNote}>Continue to book Page</Text>
                   </View>
                 </View>
               </View>
@@ -104,12 +105,15 @@ const BookList = ({ navigation }) => {
           )}
           keyExtractor={(item) => item.id}
         />
+
       </View>
+     
     );
   };
 
 
   return (
+    <View style={styles.pageContainer}>
       <SafeAreaView style={styles.container}>
         <View style={styles.searchBarContainer}>
           <Icon name="search" size={20} style={styles.searchIcon} />
@@ -122,22 +126,35 @@ const BookList = ({ navigation }) => {
           ></TextInput>
         </View>
         <SearchFilter data={data} input={input} setInput={setInput} />
+      
+       
+       
       </SafeAreaView>
 
+</View>
   );
 };
 
 const styles = StyleSheet.create({
+  pageContainer: {
+    backgroundColor: '#00592e',
+  },
   container: {
     alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
     backgroundColor: '#00592e',
-
+    marginBottom: "50%"
+  },
+  searchFilterContainer: {
+    height: "70%",
+    width: "100%",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   searchBarContainer: {
-    marginTop: 200,
+    marginTop: 50,
     marginBottom: 50,
     flexDirection: "row",
     alignItems: "center",
@@ -187,12 +204,14 @@ const styles = StyleSheet.create({
   textContainer: {
     width: "100%",
     height: "50%",
+    marginBottom: 10,
   },
   bookName: {
-    fontSize: 15,
+    fontSize: 12,
     textAlign: 'center',
     fontWeight: "bold",
     color: "#00592e",
+    marginTop: 10,
   },
   text: {
     marginTop: 15,
@@ -217,6 +236,11 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
     paddingRight: 8,
     textAlign: "justify",
+  },
+  continueNote: {
+    textAlign: "center",
+    marginTop: 10,
+    display: 'flex-end'
   },
   imageContainer: {
     width: "60%",
