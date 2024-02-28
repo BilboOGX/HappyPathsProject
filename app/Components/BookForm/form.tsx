@@ -25,6 +25,7 @@ export default function BookForm() {
   const [bookRating, setBookRating] = useState('')
   const [genre, setGenre] = useState('')
   const [isScannerVisible, setScannerVisible] = useState(false);
+  const [favouritedBy, setFavouritedBy] = useState([])
   const [image, setImage] = useState('')
 
   const handleScannedBook = (bookData) => {
@@ -88,7 +89,9 @@ export default function BookForm() {
       bookRating,
       bookPreview,
       genre,
+      favouritedBy,
       image
+
     })
   })
     .then((docRef) => {

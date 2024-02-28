@@ -12,9 +12,6 @@ import {
   Dimensions,
 } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
-// import { NavigationContainer } from "@react-navigation/native";
-// import { createNativeStackNavigator } from "@react-navigation/native-stack";
-// import SingleBookPage from "./SingleBookPage";
 
 const { width, height } = Dimensions.get("window");
 
@@ -89,10 +86,8 @@ export default function Map({ navigation }: any) {
       const coordinatesKey = `${latitude},${longitude}`;
 
       if (coordinatesSet.has(coordinatesKey)) {
-        // If coordinatesKey is already in the set, it's a duplicate, so add it to the arr array
         arr.push(coordinatesKey);
       } else {
-        // If coordinatesKey is not in the set, it's not a duplicate, so remove it from the arr array
         const index = arr.indexOf(coordinatesKey);
         if (index !== -1) {
           arr.splice(index, 1);
@@ -104,7 +99,6 @@ export default function Map({ navigation }: any) {
   };
 
   const duplicateCoordinates = checkDuplicateCoordinates(data);
-  // duplicate coordinates are combined into a string
   const duplicateTitles = [];
   data.forEach((item) => {
     const getCoordinates = `${item.coords.latitude},${item.coords.longitude}`;
@@ -129,13 +123,6 @@ export default function Map({ navigation }: any) {
         followsUserLocation={true}
         showsMyLocationButton={true}
         customMapStyle={dark ? nightMap : mapStyle}
-        // initialRegion={{
-        //   latitude: 53.47214483258923,
-        //   longitude: -2.2384571315116277,
-        //   latitudeDelta: 0.001,
-        //   longitudeDelta: 0.001,
-        // }}
-
         onUserLocationChange={(event) => {
           if (!userLocation) {
             setUserLocation(event.nativeEvent.coordinate);
@@ -199,7 +186,7 @@ export default function Map({ navigation }: any) {
                   onPress={() =>
                     navigation.navigate("SingleBookPage", {
                       id: loc.id,
-                      uid: loc.userID
+                      uid: loc.userID,
                     })
                   }
                 >
@@ -253,7 +240,6 @@ export default function Map({ navigation }: any) {
                   longitude: loc.coords.longitude,
                 }}
                 title={"Multiple Listings"}
-                // description={loc.bookAuthor}
                 key={loc.id}
                 calloutContainerStyle={styles.calloutContainer}
               >
@@ -261,10 +247,10 @@ export default function Map({ navigation }: any) {
                   tooltip
                   style={styles.bubble}
                   onPress={() =>
-                    navigation.navigate("SingleBookPage", { 
+                    navigation.navigate("SingleBookPage", {
                       id: loc.id,
-                      uid: loc.userID
-                     })
+                      uid: loc.userID,
+                    })
                   }
                 >
                   <Text style={styles.toolTipTitles}>Book Titles {"\n"}</Text>
@@ -277,7 +263,6 @@ export default function Map({ navigation }: any) {
                 </Callout>
 
                 <View style={styles.nameAndImageContainer}>
-                  {/* <Text style={styles.markerBookTitle}>{loc.bookTitle}</Text> */}
                   <View style={styles.ImageContainer}>
                     <Image
                       source={require("../../Images/Colorful-books-on-transparent-background-PNG Background Removed.png")}
@@ -325,14 +310,8 @@ export default function Map({ navigation }: any) {
 
 const styles = StyleSheet.create({
   map: {
-    width: width, // Takes up the full width of the map
+    width: width,
     height: 675,
-    // borderWidth: 4,
-    // borderColor: "black",
-    // marginBottom: 20,
-    // width: width, // for full screen
-    // height: height, // for full screen
-    // ...StyleSheet.absoluteFillObject,
   },
   nameAndImageContainer: {
     padding: 10,
