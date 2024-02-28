@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, Button, Alert } from "react-native";
 import { Camera } from "expo-camera";
-import { serverTimestamp } from 'firebase/firestore';
-import { getBookByISBN } from '../../api/books';
+import { serverTimestamp } from "firebase/firestore";
+import { getBookByISBN } from "../../api/books";
 import { title } from "process";
-import { useNavigation } from '@react-navigation/native';
-
+import { useNavigation } from "@react-navigation/native";
 
 type BookItem = {
   id: string;
@@ -21,18 +20,16 @@ type BookItem = {
   };
 };
 
-
-export default function BarCodeScan({onBookScanned}) {
+export default function BarCodeScan({ onBookScanned }) {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [scanned, setScanned] = useState<boolean>(false);
   const [bookDetails, setBookDetails] = useState<BookItem | null>(null);
-  const [bookTitle, setBookTitle] = useState('')
-  const [bookAuthor, setAuthor] = useState('')
-  const [bookAverageRating, setAverageRating] = useState('')
-  const [bookCategory, setCategory] = useState('')
-  const [bookSynopsis, setSynopsis] = useState('')
+  const [bookTitle, setBookTitle] = useState("");
+  const [bookAuthor, setAuthor] = useState("");
+  const [bookAverageRating, setAverageRating] = useState("");
+  const [bookCategory, setCategory] = useState("");
+  const [bookSynopsis, setSynopsis] = useState("");
   const navigation = useNavigation();
-
 
   useEffect(() => {
     const getCameraPermissions = async () => {
@@ -43,28 +40,33 @@ export default function BarCodeScan({onBookScanned}) {
     getCameraPermissions();
   }, []);
 
-  const handleBarCodeScanned = async ({ type, data }: { type: string; data: string }) => {
+  const handleBarCodeScanned = async ({
+    type,
+    data,
+  }: {
+    type: string;
+    data: string;
+  }) => {
     setScanned(true);
     const bookData = await getBookByISBN(data);
     if (bookData && bookData.items && bookData.items.length > 0) {
       const newBookData = bookData.items[0];
       const volumeInfo = newBookData.volumeInfo;
-      console.log(volumeInfo.imageLinks.thumbnail)
-onBookScanned({
-      title: volumeInfo?.title || '',
-      author:volumeInfo?.authors?.[0] || 'N/A',
-      averageRating:volumeInfo?.averageRating?.toString() || 'N/A',
-      category: volumeInfo?.categories?.[0] || 'N/A',
-      synopsis: volumeInfo?.description || 'N/A',
-      image: volumeInfo.imageLinks.thumbnail || 'N/A'
-  });
-      Alert.alert('Book Successfully Scanned', 'Please Close Scanner.');
-    
-      } else {
-      console.log('No data found for ISBN:', data);
+      console.log(volumeInfo.imageLinks.thumbnail);
+      onBookScanned({
+        title: volumeInfo?.title || "",
+        author: volumeInfo?.authors?.[0] || "N/A",
+        averageRating: volumeInfo?.averageRating?.toString() || "N/A",
+        category: volumeInfo?.categories?.[0] || "N/A",
+        synopsis: volumeInfo?.description || "N/A",
+        image: volumeInfo.imageLinks.thumbnail || "N/A",
+      });
+      Alert.alert("Book Successfully Scanned", "Please Close Scanner.");
+    } else {
+      console.log("No data found for ISBN:", data);
     }
   };
-  
+
   if (hasPermission === null) {
     return <Text>Requesting for camera permission</Text>;
   }
@@ -78,17 +80,8 @@ onBookScanned({
         style={StyleSheet.absoluteFillObject}
       />
       <View style={styles.bookInfoContainer}>
-        {bookDetails && (
-          <View style={styles.bookDetails}>
-        
-          </View>
-        )}
+        {bookDetails && <View style={styles.bookDetails}></View>}
       </View>
-      {/* {scanned && (
-        <View style={styles.buttonContainer}>
-          <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />
-        </View>
-      )} */}
     </View>
   );
 }
@@ -101,13 +94,13 @@ const styles = StyleSheet.create({
   },
   bookInfoContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   bookDetails: {
     padding: 20,
     borderRadius: 10,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

@@ -27,7 +27,6 @@ const BookList = ({ navigation }) => {
     try {
       const collectionRef = collection(FIREBASE_DB, "books");
       const snapshot = await getDocs(collectionRef);
-      // console.log(snapshot)
       const fetchedData = [];
       snapshot.forEach((doc) => {
         fetchedData.push({
@@ -72,27 +71,20 @@ const BookList = ({ navigation }) => {
                 <Text style={styles.bookName}>{item.bookTitle}</Text>
                 <View style={styles.contentContainer}>
                   <View style={styles.textContainer}>
-
-
-
                     <View style={styles.dataContainer}>
                       <Text style={styles.textDescription}>Author:</Text>
                       <Text style={styles.text}>{item.bookAuthor}</Text>
                     </View>
 
                     <View style={styles.dataContainer}>
-                    <Text style={styles.textDescription}>Genre: </Text>
+                      <Text style={styles.textDescription}>Genre: </Text>
                       <Text style={styles.text}>{item.genre}</Text>
-
                     </View>
 
-                    
                     <View style={styles.dataContainer}>
-                    <Text style={styles.textDescription}>Condition: </Text>
+                      <Text style={styles.textDescription}>Condition: </Text>
                       <Text style={styles.text}>{item.bookCondition}</Text>
                     </View>
-                  
-                
                   </View>
 
                   <View style={styles.imageContainer}>
@@ -228,8 +220,8 @@ const styles = StyleSheet.create({
     marginTop: 15,
     paddingLeft: 5,
     paddingRight: 5,
-    fontWeight: 'bold',
-    fontSize: 12, 
+    fontWeight: "bold",
+    fontSize: 12,
   },
 
   text: {

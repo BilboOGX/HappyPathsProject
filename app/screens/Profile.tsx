@@ -13,16 +13,14 @@ import { collection, getDocs } from "firebase/firestore";
 import { useIsFocused } from "@react-navigation/native";
 
 const Profile = ({ navigation, route }: any) => {
-  console.log(route.params, '<-- route params in profile')
   const checkForUpdate = () => {
     if (route.params === undefined) {
-      setCurrUser(FIREBASE_AUTH.currentUser)
+      setCurrUser(FIREBASE_AUTH.currentUser);
     } else {
-      setCurrUser(route.params.updatedUser)
+      setCurrUser(route.params.updatedUser);
     }
-  }
-  const isFocused = useIsFocused()
-  // const [users, setUsers] = useState([]);
+  };
+  const isFocused = useIsFocused();
   const [currUser, setCurrUser] = useState(FIREBASE_AUTH.currentUser);
   const fetchUsersFromFirestore = async () => {
     try {
@@ -35,7 +33,7 @@ const Profile = ({ navigation, route }: any) => {
           ...user.data(),
         });
       });
-      return fetchedUsers
+      return fetchedUsers;
     } catch (error) {
       console.log(error);
     }
@@ -43,35 +41,26 @@ const Profile = ({ navigation, route }: any) => {
 
   useEffect(() => {
     if (isFocused) {
-
       fetchUsersFromFirestore().then((users) => {
-        // console.log(users, '<-- users from db fetch')
         users.map((user) => {
           if (user.id === currUser.uid) {
-            // console.log(user, '<-- matched user?')
-            setCurrUser(user)
+            setCurrUser(user);
           }
-        })
-      })
-      checkForUpdate()
+        });
+      });
+      checkForUpdate();
     }
-  }, [isFocused]); 
+  }, [isFocused]);
 
-  // if route.params.updatedUser !== null/undefined, render those details, otherwise render these current ones
-  // if (route.params !== undefined) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.avatarContainer}>
-        <Image
-          source={{ uri: currUser.photoURL }}
-          style={styles.avatar}
-        />
+        <Image source={{ uri: currUser.photoURL }} style={styles.avatar} />
         <Text style={styles.name}>{currUser.username}</Text>
       </View>
       <View style={styles.infoContainer}>
         <Text style={styles.infoLabel}>Email: </Text>
-        <Text style={styles.infoValue}>{currUser.email}</Text> 
-        {/* why does it immediately get the current user's email but not immediately get other properties? */}
+        <Text style={styles.infoValue}>{currUser.email}</Text>
       </View>
       <View style={styles.infoContainer}>
         <Text style={styles.infoLabel}>Location: </Text>
@@ -83,20 +72,25 @@ const Profile = ({ navigation, route }: any) => {
       </View>
       <View style={styles.buttonContainer}>
         <Button
-          onPress={() => navigation.navigate("EditProfile", {
-            user: currUser,
-            // updatedUser: updatedUser
-          })}
+          onPress={() =>
+            navigation.navigate("EditProfile", {
+              user: currUser,
+            })
+          }
           title="Edit Profile"
         />
         <Button
-          onPress={() => navigation.navigate("MyListings", {
-            user: currUser
-          })}
+          onPress={() =>
+            navigation.navigate("MyListings", {
+              user: currUser,
+            })
+          }
           title="Go to my listings"
         />
         <Button
-          onPress={() => navigation.navigate("MyFavourites", { uid: currUser.userUID })}
+          onPress={() =>
+            navigation.navigate("MyFavourites", { uid: currUser.userUID })
+          }
           title="Go to my favourites"
         />
         <Button onPress={() => FIREBASE_AUTH.signOut()} title="Logout" />

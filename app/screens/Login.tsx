@@ -31,9 +31,7 @@ const Login = () => {
     setLoading(true);
     try {
       const response = await signInWithEmailAndPassword(auth, email, password);
-
       console.log(response);
-      //   alert("Check your emails!");
     } catch (error: any) {
       console.log(error);
       alert("Sign in failed: " + error.message);
@@ -49,8 +47,7 @@ const Login = () => {
         auth,
         email,
         password
-      )
-      .then((userCredentials) => {
+      ).then((userCredentials) => {
         const userUID = userCredentials.user.uid;
         const docRef = doc(db, "users", userUID);
         const docSnap = setDoc(docRef, {
@@ -58,15 +55,10 @@ const Login = () => {
           username: email,
           password: password,
           uid: userUID,
-          email: email
+          email: email,
         });
-      })
-      .then(() => {
-        // console.log('Successful')
+      });
 
-      })
-
-      // console.log(response);
       alert("Check your emails!");
     } catch (error: any) {
       console.log(error);
@@ -77,8 +69,6 @@ const Login = () => {
   };
   return (
     <View style={styles.container}>
-
-
       <View>
         <View style={styles.imageContainer}>
           <Image
@@ -87,16 +77,6 @@ const Login = () => {
           ></Image>
         </View>
       </View>
-
-
-
-
-   
-
-
-
-
-
 
       <KeyboardAvoidingView behavior="padding">
         <TextInput
@@ -153,7 +133,7 @@ const styles = StyleSheet.create({
     // backgroundColor: "#252f40",
     backgroundColor: "#00592e",
     marginTop: -100,
-  },  
+  },
   recycleImageContainer: {
     height: 80,
     width: width,
@@ -230,5 +210,4 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
   },
-
 });
