@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { View, TextInput, Button, Alert, StyleSheet, Text, TouchableOpacity, Modal} from 'react-native';
+import { View, TextInput, Button, Alert, StyleSheet, Text, TouchableOpacity, Modal, KeyboardAvoidingView,Platform} from 'react-native';
 import { collection, addDoc } from "firebase/firestore";
 import { FIREBASE_AUTH, FIREBASE_DB } from "../../../FireBaseConfig";
 import { User, onAuthStateChanged } from "firebase/auth";
@@ -47,8 +47,9 @@ export default function BookForm() {
   }, []);
 
   function isValidUKPostcode(postcode) {
+    const cleanPostcode = postcode.replace(/\s+/g, '');
     const pattern = /^[A-Z]{1,2}[0-9][A-Z0-9]? ?[0-9][A-Z]{2}$/i;
-    return pattern.test(postcode);
+    return pattern.test(cleanPostcode);
   }
 
   function handleReset() {
@@ -114,6 +115,13 @@ export default function BookForm() {
 
 
   return (
+    <SafeAreaView>
+      {/* <KeyboardAvoidingView 
+        style={{ flex: 1 }} 
+        behavior={Platform.OS === "ios" ? "padding" : "height"} 
+        keyboardVerticalOffset={Platform.OS === "ios" ? 40 : 0}
+      > */}
+    <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
     <View style={styles.rootContainer}>
       <View>
 
@@ -181,6 +189,18 @@ export default function BookForm() {
           />
         </View>
 
+        <View style={styles.inputContainer}>
+          <TextInput
+            placeholder="Postcode"
+            value={postcode}
+            onChangeText={(text) => {
+              setPostcode(text);
+              setIsPostcodeValid(isValidUKPostcode(text));
+            }}
+            style={[styles.input, attemptedSubmit && styles.invalidInput]}
+          />
+        </View>
+
         <SelectDropdown
           key={dropdownKey}
           data={["Excellent", "Very Good", "Good", "Poor"]}
@@ -200,17 +220,7 @@ export default function BookForm() {
           rowTextStyle={styles.dropdownRowText}
         />
 
-        <View style={styles.inputContainer}>
-          <TextInput
-            placeholder="Postcode"
-            value={postcode}
-            onChangeText={(text) => {
-              setPostcode(text);
-              setIsPostcodeValid(isValidUKPostcode(text));
-            }}
-            style={[styles.input, attemptedSubmit && styles.invalidInput]}
-          />
-        </View>
+        
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.buttonOne} onPress={handleSubmit}>
@@ -222,7 +232,9 @@ export default function BookForm() {
         </TouchableOpacity>
       </View>
     </View>
-    
+    {/* </KeyboardAvoidingView> */}
+    </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -233,7 +245,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     width: '90%',
     height: '98%',
-
     flexGrow: 0,
     padding: 20,
     backgroundColor: "rgba(255, 255, 255, 1)",
@@ -244,7 +255,7 @@ const styles = StyleSheet.create({
     marginTop: "2%",
   },
   scanIcon:{
-    marginTop:10,
+    marginTop:0,
     marginBottom:10,
   },
   inputContainer: {
