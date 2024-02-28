@@ -89,11 +89,7 @@ const SingleBookPage = ({ navigation, route }) => {
                       style={styles.bookImage}
                     ></Image>
                   </View>
-                  <View style={styles.topSectionText}>
-                    <View style={styles.bookAuthorContainer}>
-                      <Text style={styles.authorInfo}>By {loc.bookAuthor}</Text>
-                    </View>
-                  </View>
+                  <Text style={styles.authorName}>By {loc.bookAuthor}</Text>
                 </View>
 
                 <View style={styles.orderAndChatContainer}>
@@ -118,32 +114,32 @@ const SingleBookPage = ({ navigation, route }) => {
                   <Text style={styles.bookPreviewInfo}>{loc.bookPreview}</Text>
                 </View>
 
-<View style={styles.bookInfoContainer}>
-                <View style={styles.titleContainer}>
-                  <Text style={styles.titleInfo}>Title: {loc.bookTitle}</Text>
-                </View>
+                <View style={styles.bookInfoContainer}>
+                  <View style={styles.titleContainer}>
+                    <Text style={styles.titleInfo}>Title: {loc.bookTitle}</Text>
+                  </View>
 
-                <View style={styles.bookAuthorContainer}>
-                  <Text style={styles.authorInfo}>
-                    Author: {loc.bookAuthor}
-                  </Text>
-                </View>
+                  <View style={styles.bookAuthorContainer}>
+                    <Text style={styles.authorInfo}>
+                      Author: {loc.bookAuthor}
+                    </Text>
+                  </View>
 
-                <View style={styles.genreContainer}>
-                  <Text style={styles.genreInfo}>Genre: {loc.genre}</Text>
-                </View>
+                  <View style={styles.genreContainer}>
+                    <Text style={styles.genreInfo}>Genre: {loc.genre}</Text>
+                  </View>
 
-                <View style={styles.bookRatingContainer}>
-                  <Text style={styles.bookRatingInfo}>
-                    Rating: {loc.bookRating}
-                  </Text>
-                </View>
+                  <View style={styles.bookRatingContainer}>
+                    <Text style={styles.bookRatingInfo}>
+                      Rating: {loc.bookRating}
+                    </Text>
+                  </View>
 
-                <View style={styles.bookConditionContainer}>
-                  <Text style={styles.bookConditionInfo}>
-                    Condition: {loc.bookCondition}
-                  </Text>
-                </View>
+                  <View style={styles.bookConditionContainer}>
+                    <Text style={styles.bookConditionInfo}>
+                      Condition: {loc.bookCondition}
+                    </Text>
+                  </View>
                 </View>
 
                 <View style={styles.userContainer}>
@@ -153,7 +149,18 @@ const SingleBookPage = ({ navigation, route }) => {
                     style={styles.userProfilePicture}
                   ></Image>
                 </View>
+
+                    <View>
+                      <Text>Comments:</Text>
+                      <Text>User bugsBunny5: What's up, doc? .This Book is so funny, i especially like it when the duck gets roasted extra crispy</Text>
+                      <Text>User daffyD69: We've all got a mission in life; we get into different ruts. Some are the cogs on the wheels; others are just plain nuts, just like this book!</Text>
+                      <Text>User BigElmsFudd: Be vewy, vewy qwiet when reading this book.</Text>
+                      <Text>User YosemiteSamTheMighty: This book is a dog-blasted, ornery, no-account, long-eared varmint!!</Text>
+                      <Text>User PorkyPigInBlankets: Th-Th-The, Th-Th-The, Th-Th... That's all, folks!</Text>
+                    </View>
+
               </View>
+     
             );
           }
         })}
@@ -179,13 +186,11 @@ const styles = StyleSheet.create({
     color: "white",
     textAlign: "center",
   },
-
   pageContainer: {
     marginVertical: 20,
     paddingHorizontal: 20,
     paddingVertical: 30,
   },
-
   topSection: {
     display: "flex",
     flexDirection: "column",
@@ -205,7 +210,11 @@ const styles = StyleSheet.create({
     width: "100%",
     borderRadius: 10,
   },
-
+  authorName: {
+    color: "white",
+    fontSize: 25,
+    textAlign: "center",
+  },
   titleContainer: {
     marginBottom: 10,
   },
@@ -217,7 +226,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   authorInfo: {
-    fontSize: 20,
+    fontSize: 16,
     color: "#fff",
   },
   bookConditionContainer: {
@@ -281,7 +290,7 @@ const styles = StyleSheet.create({
     marginBottom: 80,
     paddingTop: 20,
     paddingBottom: 10,
-  }, 
+  },
   bookPreviewInfo: {
     fontSize: 16,
     color: "#fff",
@@ -315,7 +324,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#fff",
   },
-
   spacerImageContainer: {
     borderColor: "white",
     borderWidth: 2,
