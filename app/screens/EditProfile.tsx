@@ -74,6 +74,7 @@ const EditProfile = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.profile}>
       <View style={styles.avatarContainer}>
         <TouchableOpacity onPress={handleImageSelection}>
           <Image
@@ -112,7 +113,11 @@ const EditProfile = ({ route, navigation }) => {
         ></TextInput>
       </View>
       <View style={styles.buttonContainer}>
-        <Button onPress={handleSubmitChanges} title="Submit Changes" />
+        <TouchableOpacity style={styles.button} onPress={handleSubmitChanges}>
+          <Text style={styles.buttonText}>Submit Changes</Text>
+        </TouchableOpacity>
+        {/* <Button onPress={handleSubmitChanges} title="Submit Changes" /> */}
+      </View>
       </View>
     </SafeAreaView>
   );
@@ -121,12 +126,37 @@ const EditProfile = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#00592e",
     padding: 20,
+  },
+  profile: {
+    justifyContent: 'center',
+    alignSelf: 'center',
+    width: '95%',
+    height: '100%',
+    flexGrow: 0,
+    padding: 0,
+    backgroundColor: 'white',
+    borderColor: 'black',
+    borderWidth: 2,
+    borderRadius: 20,
   },
   buttonContainer: {
     alignItems: "center",
     marginTop: 50,
+    margin: 5
+  },
+  button: {
+    backgroundColor: '#00592e',
+    padding: 10,
+    borderRadius: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 50,
+    margin: 1
+  },
+  buttonText: {
+    color: 'white'
   },
   avatarContainer: {
     alignItems: "center",
@@ -152,6 +182,8 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     marginTop: 20,
+    marginLeft: 20,
+    marginRight: 20
   },
   infoLabel: {
     fontWeight: "bold",

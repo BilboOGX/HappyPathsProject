@@ -89,7 +89,7 @@ const Profile = ({ navigation, route }: any) => {
               <Text style={styles.buttonText}>My Listings</Text>
             </TouchableOpacity>
     
-            <TouchableOpacity style={styles.buttonTwo} onPress={() => navigation.navigate("MyFavourites", { uid: currUser.userUID })}>
+            <TouchableOpacity style={styles.buttonTwo} onPress={() => navigation.navigate("MyFavourites", { uid: currUser.uid })}>
               <Text style={styles.buttonText}>My Favourites</Text>
             </TouchableOpacity>
     
