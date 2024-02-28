@@ -122,7 +122,7 @@ const SingleBookPage = ({ navigation, route }) => {
                       <AntDesign style={{textAlign: "center", paddingBottom: 5}} name="heart" size={24} color="white" /> 
                       }
                     {/* <AntDesign style={{textAlign: "center", paddingBottom: 5}} name="heart" size={24} color="white" />  */}
-                      <Text style={styles.authorInfo}>By {loc.bookAuthor}</Text>
+                      
                     </View>
                   </View>
 

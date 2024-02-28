@@ -194,10 +194,10 @@ const styles = StyleSheet.create({
   contentContainer: {
     display: "flex",
     flexDirection: "row",
-    height: "100%",
+    height: "90%",
   },
   imageContainer: {
-    width: "50%",
+    width: "45%",
     height: "90%",
     display: "flex",
     justifyContent: "center",
