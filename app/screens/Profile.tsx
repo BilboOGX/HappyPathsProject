@@ -79,7 +79,7 @@ const Profile = ({ navigation, route }: any) => {
       </View>
       <View style={styles.infoContainer}>
         <Text style={styles.infoLabel}>User ID:</Text>
-        <Text style={styles.infoValue}>{currUser.userUID}</Text>
+        <Text style={styles.infoValue}>{currUser.uid}</Text>
       </View>
       <View style={styles.buttonContainer}>
         <Button

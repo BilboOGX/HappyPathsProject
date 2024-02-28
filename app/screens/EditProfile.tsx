@@ -32,7 +32,7 @@ const EditProfile = ({ route, navigation }) => {
   const handleSubmitChanges = () => {
     // console.log("submit func");
     // console.log(currUser, '<-- current user in handle submit')
-    const docRef = doc(FIREBASE_DB, "users", currUser.userUID);
+    const docRef = doc(FIREBASE_DB, "users", currUser.uid);
     const data = {
       email: userEmail,
       username: userDisplayName,
