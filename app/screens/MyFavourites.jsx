@@ -75,7 +75,8 @@ const MyFavourites = ({ navigation, route }) => {
   }
 
   return (
-    <ScrollView>
+
+   <ScrollView style={styles.container}>
       {favouritedBy.map((item) => {
         return <BookItem removeFav={removeFav} item={item} />;
       })}
@@ -83,4 +84,13 @@ const MyFavourites = ({ navigation, route }) => {
   );
 };
 
+const styles = StyleSheet.create({
+ container: {
+      flex: 1,
+      backgroundColor: "#00592e",
+    },
+})
+
+
 export default MyFavourites;
+
