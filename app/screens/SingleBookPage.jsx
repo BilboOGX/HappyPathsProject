@@ -13,11 +13,9 @@ import { collection, getDocs } from "firebase/firestore";
 
 const SingleBookPage = ({ navigation, route }) => {
   const [data, setData] = useState([]);
-  console.log(route, 'ROUTE LOG')
+  console.log(route, "ROUTE LOG");
   const routeIdentifier = route.params.id;
   const useruid = route.params.uid;
-
-
 
   const fetchDataFromFirestore = async () => {
     try {
@@ -41,13 +39,9 @@ const SingleBookPage = ({ navigation, route }) => {
     fetchDataFromFirestore();
   }, []);
 
-
-
-
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollContainer}>
-
         {data.map((loc) => {
           if (loc.bookTitle === undefined) {
             loc.bookTitle = "no information available";
@@ -89,79 +83,76 @@ const SingleBookPage = ({ navigation, route }) => {
                 </View>
 
                 <View style={styles.topSection}>
-                  <View style={styles.topSectionText}>
-                    <View style={styles.titleContainer}>
-                      <Text style={styles.titleInfo}>
-                        Title: {loc.bookTitle}
-                      </Text>
-                    </View>
-
-                    <View style={styles.bookAuthorContainer}>
-                      <Text style={styles.authorInfo}>
-                        Author: {loc.bookAuthor}
-                      </Text>
-                    </View>
-
-                    <View style={styles.genreContainer}>
-                      <Text style={styles.genreInfo}>Genre: {loc.genre}</Text>
-                    </View>
-
-                    <View style={styles.bookRatingContainer}>
-                      <Text style={styles.bookRatingInfo}>
-                        Rating: {loc.bookRating}
-                      </Text>
-                    </View>
-
-                    <View style={styles.bookConditionContainer}>
-                      <Text style={styles.bookConditionInfo}>
-                        Condition: {loc.bookCondition}
-                      </Text>
-                    </View>
-                  </View>
-
-
                   <View style={styles.bookImageContainer}>
                     <Image
                       source={{ uri: loc.image }}
                       style={styles.bookImage}
                     ></Image>
-
-
-
-
+                  </View>
+                  <View style={styles.topSectionText}>
+                    <View style={styles.bookAuthorContainer}>
+                      <Text style={styles.authorInfo}>By {loc.bookAuthor}</Text>
+                    </View>
                   </View>
                 </View>
 
-
-
-                <Button title="Order now" />
+                <View style={styles.orderAndChatContainer}>
+                  <Button title="Order now" />
                   <Button
-             title="Chat now"
-           
-                // onPress={navigation.navigate("Chat", {
-                //   userID: useruid,
-                // })}
-                onPress={() => navigation.navigate("Chat", { uid: useruid, name: loc.user
-                })}
-                // onPress={() => console.log(useruid)}
-              />
+                    title="Chat now"
+                    // onPress={navigation.navigate("Chat", {
+                    //   userID: useruid,
+                    // })}
+                    onPress={() =>
+                      navigation.navigate("Chat", {
+                        uid: useruid,
+                        name: loc.user,
+                      })
+                    }
+                    // onPress={() => console.log(useruid)}
+                  />
+                </View>
 
                 <View style={styles.bookPreviewContainer}>
                   <Text style={styles.synopsisHeading}>Synopsis</Text>
-                  <Text style={styles.bookPreviewInfo}>
-                    {loc.bookPreview}
+                  <Text style={styles.bookPreviewInfo}>{loc.bookPreview}</Text>
+                </View>
+
+<View style={styles.bookInfoContainer}>
+                <View style={styles.titleContainer}>
+                  <Text style={styles.titleInfo}>Title: {loc.bookTitle}</Text>
+                </View>
+
+                <View style={styles.bookAuthorContainer}>
+                  <Text style={styles.authorInfo}>
+                    Author: {loc.bookAuthor}
                   </Text>
+                </View>
+
+                <View style={styles.genreContainer}>
+                  <Text style={styles.genreInfo}>Genre: {loc.genre}</Text>
+                </View>
+
+                <View style={styles.bookRatingContainer}>
+                  <Text style={styles.bookRatingInfo}>
+                    Rating: {loc.bookRating}
+                  </Text>
+                </View>
+
+                <View style={styles.bookConditionContainer}>
+                  <Text style={styles.bookConditionInfo}>
+                    Condition: {loc.bookCondition}
+                  </Text>
+                </View>
                 </View>
 
                 <View style={styles.userContainer}>
                   <Text style={styles.userInfo}>User: {loc.user}</Text>
                   <Image
-                      source={require("../../Images/fantasyHat.png")}
-                      style={styles.userProfilePicture}
-                    ></Image>
+                    source={require("../../Images/fantasyHat.png")}
+                    style={styles.userProfilePicture}
+                  ></Image>
                 </View>
-
-                
               </View>
             );
           }
@@ -193,26 +184,24 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     paddingHorizontal: 20,
     paddingVertical: 30,
-    borderRadius: 10,
-    borderColor: "white",
-    borderWidth: 2,
   },
 
   topSection: {
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "space-evenly",
     alignItems: "center",
     marginBottom: 50,
   },
-  bookImageContainer: { 
-    height: 180, 
-    width: 110,
+  bookImageContainer: {
+    height: 200,
+    width: 130,
     justifyContent: "center",
     alignItems: "center",
+    marginBottom: 50,
   },
   bookImage: {
-    height: "100%", 
+    height: "100%",
     width: "100%",
     borderRadius: 10,
   },
@@ -228,7 +217,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   authorInfo: {
-    fontSize: 16,
+    fontSize: 20,
     color: "#fff",
   },
   bookConditionContainer: {
@@ -242,9 +231,27 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   genreInfo: {
-
     fontSize: 16,
     color: "#fff",
+  },
+  orderAndChatContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    borderTopColor: "#fff",
+    borderBottomColor: "#fff",
+    borderRightColor: "#00592e",
+    borderLeftColor: "#00592e",
+    borderTopWidth: 5,
+    borderBottomWidth: 5,
+    borderRightWidth: 5,
+    borderLeftWidth: 5,
+    borderWidth: 5,
+    paddingTop: 20,
+    paddingBottom: 20,
+    paddingRight: 20,
+    paddingLeft: 20,
   },
   bookPreviewContainer: {
     marginBottom: 10,
@@ -253,9 +260,28 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     color: "white",
-    textAlign: 'center',
+    textAlign: "center",
     marginTop: 40,
   },
+  bookInfoContainer: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    borderTopColor: "#fff",
+    borderBottomColor: "#fff",
+    borderRightColor: "#00592e",
+    borderLeftColor: "#00592e",
+    borderTopWidth: 5,
+    borderBottomWidth: 5,
+    borderRightWidth: 5,
+    borderLeftWidth: 5,
+    borderWidth: 5,
+    marginTop: 50,
+    marginBottom: 80,
+    paddingTop: 20,
+    paddingBottom: 10,
+  }, 
   bookPreviewInfo: {
     fontSize: 16,
     color: "#fff",
@@ -264,10 +290,10 @@ const styles = StyleSheet.create({
     lineHeight: 22,
   },
   userContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
     marginBottom: 50,
     marginBottom: 10,
   },
@@ -276,7 +302,7 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   userProfilePicture: {
-    borderColor: 'white',
+    borderColor: "white",
     height: 80,
     width: 80,
     borderRadius: 100,
@@ -290,19 +316,14 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
 
-spacerImageContainer: {
-  borderColor: 'white',
-  borderWidth: 2,
-  height: "50%",
-  width: "90%",
-  justifyContent: 'center',
-  alignItems: 'center',
-}
-
-
-
-
+  spacerImageContainer: {
+    borderColor: "white",
+    borderWidth: 2,
+    height: "50%",
+    width: "90%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
 
 export default SingleBookPage;
-
