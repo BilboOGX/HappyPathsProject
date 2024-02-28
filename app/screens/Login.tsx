@@ -57,7 +57,7 @@ const Login = () => {
           photoURL: "https://avatar.iran.liara.run/public",
           username: email,
           password: password,
-          userUID: userUID,
+          uid: userUID,
           email: email
         });
       })
