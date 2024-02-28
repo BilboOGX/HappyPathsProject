@@ -13,16 +13,14 @@ import { collection, getDocs } from "firebase/firestore";
 import { useIsFocused } from "@react-navigation/native";
 
 const Profile = ({ navigation, route }: any) => {
-  console.log(route.params, '<-- route params in profile')
   const checkForUpdate = () => {
     if (route.params === undefined) {
-      setCurrUser(FIREBASE_AUTH.currentUser)
+      setCurrUser(FIREBASE_AUTH.currentUser);
     } else {
-      setCurrUser(route.params.updatedUser)
+      setCurrUser(route.params.updatedUser);
     }
-  }
-  const isFocused = useIsFocused()
-  // const [users, setUsers] = useState([]);
+  };
+  const isFocused = useIsFocused();
   const [currUser, setCurrUser] = useState(FIREBASE_AUTH.currentUser);
   const fetchUsersFromFirestore = async () => {
     try {
@@ -35,7 +33,7 @@ const Profile = ({ navigation, route }: any) => {
           ...user.data(),
         });
       });
-      return fetchedUsers
+      return fetchedUsers;
     } catch (error) {
       console.log(error);
     }
@@ -43,19 +41,17 @@ const Profile = ({ navigation, route }: any) => {
 
   useEffect(() => {
     if (isFocused) {
-
       fetchUsersFromFirestore().then((users) => {
-        // console.log(users, '<-- users from db fetch')
         users.map((user) => {
           if (user.id === currUser.uid) {
-            // console.log(user, '<-- matched user?')
-            setCurrUser(user)
+            setCurrUser(user);
           }
-        })
-      })
-      checkForUpdate()
+        });
+      });
+      checkForUpdate();
     }
-  }, [isFocused]); 
+  }, [isFocused]);
+
 
   // if route.params.updatedUser !== null/undefined, render those details, otherwise render these current ones
   // if (route.params !== undefined) {
@@ -106,6 +102,7 @@ const Profile = ({ navigation, route }: any) => {
       </SafeAreaView>
     );
 }
+
 
 const styles = StyleSheet.create({
   container: {

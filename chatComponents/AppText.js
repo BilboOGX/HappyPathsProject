@@ -22,6 +22,5 @@ export default function AppText({
 const styles = StyleSheet.create({
   fonts: {
     fontSize: 18,
-    fontFamily: Platform.OS === "android" ? "Lato" : "Roboto",
   },
 });
