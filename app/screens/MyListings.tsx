@@ -2,7 +2,9 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
 import { FIREBASE_AUTH, FIREBASE_DB } from "../../FireBaseConfig";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
+
+
 
 const MyListings = (route) => {
   const [data, setData] = useState([]);
@@ -12,7 +14,6 @@ const MyListings = (route) => {
     try {
       const collectionRef = collection(FIREBASE_DB, "books");
       const snapshot = await getDocs(collectionRef);
-      console.log('image>>>>>>>', snapshot.docs.map(doc => doc.data()));
       const fetchedData = snapshot.docs
       .filter(doc => FIREBASE_AUTH.currentUser?.email === doc.data().user)
       .map(doc => ({
@@ -35,7 +36,16 @@ const MyListings = (route) => {
     fetchDataFromFirestore();
   }, []);
 
-  console.log(data)
+  const deleteBook = async (bookId) => {
+    try {
+      const bookRef = doc(FIREBASE_DB, "books", bookId);
+      await deleteDoc(bookRef);
+      fetchDataFromFirestore();
+    } catch (error) {
+      console.error("Error deleting book: ", error);
+      setError("Error deleting book");
+    }
+  };
 
   if (error) {
     return <View style={styles.centered}><Text>Error: {error}</Text></View>;
@@ -51,12 +61,15 @@ const MyListings = (route) => {
             <Text style={styles.bookText}>Condition: {item.Condition}</Text>
             <Text style={styles.bookText}>Rating: {item.bookRating}</Text>
             <Text style={styles.bookText}>Preview: {item.Preview}</Text>
+            <Text style={styles.deleteButton} onPress={() => deleteBook(item.id)}>Delete</Text>
           </View>
         ))}
       </View>
     </ScrollView>
   );
 };
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -79,6 +92,13 @@ const styles = StyleSheet.create({
     width: 100, 
     height: 150,
     resizeMode: 'contain'
+  },
+  deleteButton: {
+    backgroundColor: 'red',
+    color: 'white',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
   },
   bookText: {
     textAlign: 'center',

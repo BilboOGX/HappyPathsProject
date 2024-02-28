@@ -73,6 +73,8 @@ const BookList = ({ navigation }) => {
                 <View style={styles.contentContainer}>
                   <View style={styles.textContainer}>
 
+
+
                     <View style={styles.dataContainer}>
                       <Text style={styles.textDescription}>Author:</Text>
                       <Text style={styles.text}>{item.bookAuthor}</Text>
@@ -81,6 +83,7 @@ const BookList = ({ navigation }) => {
                     <View style={styles.dataContainer}>
                     <Text style={styles.textDescription}>Genre: </Text>
                       <Text style={styles.text}>{item.genre}</Text>
+
                     </View>
 
                     
