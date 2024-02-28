@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   ScrollView,
   SafeAreaView,
+  Image,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import React, { useEffect, useState } from "react";
@@ -17,12 +18,10 @@ import { FIREBASE_DB } from "../../FireBaseConfig";
 import { addDoc, collection, doc, getDocs } from "firebase/firestore";
 import { useIsFocused } from "@react-navigation/native";
 
-
 const BookList = ({ navigation }) => {
   const [data, setData] = useState([]);
   const [input, setInput] = useState("");
-
-  const isFocused = useIsFocused()
+  const isFocused = useIsFocused();
 
   const fetchDataFromFirestore = async () => {
     try {
@@ -37,7 +36,7 @@ const BookList = ({ navigation }) => {
         });
         console.log(doc, "doc");
       });
-      console.log(fetchedData)
+      console.log(fetchedData);
       setData(fetchedData);
     } catch (error) {
       console.error("Error fetching data: ", error);
@@ -45,13 +44,11 @@ const BookList = ({ navigation }) => {
   };
 
   useEffect(() => {
-  if (isFocused) {
-    console.log('book list focused')
-    fetchDataFromFirestore();
-  }
-}, []);
-
-
+    if (isFocused) {
+      console.log("book list focused");
+      fetchDataFromFirestore();
+    }
+  }, []);
 
   const SearchFilter = ({ data, input }) => {
     return (
@@ -67,35 +64,45 @@ const BookList = ({ navigation }) => {
               onPress={() =>
                 navigation.navigate("SingleBookPage", {
                   id: item.id,
-                  uid: item.userID
-                  // id: item.id
+                  uid: item.userID,
                 })
               }
             >
-              <ImageBackground
-                source={require("../../Images/blank_vintage_book_by_vixen525_d600pp8-fullview.png")}
-                style={styles.bookContainer}
-              >
+              <View style={styles.bookContainer}>
+                <Text style={styles.bookName}>{item.bookTitle}</Text>
                 <View style={styles.contentContainer}>
                   <View style={styles.textContainer}>
-                  <Image source={{ uri: item.image }} style={styles.bookImage} />
-                    <Text style={styles.text}>Title: {item.bookTitle}</Text>
-                    <Text style={styles.text}>Author: {item.bookAuthor}</Text>
-                    <Text style={styles.text}>Genre: {item.genre}</Text>
-                    <View style={styles.imageContainer}>
-                    <Text style={styles.textImage}>Image</Text>
+
+
+
+                    <View style={styles.dataContainer}>
+                      <Text style={styles.textDescription}>Author:</Text>
+                      <Text style={styles.text}>{item.bookAuthor}</Text>
                     </View>
+
+                    <View style={styles.dataContainer}>
+                    <Text style={styles.textDescription}>Genre: </Text>
+                      <Text style={styles.text}>{item.genre}</Text>
+
+                    </View>
+
+                    
+                    <View style={styles.dataContainer}>
+                    <Text style={styles.textDescription}>Condition: </Text>
+                      <Text style={styles.text}>{item.bookCondition}</Text>
+                    </View>
+                  
+                
                   </View>
-                  <View style={styles.synopsisContainer}>
-                  <Text style={styles.synopsisHeading}>
-                      Synopsis:
-                    </Text>
-                    <Text style={styles.synopsisText}>
-                      {item.bookPreview}
-                    </Text>
+
+                  <View style={styles.imageContainer}>
+                    <Image
+                      source={{ uri: item.image }}
+                      style={styles.bookImage}
+                    ></Image>
                   </View>
                 </View>
-              </ImageBackground>
+              </View>
             </Pressable>
           )}
           keyExtractor={(item) => item.id}
@@ -104,9 +111,8 @@ const BookList = ({ navigation }) => {
     );
   };
 
-  console.log(input)
-
   return (
+    <View style={styles.pageContainer}>
       <SafeAreaView style={styles.container}>
         <View style={styles.searchBarContainer}>
           <Icon name="search" size={20} style={styles.searchIcon} />
@@ -120,21 +126,30 @@ const BookList = ({ navigation }) => {
         </View>
         <SearchFilter data={data} input={input} setInput={setInput} />
       </SafeAreaView>
-
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  pageContainer: {
+    backgroundColor: "#00592e",
+  },
   container: {
     alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
-    backgroundColor: '#00592e',
-
+    backgroundColor: "#00592e",
+    marginBottom: "50%",
+  },
+  searchFilterContainer: {
+    height: "70%",
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
   },
   searchBarContainer: {
-    marginTop: 200,
+    marginTop: 50,
     marginBottom: 50,
     flexDirection: "row",
     alignItems: "center",
@@ -156,63 +171,73 @@ const styles = StyleSheet.create({
     color: "#fff",
     marginLeft: 10,
     marginRight: -30,
-
   },
+
   bookContainer: {
-    margin: 5,
-    width: 300,
-    height: 250,
+    marginBottom: 50,
+    width: "92%",
+    height: 200,
+    borderColor: "white",
+    backgroundColor: "white",
+    borderWidth: 2,
+    borderRadius: 10,
+    marginLeft: 16,
+  },
+  bookName: {
+    fontSize: 15,
+    textAlign: "center",
+    fontWeight: "bold",
+    color: "#00592e",
+    marginTop: 10,
   },
   contentContainer: {
     display: "flex",
     flexDirection: "row",
     height: "100%",
   },
+  imageContainer: {
+    width: "50%",
+    height: "90%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  bookImage: {
+    height: "70%",
+    width: "50%",
+    borderRadius: 5,
+    marginLeft: 30,
+  },
   textContainer: {
     width: "50%",
+    height: "90%",
+    display: "flex",
+    justifyContent: "center",
+    marginTop: -15,
   },
-  text: {
+
+  dataContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "container",
+    alignItems: "center",
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  textDescription: {
     marginTop: 15,
-    marginLeft: 5,
-    fontSize: 12,
     paddingLeft: 5,
     paddingRight: 5,
+    fontWeight: 'bold',
+    fontSize: 12, 
   },
-  synopsisContainer: {
-    width: "50%",
-  },
-  synopsisHeading: {
-    fontSize: 12,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginTop: 10,
-  },
-  synopsisText: {
-    marginTop: 15,
-    marginLeft: 5,
-    fontSize: 10,
-    paddingLeft: 8,
-    paddingRight: 8,
-    textAlign: "justify",
-  },
-  imageContainer: {
-    width: "80%",
-    height: "40%",
-    borderColor: 'white',
-    borderWidth: 2,
-    borderRadius: 5,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 15,
-    marginLeft: 13,
-  },
-  textImage: {
-    fontSize: 30,
-    textAlign: 'center',
 
+  text: {
+    marginTop: 15,
+    paddingLeft: 5,
+    paddingRight: 5,
+    fontSize: 12,
   },
 });
 
 export default BookList;
-
