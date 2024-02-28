@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import { FIREBASE_AUTH, FIREBASE_DB } from "../../FireBaseConfig";
 import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 
 const MyListings = (route) => {
   const [data, setData] = useState([]);
 
-  const [error, setError] = useState('');
-  const [readMore, setReadMore] = useState(false)
+  const [error, setError] = useState("");
+  const [readMore, setReadMore] = useState(false);
 
   const fetchDataFromFirestore = async () => {
     try {
@@ -58,22 +65,59 @@ const MyListings = (route) => {
       <View style={styles.container}>
         {data.map((item) => (
           <View key={item.id} style={styles.bookContainer}>
+            <Text style={styles.bookTitle}>{item.title}</Text>
             <Image source={{ uri: item.image }} style={styles.bookImage} />
-            <Text style={styles.bookText}>Title: {item.title}</Text>
-            <Text style={styles.bookText}>Author: {item.Author}</Text>
-            <Text style={styles.bookText}>Condition: {item.Condition}</Text>
-            <Text style={styles.bookText}>Rating: {item.bookRating}</Text>
-            <Text style={styles.bookText}>Synopsis:</Text>
-            
-            {readMore ? 
-          <Text style={styles.bookText}> {item.Preview} <Text onPress={() => setReadMore(!readMore)} style={{color: 'blue'}}>show less...</Text></Text>
-        : 
-        <Text style={styles.bookText}> {item.Preview.slice(0,110)}...<Text onPress={() => setReadMore(!readMore)} style={{color: 'blue'}}>show more...</Text></Text>
-        }
-            <TouchableOpacity onPress={() => deleteBook(item.id)} style={styles.deleteButton}>
-            <Text style={{ color: 'white' }}>Delete</Text>
-            </TouchableOpacity>
+            <View style={styles.bookInfo}>
+     
+              <Text style={styles.bookAuthor}>By {item.Author}</Text>
+      
+              <View style={styles.conditionAndRating}>
+                <View>
+                  <Text style={styles.bookConditionRating}>Condition:</Text>
+                  <Text style={styles.bookConditionRating}>
+                    {item.Condition}
+                  </Text>
+                </View>
 
+                <View>
+                  <Text style={styles.bookConditionRating}>Rating:</Text>
+                  <Text style={styles.bookConditionRating}>
+                    {item.bookRating}
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <Text style={styles.bookSynopsisHeading}>Synopsis:</Text>
+
+            {readMore ? (
+              <Text style={styles.bookText}>
+                {" "}
+                {item.Preview}{" "}
+                <Text
+                  onPress={() => setReadMore(!readMore)}
+                  style={{ color: "blue" }}
+                >
+                  show less...
+                </Text>
+              </Text>
+            ) : (
+              <Text style={styles.bookText}>
+                {" "}
+                {item.Preview.slice(0, 110)}...
+                <Text
+                  onPress={() => setReadMore(!readMore)}
+                  style={{ color: "blue" }}
+                >
+                  show more...
+                </Text>
+              </Text>
+            )}
+            <TouchableOpacity
+              onPress={() => deleteBook(item.id)}
+              style={styles.deleteButton}
+            >
+              <Text style={{ color: "white", textAlign: 'center' }}>Delete</Text>
+            </TouchableOpacity>
           </View>
         ))}
       </View>
@@ -102,23 +146,59 @@ const styles = StyleSheet.create({
     width: 100,
     height: 150,
     resizeMode: "contain",
+    marginBottom: 10,
   },
   deleteButton: {
     backgroundColor: "red",
     color: "white",
     padding: 10,
     borderRadius: 30,
-    marginTop: 10,
+    marginTop: 30,
+    width: "25%",
   },
-  bookText: {
+  bookTitle: {
+    fontSize: 25,
+    color: "white",
+    fontWeight: "bold",
+    marginBottom: 20,
+  },
+  bookInfo: {
+    marginTop: 10,
+    marginBottom: 20,
+  },
+  bookConditionRating: {
     textAlign: "center",
     color: "white",
-    marginBottom: 10,
+    marginBottom: 5,
+    marginRight: 80,
+    marginLeft: 80,
   },
+  bookSynopsisHeading: {
+    color: "white",
+    fontWeight: "bold",
+    marginBottom: 8,
+    fontSize: 18,
+  },
+  bookText: {
+    fontSize: 15,
+    textAlign: "justify",
+  }, 
   centered: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  bookAuthor: {
+    fontSize: 18,
+    color: "white",
+    fontWeight: "bold",
+    marginBottom: 30,
+    textAlign: "center",
+  },
+  conditionAndRating: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });
 
