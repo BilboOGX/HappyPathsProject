@@ -78,6 +78,7 @@ const BookList = ({ navigation }) => {
               >
                 <View style={styles.contentContainer}>
                   <View style={styles.textContainer}>
+                  <Image source={{ uri: item.image }} style={styles.bookImage} />
                     <Text style={styles.text}>Title: {item.bookTitle}</Text>
                     <Text style={styles.text}>Author: {item.bookAuthor}</Text>
                     <Text style={styles.text}>Genre: {item.genre}</Text>
