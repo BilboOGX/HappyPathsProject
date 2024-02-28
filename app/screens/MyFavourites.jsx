@@ -114,7 +114,7 @@ if (favouritedBy.length !== 0) {
 
   return (
     
-   <ScrollView>
+   <ScrollView style={styles.container}>
     
     {favouritedBy.map((item) => {
       return (
@@ -125,5 +125,13 @@ if (favouritedBy.length !== 0) {
   )
 }
 
+const styles = StyleSheet.create({
+ container: {
+      flex: 1,
+      backgroundColor: "#00592e",
+    },
+})
+
 
 export default MyFavourites;
+

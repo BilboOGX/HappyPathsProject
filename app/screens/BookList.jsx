@@ -14,13 +14,18 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import React, { useEffect, useState } from "react";
-import { FIREBASE_DB } from "../../FireBaseConfig";
+import { FIREBASE_AUTH, FIREBASE_DB } from "../../FireBaseConfig";
 import { addDoc, collection, doc, getDocs } from "firebase/firestore";
 import { useIsFocused } from "@react-navigation/native";
+import { onAuthStateChanged } from "firebase/auth";
 
 const BookList = ({ navigation }) => {
   const [data, setData] = useState([]);
   const [input, setInput] = useState("");
+  // const [currentUser, setCurrentUser] = useState()
+  const [currUser, setCurrUser] = useState(FIREBASE_AUTH.currentUser);
+
+
   const isFocused = useIsFocused();
 
   const fetchDataFromFirestore = async () => {
@@ -44,10 +49,15 @@ const BookList = ({ navigation }) => {
   };
 
   useEffect(() => {
+   
     if (isFocused) {
       console.log("book list focused");
       fetchDataFromFirestore();
+      
+
     }
+
+    // console.log(currUser, '<<< CURRENT')
   }, []);
 
   const SearchFilter = ({ data, input }) => {

@@ -8,11 +8,15 @@ import {
   SafeAreaView,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { FIREBASE_DB } from "../../FireBaseConfig";
-import { collection, getDocs } from "firebase/firestore";
+import { FIREBASE_AUTH, FIREBASE_DB } from "../../FireBaseConfig";
+import { arrayUnion, collection, doc, getDocs, updateDoc } from "firebase/firestore";
+import { AntDesign } from '@expo/vector-icons';
+
 
 const SingleBookPage = ({ navigation, route }) => {
   const [data, setData] = useState([]);
+  const [currUser, setCurrUser] = useState(FIREBASE_AUTH.currentUser);
+
   console.log(route, "ROUTE LOG");
   const routeIdentifier = route.params.id;
   const useruid = route.params.uid;
@@ -28,7 +32,7 @@ const SingleBookPage = ({ navigation, route }) => {
           ...doc.data(),
         });
       });
-
+      console.log(fetchedData, 'FETCH HAHAHAH')
       setData(fetchedData);
     } catch (error) {
       console.error("Error fetching data: ", error);
@@ -37,7 +41,29 @@ const SingleBookPage = ({ navigation, route }) => {
 
   useEffect(() => {
     fetchDataFromFirestore();
+    // onAuthStateChanged(FIREBASE_AUTH, (user) => {
+    //   console.log(user, '<<< CURRENT USER LOGGED IN')
+    //   setUser(user);
+    // });
+
+    console.log(currUser.uid, '<<<< CURRENT USER LOGGED IN')
+    console.log(data, 'DATA SINGLE AHAHHHHHH')
   }, []);
+
+  const favBook = async () => {
+    console.log(currUser)
+
+    const bookRef = doc(FIREBASE_DB, "books", `${routeIdentifier}`)
+
+    await updateDoc(bookRef, {
+      favouritedBy: arrayUnion(currUser.uid)
+    })
+
+    fetchDataFromFirestore()
+  }
+
+
+  
 
   return (
     <SafeAreaView style={styles.container}>
@@ -91,13 +117,18 @@ const SingleBookPage = ({ navigation, route }) => {
                   </View>
                   <View style={styles.topSectionText}>
                     <View style={styles.bookAuthorContainer}>
+                      {loc.favouritedBy[0] === currUser.uid ? <AntDesign style={{textAlign: "center", paddingBottom: 5}} name="heart" size={24} color="red" />
+                      :
+                      <AntDesign style={{textAlign: "center", paddingBottom: 5}} name="heart" size={24} color="white" /> 
+                      }
+                    {/* <AntDesign style={{textAlign: "center", paddingBottom: 5}} name="heart" size={24} color="white" />  */}
                       <Text style={styles.authorInfo}>By {loc.bookAuthor}</Text>
                     </View>
                   </View>
                 </View>
 
                 <View style={styles.orderAndChatContainer}>
-                  <Button title="Order now" />
+                  <Button title="Favourite" onPress={() => favBook()}/>
                   <Button
                     title="Chat now"
                     // onPress={navigation.navigate("Chat", {
