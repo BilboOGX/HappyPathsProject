@@ -8,12 +8,6 @@ import { Button } from "react-native-elements";
 
 export default function Home({ navigation }) {
   const [users, setUsers] = useState([]);
-  // const logoutUser = async () => {
-  //   auth.signOut().then(() => {
-  //     navigation.replace("Login");
-  //   });
-  // };
-
   const getUsers = () => {
     const docsRef = collection(db, "users");
     const q = query(docsRef, where("userUID", "!=", auth?.currentUser?.uid));
@@ -32,30 +26,25 @@ export default function Home({ navigation }) {
 
   return (
     <>
-    <View style={styles.container}>
-      <FlatList 
-        data={users}
-        key={(user) => user.email}
-        renderItem={({ item }) => (
-          <ListItem
-            title={item.username}
-            subTitle={item.email}
-            image={item.photoURL} // <-- changed this so it works with new users --> remove old users from db that have 'avatarUrl' and leave newer users that have 'photoURL' for presentation
-            onPress={() =>
-              navigation.navigate("Chat", {
-                name: item.username,
-                uid: item.userUID,
-              })
-            }
-          />
-        )}
-      />
-
+      <View style={styles.container}>
+        <FlatList
+          data={users}
+          key={(user) => user.email}
+          renderItem={({ item }) => (
+            <ListItem
+              title={item.username}
+              subTitle={item.email}
+              image={item.photoURL}
+              onPress={() =>
+                navigation.navigate("Chat", {
+                  name: item.username,
+                  uid: item.userUID,
+                })
+              }
+            />
+          )}
+        />
       </View>
-      {/* <Button title="Logout" onPress={logoutUser} /> */}
-
-      {/* <Button title="Logout" onPress={logoutUser} /> */}
-
     </>
   );
 }
@@ -63,6 +52,6 @@ export default function Home({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#00592e',}
-  })
-
+    backgroundColor: "#00592e",
+  },
+});
