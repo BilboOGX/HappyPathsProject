@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useState, useCallback, useEffect } from "react";
-import { GiftedChat } from "react-native-gifted-chat";
+import { GiftedChat, Bubble } from "react-native-gifted-chat";
 import { auth } from "../../FireBaseConfig.ts";
 
 import {
@@ -20,7 +20,7 @@ export default function Chat({ route }) {
   const currentUser = auth?.currentUser?.uid;
 
   useEffect(() => {
-    console.log('chat screen use effect')
+    console.log("chat screen use effect");
     const chatId =
       uid > currentUser
         ? `${uid + "-" + currentUser}`
@@ -70,19 +70,53 @@ export default function Chat({ route }) {
   }, []);
   return (
     <View style={styles.container}>
-    <GiftedChat 
-      messages={messages}
-      onSend={(text) => onSend(text)}
-      user={{
-        _id: currentUser,
-      }}
-    />
+      <GiftedChat
+        messages={messages}
+        onSend={(text) => onSend(text)}
+        renderBubble={(props) => {
+          return (
+            <Bubble
+              {...props}
+              textStyle={{
+                right: {
+                  color: "white",
+                  fontFamily: "CerebriSans-Book",
+                },
+                left: {
+                  color: "white",
+                  fontFamily: "CerebriSans-Book",
+                },
+              }}
+              wrapperStyle={{
+                left: {
+                  backgroundColor: "rgba(0, 89, 46, 0.6)",
+                },
+                right: {
+                  backgroundColor: "rgba(0, 89, 46)",
+                },
+              }}
+              timeTextStyle={{
+                left: {
+                  color: "white",
+                },
+                right: {
+                  color: "white",
+                },
+              }}
+            />
+          );
+        }}
+        user={{
+          _id: currentUser,
+        }}
+      />
     </View>
   );
 }
-
+// rgba(0, 89, 46, 0.6)
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#00592e',}
-  })
+    backgroundColor: "white",
+  },
+});
