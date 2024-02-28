@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { FIREBASE_AUTH, FIREBASE_DB } from "../../FireBaseConfig";
 import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 
@@ -9,6 +9,7 @@ import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 const MyListings = (route) => {
   const [data, setData] = useState([]);
   const [error, setError] = useState('');
+  const [readMore, setReadMore] = useState(false)
 
   const fetchDataFromFirestore = async () => {
     try {
@@ -60,8 +61,17 @@ const MyListings = (route) => {
             <Text style={styles.bookText}>Author: {item.Author}</Text>
             <Text style={styles.bookText}>Condition: {item.Condition}</Text>
             <Text style={styles.bookText}>Rating: {item.bookRating}</Text>
-            <Text style={styles.bookText}>Preview: {item.Preview}</Text>
-            <Text style={styles.deleteButton} onPress={() => deleteBook(item.id)}>Delete</Text>
+            <Text style={styles.bookText}>Synopsis:</Text>
+            {readMore ? 
+          <Text style={styles.bookText}> {item.Preview} <Text onPress={() => setReadMore(!readMore)} style={{color: 'blue'}}>show less...</Text></Text>
+        : 
+        <Text style={styles.bookText}> {item.Preview.slice(0,110)}...<Text onPress={() => setReadMore(!readMore)} style={{color: 'blue'}}>show more...</Text></Text>
+        }
+            <TouchableOpacity onPress={() => deleteBook(item.id)} style={styles.deleteButton}>
+            <Text style={{ color: 'white' }}>Delete</Text>
+            </TouchableOpacity>
+
+
           </View>
         ))}
       </View>
@@ -97,7 +107,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
     color: 'white',
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 30,
     marginTop: 10,
   },
   bookText: {
