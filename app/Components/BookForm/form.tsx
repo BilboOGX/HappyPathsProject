@@ -115,10 +115,10 @@ export default function BookForm() {
 
   return (
     <View style={styles.rootContainer}>
-      <View style={styles.iconContainer}>
+      <View>
 
         <TouchableOpacity onPress={() => setScannerVisible(true)}>
-          <MaterialCommunityIcons name="qrcode-scan" size={75} color="black" />
+          <MaterialCommunityIcons style={styles.scanIcon} name="qrcode-scan" size={75} color="black"/>
         </TouchableOpacity>
       </View>
       <Text style={styles.iconTextContainer}>Click Above To Scan Your Book and Auto-fill Text Fields</Text>
@@ -242,6 +242,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     margin: "auto",
     marginTop: "2%",
+  },
+  scanIcon:{
+    marginTop:10,
+    marginBottom:10,
   },
   inputContainer: {
     marginBottom: 20,
