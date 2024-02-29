@@ -187,7 +187,7 @@ const SingleBookPage = ({ navigation, route }) => {
                   ></Image>
                 </View>
 
-                <View>
+                {/* <View>
                   <Text>Comments:</Text>
                   <Text>
                     User bugsBunny5: What's up, doc? .This Book is so funny, i
@@ -210,7 +210,7 @@ const SingleBookPage = ({ navigation, route }) => {
                     User PorkyPigInBlankets: Th-Th-The, Th-Th-The, Th-Th...
                     That's all, folks!
                   </Text>
-                </View>
+                </View> */}
               </View>
             );
           }
