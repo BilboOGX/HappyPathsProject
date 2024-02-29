@@ -181,36 +181,13 @@ const SingleBookPage = ({ navigation, route }) => {
 
                 <View style={styles.userContainer}>
                   <Text style={styles.userInfo}>User: {loc.user}</Text>
+                  <View style={styles.userImageContainer}>
                   <Image
                     source={require("../../Images/fantasyHat.png")}
                     style={styles.userProfilePicture}
                   ></Image>
+                  </View>
                 </View>
-
-                {/* <View>
-                  <Text>Comments:</Text>
-                  <Text>
-                    User bugsBunny5: What's up, doc? .This Book is so funny, i
-                    especially like it when the duck gets roasted extra crispy
-                  </Text>
-                  <Text>
-                    User daffyD69: We've all got a mission in life; we get into
-                    different ruts. Some are the cogs on the wheels; others are
-                    just plain nuts, just like this book!
-                  </Text>
-                  <Text>
-                    User BigElmsFudd: Be vewy, vewy qwiet when reading this
-                    book.
-                  </Text>
-                  <Text>
-                    User YosemiteSamTheMighty: This book is a dog-blasted,
-                    ornery, no-account, long-eared varmint!!
-                  </Text>
-                  <Text>
-                    User PorkyPigInBlankets: Th-Th-The, Th-Th-The, Th-Th...
-                    That's all, folks!
-                  </Text>
-                </View> */}
               </View>
             );
           }
@@ -361,12 +338,20 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#fff",
   },
-  userProfilePicture: {
+  userImageContainer: {
     borderColor: "white",
-    height: 80,
-    width: 80,
-    borderRadius: 100,
     borderWidth: 2,
+    borderRadius: 100,
+    width: 80,
+    height: 80,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  userProfilePicture: {
+    height: "70%",
+    width: "70%",
+    
   },
   bookRatingContainer: {
     marginBottom: 10,
