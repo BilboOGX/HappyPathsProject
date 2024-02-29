@@ -133,16 +133,12 @@ const SingleBookPage = ({ navigation, route }) => {
                   <Button title="Favourite" onPress={() => favBook()} />
                   <Button
                     title="Chat now"
-                    // onPress={navigation.navigate("Chat", {
-                    //   userID: useruid,
-                    // })}
                     onPress={() =>
                       navigation.navigate("Chat", {
                         uid: useruid,
                         name: loc.user,
                       })
                     }
-                    // onPress={() => console.log(useruid)}
                   />
                 </View>
 
@@ -182,10 +178,10 @@ const SingleBookPage = ({ navigation, route }) => {
                 <View style={styles.userContainer}>
                   <Text style={styles.userInfo}>User: {loc.user}</Text>
                   <View style={styles.userImageContainer}>
-                  <Image
-                    source={require("../../Images/fantasyHat.png")}
-                    style={styles.userProfilePicture}
-                  ></Image>
+                    <Image
+                      source={require("../../Images/fantasyHat.png")}
+                      style={styles.userProfilePicture}
+                    ></Image>
                   </View>
                 </View>
               </View>
@@ -351,7 +347,6 @@ const styles = StyleSheet.create({
   userProfilePicture: {
     height: "70%",
     width: "70%",
-    
   },
   bookRatingContainer: {
     marginBottom: 10,

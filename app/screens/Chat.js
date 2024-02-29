@@ -79,11 +79,9 @@ export default function Chat({ route }) {
               textStyle={{
                 right: {
                   color: "white",
-                  fontFamily: "CerebriSans-Book",
                 },
                 left: {
                   color: "white",
-                  fontFamily: "CerebriSans-Book",
                 },
               }}
               wrapperStyle={{
@@ -112,7 +110,6 @@ export default function Chat({ route }) {
     </View>
   );
 }
-// rgba(0, 89, 46, 0.6)
 const styles = StyleSheet.create({
   container: {
     flex: 1,

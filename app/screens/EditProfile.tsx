@@ -75,49 +75,48 @@ const EditProfile = ({ route, navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.profile}>
-      <View style={styles.avatarContainer}>
-        <TouchableOpacity onPress={handleImageSelection}>
-          <Image
-            source={{
-              uri: selectedImage,
-            }}
-            style={styles.avatar}
-          />
-          <View style={styles.photoButton}>
-            <MaterialIcons name="photo-camera" size={24} color="black" />
-          </View>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.infoContainer}>
-        <Text style={styles.infoLabel}>Display Name: </Text>
-        <TextInput
-          style={styles.infoValue}
-          placeholder={currUser.username}
-          onChangeText={(value) => setUserDisplayName(value)}
-        ></TextInput>
-      </View>
-      <View style={styles.infoContainer}>
-        <Text style={styles.infoLabel}>Email: </Text>
-        <TextInput
-          style={styles.infoValue}
-          placeholder={currUser.email}
-          onChangeText={(value) => setUserEmail(value)}
-        ></TextInput>
-      </View>
-      <View style={styles.infoContainer}>
-        <Text style={styles.infoLabel}>Location: </Text>
-        <TextInput
-          style={styles.infoValue}
-          placeholder={userLocation}
-          onChangeText={(value) => setUserLocation(value)}
-        ></TextInput>
-      </View>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={handleSubmitChanges}>
-          <Text style={styles.buttonText}>Submit Changes</Text>
-        </TouchableOpacity>
-        {/* <Button onPress={handleSubmitChanges} title="Submit Changes" /> */}
-      </View>
+        <View style={styles.avatarContainer}>
+          <TouchableOpacity onPress={handleImageSelection}>
+            <Image
+              source={{
+                uri: selectedImage,
+              }}
+              style={styles.avatar}
+            />
+            <View style={styles.photoButton}>
+              <MaterialIcons name="photo-camera" size={24} color="black" />
+            </View>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.infoContainer}>
+          <Text style={styles.infoLabel}>Display Name: </Text>
+          <TextInput
+            style={styles.infoValue}
+            placeholder={currUser.username}
+            onChangeText={(value) => setUserDisplayName(value)}
+          ></TextInput>
+        </View>
+        <View style={styles.infoContainer}>
+          <Text style={styles.infoLabel}>Email: </Text>
+          <TextInput
+            style={styles.infoValue}
+            placeholder={currUser.email}
+            onChangeText={(value) => setUserEmail(value)}
+          ></TextInput>
+        </View>
+        <View style={styles.infoContainer}>
+          <Text style={styles.infoLabel}>Location: </Text>
+          <TextInput
+            style={styles.infoValue}
+            placeholder={userLocation}
+            onChangeText={(value) => setUserLocation(value)}
+          ></TextInput>
+        </View>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.button} onPress={handleSubmitChanges}>
+            <Text style={styles.buttonText}>Submit Changes</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -130,38 +129,38 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   profile: {
-    justifyContent: 'center',
-    alignSelf: 'center',
-    width: '95%',
-    height: '100%',
+    justifyContent: "center",
+    alignSelf: "center",
+    width: "95%",
+    height: "100%",
     flexGrow: 0,
     padding: 0,
-    backgroundColor: 'white',
-    borderColor: 'black',
+    backgroundColor: "white",
+    borderColor: "black",
     borderWidth: 2,
     borderRadius: 20,
   },
   buttonContainer: {
     alignItems: "center",
     marginTop: 50,
-    margin: 5
+    margin: 5,
   },
   button: {
-    backgroundColor: '#00592e',
+    backgroundColor: "#00592e",
     padding: 10,
     borderRadius: 100,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     height: 40,
-    margin: 1
+    margin: 1,
   },
   buttonText: {
-    color: 'white'
+    color: "white",
   },
   avatarContainer: {
     alignItems: "center",
     marginTop: -100,
-    marginBottom: 50
+    marginBottom: 50,
   },
   avatar: {
     width: 150,
@@ -184,7 +183,7 @@ const styles = StyleSheet.create({
   infoContainer: {
     marginTop: 20,
     marginLeft: 20,
-    marginRight: 20
+    marginRight: 20,
   },
   infoLabel: {
     fontWeight: "bold",
