@@ -10,7 +10,7 @@ export default function Home({ navigation }) {
   const [users, setUsers] = useState([]);
   const getUsers = () => {
     const docsRef = collection(db, "users");
-    const q = query(docsRef, where("userUID", "!=", auth?.currentUser?.uid));
+    const q = query(docsRef, where("uid", "!=", auth?.currentUser?.uid));
     const docsSnap = onSnapshot(q, (onSnap) => {
       let data = [];
       onSnap.docs.forEach((user) => {
