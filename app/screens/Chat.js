@@ -19,6 +19,7 @@ export default function Chat({ route }) {
   const [messages, setMessages] = useState([]);
   const currentUser = auth?.currentUser?.uid;
 
+
   useEffect(() => {
     const chatId =
       uid > currentUser
@@ -62,6 +63,7 @@ export default function Chat({ route }) {
         : `${currentUser + "-" + uid}`;
     const docRef = doc(db, "chatrooms", chatId);
     const colRef = collection(docRef, "messages");
+
     const chatSnap = addDoc(colRef, {
       ...myMsg,
       createdAt: serverTimestamp(),
