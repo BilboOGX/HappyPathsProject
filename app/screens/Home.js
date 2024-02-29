@@ -14,6 +14,7 @@ export default function Home({ navigation }) {
     const docsSnap = onSnapshot(q, (onSnap) => {
       let data = [];
       onSnap.docs.forEach((user) => {
+        console.log(user.data())
         data.push({ ...user.data() });
         setUsers(data);
       });
@@ -38,7 +39,7 @@ export default function Home({ navigation }) {
               onPress={() =>
                 navigation.navigate("Chat", {
                   name: item.username,
-                  uid: item.userUID,
+                  uid: item.uid,
                 })
               }
             />
