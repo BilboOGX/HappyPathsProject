@@ -52,7 +52,6 @@ export default function BarCodeScan({ onBookScanned }) {
     if (bookData && bookData.items && bookData.items.length > 0) {
       const newBookData = bookData.items[0];
       const volumeInfo = newBookData.volumeInfo;
-      console.log(volumeInfo.imageLinks.thumbnail);
       onBookScanned({
         title: volumeInfo?.title || "",
         author: volumeInfo?.authors?.[0] || "N/A",

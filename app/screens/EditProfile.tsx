@@ -3,18 +3,15 @@ import {
   Text,
   Image,
   TextInput,
-  Button,
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FIREBASE_AUTH, FIREBASE_DB } from "../../FireBaseConfig";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import {
-  collection,
-  getDocs,
   doc,
   updateDoc,
   getDoc,
@@ -60,6 +57,7 @@ const EditProfile = ({ route, navigation }) => {
       setCurrUser(res.data());
     });
   };
+
   const handleImageSelection = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -116,7 +114,6 @@ const EditProfile = ({ route, navigation }) => {
         <TouchableOpacity style={styles.button} onPress={handleSubmitChanges}>
           <Text style={styles.buttonText}>Submit Changes</Text>
         </TouchableOpacity>
-        {/* <Button onPress={handleSubmitChanges} title="Submit Changes" /> */}
       </View>
       </View>
     </SafeAreaView>

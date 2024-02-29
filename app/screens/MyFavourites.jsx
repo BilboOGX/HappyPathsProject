@@ -1,26 +1,16 @@
-import {
-  View,
-  Text,
-  FlatList,
-  ScrollView,
-  StyleSheet,
-  Image,
-} from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import {
   arrayRemove,
-  arrayUnion,
   collection,
   doc,
   getDocs,
   updateDoc,
 } from "firebase/firestore";
-import { FIREBASE_DB, db } from "../../FireBaseConfig";
-import { useIsFocused } from "@react-navigation/native";
-import { AntDesign } from "@expo/vector-icons";
+import { FIREBASE_DB } from "../../FireBaseConfig";
 import BookItem from "./BookItem";
 
-const MyFavourites = ({ navigation, route }) => {
+const MyFavourites = ({ route }) => {
   const [favouritedBy, setFavouritedBy] = useState([]);
   const [data, setData] = useState([]);
   const routeIdentifier = route.params.id;
@@ -31,7 +21,6 @@ const MyFavourites = ({ navigation, route }) => {
       const collectionRef = collection(FIREBASE_DB, "books");
       const snapshot = await getDocs(collectionRef);
       const fetchedData = [];
-      const favsArray = [];
       snapshot.forEach((doc) => {
         fetchedData.push({
           id: doc.id,
@@ -70,27 +59,24 @@ const MyFavourites = ({ navigation, route }) => {
     fetchData();
   };
 
-  if (favouritedBy.length !== 0) {
-    console.log(favouritedBy, "favouriteBY");
-  }
+  // if (favouritedBy.length !== 0) {
+  //   console.log(favouritedBy, "favouriteBY");
+  // }
 
   return (
-
-   <ScrollView style={styles.container}>
+    <ScrollView style={styles.container}>
       {favouritedBy.map((item) => {
-        return <BookItem removeFav={removeFav} item={item} />;
+        return <BookItem key={item.id} removeFav={removeFav} item={item} />;
       })}
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
- container: {
-      flex: 1,
-      backgroundColor: "#00592e",
-    },
-})
-
+  container: {
+    flex: 1,
+    backgroundColor: "#00592e",
+  },
+});
 
 export default MyFavourites;
-

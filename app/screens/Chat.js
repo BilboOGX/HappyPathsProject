@@ -20,7 +20,6 @@ export default function Chat({ route }) {
   const currentUser = auth?.currentUser?.uid;
 
   useEffect(() => {
-    console.log("chat screen use effect");
     const chatId =
       uid > currentUser
         ? `${uid + "-" + currentUser}`
@@ -80,11 +79,11 @@ export default function Chat({ route }) {
               textStyle={{
                 right: {
                   color: "white",
-                  fontFamily: "CerebriSans-Book",
+                  // fontFamily: "CerebriSans-Book",
                 },
                 left: {
                   color: "white",
-                  fontFamily: "CerebriSans-Book",
+                  // fontFamily: "CerebriSans-Book",
                 },
               }}
               wrapperStyle={{

@@ -5,13 +5,11 @@ import {
   StyleSheet,
   TextInput,
   ActivityIndicator,
-  Button,
   KeyboardAvoidingView,
   Dimensions,
   TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
-import LinearGradient from "react-native-linear-gradient";
 import { FIREBASE_AUTH, db } from "../../FireBaseConfig";
 import {
   createUserWithEmailAndPassword,
@@ -31,7 +29,6 @@ const Login = () => {
     setLoading(true);
     try {
       const response = await signInWithEmailAndPassword(auth, email, password);
-      console.log(response);
     } catch (error: any) {
       console.log(error);
       alert("Sign in failed: " + error.message);
@@ -130,7 +127,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    // backgroundColor: "#252f40",
     backgroundColor: "#00592e",
     marginTop: -100,
   },

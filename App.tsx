@@ -130,7 +130,7 @@ export default function App() {
             <Stack.Screen
               name="SingleBookPage"
               component={SingleBookPage}
-              options={{ headerShown: true }}
+              options={{ headerShown: true, headerBackTitle: 'Back', title: ''}}
             />
           </>
         ) : (

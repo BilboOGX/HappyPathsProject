@@ -116,11 +116,6 @@ export default function BookForm() {
 
   return (
     <SafeAreaView>
-      {/* <KeyboardAvoidingView 
-        style={{ flex: 1 }} 
-        behavior={Platform.OS === "ios" ? "padding" : "height"} 
-        keyboardVerticalOffset={Platform.OS === "ios" ? 40 : 0}
-      > */}
     <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
     <View style={styles.rootContainer}>
       <View>
@@ -130,7 +125,6 @@ export default function BookForm() {
         </TouchableOpacity>
       </View>
       <Text style={styles.iconTextContainer}>Click Above To Scan Your Book and Auto-fill Text Fields</Text>
-
       <Modal
         animationType="slide"
         transparent={false}
@@ -138,10 +132,7 @@ export default function BookForm() {
         onRequestClose={() => setScannerVisible(!isScannerVisible)}>
         <BarCodeScan onBookScanned={handleScannedBook} />
         <Button title="Close Scanner" onPress={() => setScannerVisible(false)} />
-      </Modal>
-  
-
-      
+      </Modal>  
         <View>
           <View style={styles.inputContainer}>
             <TextInput
@@ -151,7 +142,6 @@ export default function BookForm() {
               style={[styles.input, attemptedSubmit && !bookTitle.trim() && styles.invalidInput]}
             />
           </View>
-
           <View style={styles.inputContainer}>
             <TextInput
               placeholder="Book Author"
@@ -160,7 +150,6 @@ export default function BookForm() {
               style={[ styles.input, attemptedSubmit && !bookAuthor.trim() && styles.invalidInput]}
             />
           </View>
-
           <View style={styles.inputContainer}>
             <TextInput
               placeholder="Average Book Rating"
@@ -169,8 +158,6 @@ export default function BookForm() {
               style={[styles.input]}
             />
           </View>
-          
-
         <View style={styles.inputContainer}>
           <TextInput
             placeholder="Synopsis"
@@ -179,7 +166,6 @@ export default function BookForm() {
             style={[styles.input]}
           />
         </View>
-
         <View style={styles.inputContainer}>
           <TextInput
             placeholder="Genre"
@@ -188,7 +174,6 @@ export default function BookForm() {
             style={[styles.input]}
           />
         </View>
-
         <View style={styles.inputContainer}>
           <TextInput
             placeholder="Postcode"
@@ -200,7 +185,6 @@ export default function BookForm() {
             style={[styles.input, attemptedSubmit && styles.invalidInput]}
           />
         </View>
-
         <SelectDropdown
           key={dropdownKey}
           data={["Excellent", "Very Good", "Good", "Poor"]}
@@ -218,21 +202,17 @@ export default function BookForm() {
           buttonTextStyle={styles.dropdownButtonText}
           dropdownStyle={styles.dropdownDropdownStyle}
           rowTextStyle={styles.dropdownRowText}
-        />
-
-        
+        />        
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.buttonOne} onPress={handleSubmit}>
           <Text style={styles.buttonText}>List Book</Text>
         </TouchableOpacity>
-
         <TouchableOpacity style={styles.buttonTwo} onPress={handleReset}>
           <Text style={styles.buttonText}>Reset Fields</Text>
         </TouchableOpacity>
       </View>
     </View>
-    {/* </KeyboardAvoidingView> */}
     </ScrollView>
     </SafeAreaView>
   );

@@ -28,7 +28,6 @@ export default function Map({ navigation }: any) {
     try {
       const collectionRef = collection(FIREBASE_DB, "books");
       const snapshot = await getDocs(collectionRef);
-      console.log(snapshot);
       const fetchedData = [];
       snapshot.forEach((doc) => {
         fetchedData.push({

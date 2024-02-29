@@ -1,7 +1,6 @@
 import {
   View,
   Text,
-  Button,
   Image,
   TouchableOpacity,
   StyleSheet,
@@ -52,9 +51,6 @@ const Profile = ({ navigation, route }: any) => {
     }
   }, [isFocused]);
 
-
-  // if route.params.updatedUser !== null/undefined, render those details, otherwise render these current ones
-  // if (route.params !== undefined) {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.profile}>
@@ -103,7 +99,6 @@ const Profile = ({ navigation, route }: any) => {
     );
 }
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -123,10 +118,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     
   },
-  // buttonContainer: {
-  //   alignItems: "center",
-  //   marginTop: 0,
-  // },
   avatarContainer: {
     alignItems: "center",
     marginTop: 0,

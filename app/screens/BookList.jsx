@@ -2,29 +2,22 @@ import {
   View,
   Text,
   StyleSheet,
-  Button,
   FlatList,
-  ImageBackground,
   Pressable,
   TextInput,
-  TouchableOpacity,
-  ScrollView,
   SafeAreaView,
   Image,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import React, { useEffect, useState } from "react";
 import { FIREBASE_AUTH, FIREBASE_DB } from "../../FireBaseConfig";
-import { addDoc, collection, doc, getDocs } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { useIsFocused } from "@react-navigation/native";
-import { onAuthStateChanged } from "firebase/auth";
 
 const BookList = ({ navigation }) => {
   const [data, setData] = useState([]);
   const [input, setInput] = useState("");
-  // const [currentUser, setCurrentUser] = useState()
   const [currUser, setCurrUser] = useState(FIREBASE_AUTH.currentUser);
-
 
   const isFocused = useIsFocused();
 
@@ -38,9 +31,7 @@ const BookList = ({ navigation }) => {
           id: doc.id,
           ...doc.data(),
         });
-        console.log(doc, "doc");
       });
-      console.log(fetchedData);
       setData(fetchedData);
     } catch (error) {
       console.error("Error fetching data: ", error);
@@ -48,15 +39,9 @@ const BookList = ({ navigation }) => {
   };
 
   useEffect(() => {
-   
     if (isFocused) {
-      console.log("book list focused");
       fetchDataFromFirestore();
-      
-
     }
-
-    // console.log(currUser, '<<< CURRENT')
   }, []);
 
   const SearchFilter = ({ data, input }) => {
@@ -135,7 +120,7 @@ const BookList = ({ navigation }) => {
 const styles = StyleSheet.create({
   pageContainer: {
     backgroundColor: "#00592e",
-    height: '100%'
+    height: "100%",
   },
   container: {
     alignSelf: "center",
