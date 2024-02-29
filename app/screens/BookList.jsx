@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
   },
 
   bookContainer: {
-    marginBottom: 50,
+    marginBottom: 35,
     width: "92%",
     height: 180,
     borderColor: "white",
@@ -188,8 +188,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
     textAlign: "center",
     fontWeight: "bold",
-    color: "#00592e",
-    marginTop: 10,
+    color: "black",
+    marginTop: 12,
   },
   contentContainer: {
     display: "flex",
