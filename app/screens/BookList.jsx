@@ -22,9 +22,7 @@ import { onAuthStateChanged } from "firebase/auth";
 const BookList = ({ navigation }) => {
   const [data, setData] = useState([]);
   const [input, setInput] = useState("");
-  // const [currentUser, setCurrentUser] = useState()
   const [currUser, setCurrUser] = useState(FIREBASE_AUTH.currentUser);
-
 
   const isFocused = useIsFocused();
 
@@ -38,9 +36,7 @@ const BookList = ({ navigation }) => {
           id: doc.id,
           ...doc.data(),
         });
-        console.log(doc, "doc");
       });
-      console.log(fetchedData);
       setData(fetchedData);
     } catch (error) {
       console.error("Error fetching data: ", error);
@@ -48,15 +44,9 @@ const BookList = ({ navigation }) => {
   };
 
   useEffect(() => {
-   
     if (isFocused) {
-      console.log("book list focused");
       fetchDataFromFirestore();
-      
-
     }
-
-    // console.log(currUser, '<<< CURRENT')
   }, []);
 
   const SearchFilter = ({ data, input }) => {
@@ -135,7 +125,7 @@ const BookList = ({ navigation }) => {
 const styles = StyleSheet.create({
   pageContainer: {
     backgroundColor: "#00592e",
-    height: '100%'
+    height: "100%",
   },
   container: {
     alignSelf: "center",

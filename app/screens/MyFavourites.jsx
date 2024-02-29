@@ -70,27 +70,24 @@ const MyFavourites = ({ navigation, route }) => {
     fetchData();
   };
 
-  if (favouritedBy.length !== 0) {
-    console.log(favouritedBy, "favouriteBY");
-  }
+  // if (favouritedBy.length !== 0) {
+  //   console.log(favouritedBy, "favouriteBY");
+  // }
 
   return (
-
-   <ScrollView style={styles.container}>
+    <ScrollView style={styles.container}>
       {favouritedBy.map((item) => {
-        return <BookItem removeFav={removeFav} item={item} />;
+        return <BookItem key={item.id} removeFav={removeFav} item={item} />;
       })}
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
- container: {
-      flex: 1,
-      backgroundColor: "#00592e",
-    },
-})
-
+  container: {
+    flex: 1,
+    backgroundColor: "#00592e",
+  },
+});
 
 export default MyFavourites;
-
