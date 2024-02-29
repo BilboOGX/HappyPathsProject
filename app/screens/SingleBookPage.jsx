@@ -117,12 +117,12 @@ const SingleBookPage = ({ navigation, route }) => {
                   </View>
                   <View style={styles.topSectionText}>
                     <View style={styles.bookAuthorContainer}>
-                      {loc.favouritedBy[0] === currUser.uid ? <AntDesign style={{textAlign: "center", paddingBottom: 5}} name="heart" size={24} color="red" />
+                      {loc.favouritedBy.includes(currUser.uid) ? <AntDesign style={{textAlign: "center", paddingBottom: 5}} name="heart" size={24} color="red" />
                       :
                       <AntDesign style={{textAlign: "center", paddingBottom: 5}} name="heart" size={24} color="white" /> 
                       }
                     {/* <AntDesign style={{textAlign: "center", paddingBottom: 5}} name="heart" size={24} color="white" />  */}
-                      
+                      <Text style={styles.authorInfo}>By {loc.bookAuthor}</Text>
                     </View>
                   </View>
 
