@@ -20,7 +20,6 @@ export default function Chat({ route }) {
   const currentUser = auth?.currentUser?.uid;
 
   useEffect(() => {
-    console.log("chat screen use effect");
     const chatId =
       uid > currentUser
         ? `${uid + "-" + currentUser}`
