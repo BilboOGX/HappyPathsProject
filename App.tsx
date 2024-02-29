@@ -147,17 +147,17 @@ export default function App() {
         <Stack.Screen
           name="MyListings"
           component={MyListings}
-          options={{ headerBackTitle: "Back to profile" }}
+          options={{ headerBackTitle: "Back to profile", title: 'My Listings'}}
         />
         <Stack.Screen
           name="EditProfile"
           component={EditProfile}
-          options={{ headerBackTitle: "Back to profile" }}
+          options={{ headerBackTitle: "Back to profile", title: 'Edit Profile'}}
         />
         <Stack.Screen
           name="MyFavourites"
           component={MyFavourites}
-          options={{ headerBackTitle: "Back to profile" }}
+          options={{ headerBackTitle: "Back to profile", title:'My Favourites'}}
         />
       </Stack.Navigator>
     </NavigationContainer>
