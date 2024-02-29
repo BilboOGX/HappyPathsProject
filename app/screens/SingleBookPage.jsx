@@ -9,15 +9,19 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { FIREBASE_AUTH, FIREBASE_DB } from "../../FireBaseConfig";
-import { arrayUnion, collection, doc, getDocs, updateDoc } from "firebase/firestore";
-import { AntDesign } from '@expo/vector-icons';
-
+import {
+  arrayUnion,
+  collection,
+  doc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
+import { AntDesign } from "@expo/vector-icons";
 
 const SingleBookPage = ({ navigation, route }) => {
   const [data, setData] = useState([]);
   const [currUser, setCurrUser] = useState(FIREBASE_AUTH.currentUser);
 
-  console.log(route, "ROUTE LOG");
   const routeIdentifier = route.params.id;
   const useruid = route.params.uid;
 
@@ -32,7 +36,6 @@ const SingleBookPage = ({ navigation, route }) => {
           ...doc.data(),
         });
       });
-      console.log(fetchedData, 'FETCH HAHAHAH')
       setData(fetchedData);
     } catch (error) {
       console.error("Error fetching data: ", error);
@@ -41,29 +44,17 @@ const SingleBookPage = ({ navigation, route }) => {
 
   useEffect(() => {
     fetchDataFromFirestore();
-    // onAuthStateChanged(FIREBASE_AUTH, (user) => {
-    //   console.log(user, '<<< CURRENT USER LOGGED IN')
-    //   setUser(user);
-    // });
-
-    console.log(currUser.uid, '<<<< CURRENT USER LOGGED IN')
-    console.log(data, 'DATA SINGLE AHAHHHHHH')
   }, []);
 
   const favBook = async () => {
-    console.log(currUser)
-
-    const bookRef = doc(FIREBASE_DB, "books", `${routeIdentifier}`)
+    const bookRef = doc(FIREBASE_DB, "books", `${routeIdentifier}`);
 
     await updateDoc(bookRef, {
-      favouritedBy: arrayUnion(currUser.uid)
-    })
+      favouritedBy: arrayUnion(currUser.uid),
+    });
 
-    fetchDataFromFirestore()
-  }
-
-
-  
+    fetchDataFromFirestore();
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -117,21 +108,29 @@ const SingleBookPage = ({ navigation, route }) => {
                   </View>
                   <View style={styles.topSectionText}>
                     <View style={styles.bookAuthorContainer}>
-                      {loc.favouritedBy.includes(currUser.uid) ? <AntDesign style={{textAlign: "center", paddingBottom: 5}} name="heart" size={24} color="red" />
-                      :
-                      <AntDesign style={{textAlign: "center", paddingBottom: 5}} name="heart" size={24} color="white" /> 
-                      }
-                    {/* <AntDesign style={{textAlign: "center", paddingBottom: 5}} name="heart" size={24} color="white" />  */}
-                      <Text style={styles.authorInfo}>By {loc.bookAuthor}</Text>
+                      {loc.favouritedBy.includes(currUser.uid) ? (
+                        <AntDesign
+                          style={{ textAlign: "center", paddingBottom: 5 }}
+                          name="heart"
+                          size={24}
+                          color="red"
+                        />
+                      ) : (
+                        <AntDesign
+                          style={{ textAlign: "center", paddingBottom: 5 }}
+                          name="heart"
+                          size={24}
+                          color="white"
+                        />
+                      )}
                     </View>
                   </View>
 
                   <Text style={styles.authorName}>By {loc.bookAuthor}</Text>
-
                 </View>
 
                 <View style={styles.orderAndChatContainer}>
-                  <Button title="Favourite" onPress={() => favBook()}/>
+                  <Button title="Favourite" onPress={() => favBook()} />
                   <Button
                     title="Chat now"
                     // onPress={navigation.navigate("Chat", {
@@ -188,17 +187,31 @@ const SingleBookPage = ({ navigation, route }) => {
                   ></Image>
                 </View>
 
-                    <View>
-                      <Text>Comments:</Text>
-                      <Text>User bugsBunny5: What's up, doc? .This Book is so funny, i especially like it when the duck gets roasted extra crispy</Text>
-                      <Text>User daffyD69: We've all got a mission in life; we get into different ruts. Some are the cogs on the wheels; others are just plain nuts, just like this book!</Text>
-                      <Text>User BigElmsFudd: Be vewy, vewy qwiet when reading this book.</Text>
-                      <Text>User YosemiteSamTheMighty: This book is a dog-blasted, ornery, no-account, long-eared varmint!!</Text>
-                      <Text>User PorkyPigInBlankets: Th-Th-The, Th-Th-The, Th-Th... That's all, folks!</Text>
-                    </View>
-
+                <View>
+                  <Text>Comments:</Text>
+                  <Text>
+                    User bugsBunny5: What's up, doc? .This Book is so funny, i
+                    especially like it when the duck gets roasted extra crispy
+                  </Text>
+                  <Text>
+                    User daffyD69: We've all got a mission in life; we get into
+                    different ruts. Some are the cogs on the wheels; others are
+                    just plain nuts, just like this book!
+                  </Text>
+                  <Text>
+                    User BigElmsFudd: Be vewy, vewy qwiet when reading this
+                    book.
+                  </Text>
+                  <Text>
+                    User YosemiteSamTheMighty: This book is a dog-blasted,
+                    ornery, no-account, long-eared varmint!!
+                  </Text>
+                  <Text>
+                    User PorkyPigInBlankets: Th-Th-The, Th-Th-The, Th-Th...
+                    That's all, folks!
+                  </Text>
+                </View>
               </View>
-     
             );
           }
         })}
