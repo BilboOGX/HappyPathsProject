@@ -94,7 +94,7 @@ const SingleBookPage = ({ navigation, route }) => {
 
           if (loc.id === routeIdentifier) {
             return (
-              <View style={styles.pageContainer}>
+              <View key={loc.id} style={styles.pageContainer}>
                 <View style={styles.headingContainer}>
                   <Text style={styles.heading}>{loc.bookTitle}</Text>
                 </View>
