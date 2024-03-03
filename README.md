@@ -1,1 +1,3 @@
-# nc-app-test
+Hello!
+
+Welcome to ReadCycle. The App
